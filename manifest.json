@@ -1,0 +1,39 @@
+{
+    "manifest_version": 2,
+    "name": "topwar_helper",
+    "version": "0.0.1",
+    "description": "topwar助手",
+    "icons": {
+        "16": "img/icon.png",
+        "48": "img/icon.png",
+        "128": "img/icon.png"
+    },
+    "browser_action": {
+        "default_icon": "img/icon.png",
+        "default_title": "for topwar",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://h5.topwargame.com/h5game/index.html*"
+            ],
+            "js": [
+                "js/test.js"
+            ],
+            "run_at": "document_end"
+        },{
+            "matches": [
+                "https://h5.topwargame.com/h5game/index.html*"
+            ],
+            "js": [
+                "js/domEnd.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "permissions": [
+        "activeTab"
+    ],
+    "web_accessible_resources": ["js/inject.js"]
+}

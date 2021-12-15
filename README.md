@@ -1,2 +1,3 @@
 # topwar_helper
-为topwar web版本做辅助，主要技术应该是html+js
+为topwar web版本做辅助，暂时决定用chrome插件形式
+盈利方向等到基础功能有一些了之后再考虑
