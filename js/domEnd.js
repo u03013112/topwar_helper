@@ -3,7 +3,7 @@ function addButton() {
     button.innerHTML = "Test";
     button.id = "aButton123";
     button.type = "button";
-    button.setAttribute("onclick", "buildBY()");
+    button.setAttribute("onclick", "showMainUI()");
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }

@@ -63,3 +63,54 @@ function buildBY() {
         c.CancelBuildBuilding(c.AddingItem);
     }
 }
+
+// 所有的function都加TH（TopwarHelper）开头，毕竟是注入代码，为了避免冲突。
+function THDataInit() {
+    if (window.THData == null) {
+        window.THData = {}
+        window.THData.timer = setInterval(function() {console.log('1');},1000);
+    }
+}
+
+function taskMainBtnClicked() {
+    taskMainButton = document.getElementById("topwar_helper_taskMainButton");
+    if (window.THData.timer != null) {
+        clearInterval(window.THData.timer);
+        window.THData.timer = null;
+        taskMainButton.innerHTML = '任务暂停中';
+    }else{
+        window.THData.timer = setInterval(function() {console.log('1');},1000);
+        taskMainButton.innerHTML = '任务进行中';
+    }
+}
+
+// 任务相关初始化
+function taskSystemInit() {
+    var rootDiv = document.getElementById("topwar_helper_rootDiv");
+    var taskRootDiv = document.createElement("div");
+    taskRootDiv.id = 'topwar_helper_taskRootDiv';
+    taskMainButton = document.createElement("button");
+    taskMainButton.id = 'topwar_helper_taskMainButton';
+    taskMainButton.innerHTML = '任务进行中';
+    if (window.THData.timer == null){
+        taskMainButton.innerHTML = '任务暂停中';
+    }
+    taskMainButton.setAttribute("onclick", "taskMainBtnClicked()");
+    taskRootDiv.append(taskMainButton);
+    rootDiv.append(taskRootDiv);
+}
+
+// 显示主界面
+function showMainUI() {
+    THDataInit();
+    var parentNode = document.getElementById("xsLoginDiv");
+    var rootDiv = document.createElement("div");
+    rootDiv.id = 'topwar_helper_rootDiv';
+    rootDiv.style.width='600px';
+    rootDiv.style.height='600px';
+    rootDiv.style.background='white';
+    parentNode.append(rootDiv);
+    parentNode.style.setProperty('display','block');
+    
+    taskSystemInit();
+}
