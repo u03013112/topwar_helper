@@ -3,8 +3,9 @@ function addButton() {
     button.innerHTML = "Test";
     button.id = "aButton123";
     button.type = "button";
-    button.setAttribute("onclick", "zb()");
-    document.getElementById("header").appendChild(button);
+    button.setAttribute("onclick", "buildBY()");
+    var parentElement = document.getElementById("header")
+    parentElement.insertBefore(button, parentElement.children[1]);
 }
 
 addButton();

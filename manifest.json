@@ -19,7 +19,7 @@
                 "https://h5.topwargame.com/h5game/index.html*"
             ],
             "js": [
-                "js/test.js"
+                "js/content.js"
             ],
             "run_at": "document_end"
         },{
