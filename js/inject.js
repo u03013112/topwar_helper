@@ -38,17 +38,6 @@ function getArmyInfos() {
     }
 }
 
-// 建造兵营
-function buildBGC() {
-    // BuildNewBuilding
-    c = cc.find('Canvas/HomeMap').getComponent('HomeMap');
-    c.BuildNewBuilding(104020,-1,true)
-    c.BuildNewBuilding(104020,-1,true)
-    if (c.AddingItem) {
-        c.CancelBuildBuilding(c.AddingItem);
-    }
-}
-
 // 所有的function都加TH（TopwarHelper）开头，毕竟是注入代码，为了避免冲突。
 function THDataInit() {
     if (window.THData == null) {
