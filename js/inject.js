@@ -17,7 +17,7 @@ function timerTest() {
 }
 
 // 获取兵营信息
-function getBYinfos() {
+function THGetBGCinfos() {
     ret = [];
     bbIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 104011, 104012, 104013, 104014, 104015, 104016, 104017, 104018, 104019, 104020, 104021, 104022, 104023, 104024, 104025, 104026, 104027, 104028, 104029, 104030, 104031, 104032, 104033, 104034, 104035, 104036, 104037, 104038, 104039, 104040, 104041, 104042, 104043, 104044, 104045, 104046, 104047, 104048, 104049, 104050, 104051, 104052, 104053, 104054, 104055, 104056, 104057, 104058, 104059, 104060, 104061, 104062, 104063, 104064, 104065, 104066, 104067, 104068, 104069, 104070, 104071, 104072, 104073, 104074, 104075, 104076, 104077, 104078, 104079, 104080, 104081, 104082, 104083, 104084, 104085, 104086, 104087, 104088, 104089, 104090, 104091, 104092, 104093, 104094, 104095, 104096, 104097, 104098, 104099, 104100]
     for(var i = 0; i <bbIdList.length;++i){
@@ -48,7 +48,7 @@ function getArmyInfos() {
 }
 
 // 建造兵营
-function buildBY() {
+function buildBGC() {
     // BuildNewBuilding
     c = cc.find('Canvas/HomeMap').getComponent('HomeMap');
     c.BuildNewBuilding(104019,-1,true)
@@ -165,56 +165,87 @@ function showMainUI() {
     // rootDiv.append(tmpButton01);
 
     // 如果有必要，把其他弹出界面先关了
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0){
+    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0){
         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
     }
 
     THGetKJ();
 
-    THBYDivInit();
+    THBGCDivInit();
 }
 
-// 兵营
-function THBYDivInit() {
+// 兵工厂
+function THBGCDivInit() {
     // 底板
     var parentNode = document.getElementById("topwar_helper_rootDiv");
-    var BYDiv = document.createElement("div");
-    BYDiv.id = 'topwar_helper_BYDiv';
-    BYDiv.style.width='400px';
-    BYDiv.style.height='400px';
-    BYDiv.style.background='pink';
-    parentNode.append(BYDiv);
+    var BGCDiv = document.createElement("div");
+    BGCDiv.id = 'topwar_helper_BGCDiv';
+    BGCDiv.style.width='400px';
+    BGCDiv.style.height='400px';
+    BGCDiv.style.background='pink';
+    parentNode.append(BGCDiv);
+    
     // 科技
-
-    if (window.THData.KJLevel == null) {
-        var BYKJWaringLabel = document.createElement("h4");
-        BYKJWaringLabel.style.margin='8px';
-        BYKJWaringLabel.innerHTML = '读取科技信息失败，请重试';
-        BYDiv.append(BYKJWaringLabel);
-        return;
+    {
+        if (window.THData.KJLevel == null) {
+            // 找到当前科技等级是必要的，不然后面都不做
+            var BGCKJWaringLabel = document.createElement("h4");
+            BGCKJWaringLabel.style.margin='8px';
+            BGCKJWaringLabel.innerHTML = '读取科技信息失败，请重试';
+            BGCDiv.append(BGCKJWaringLabel);
+            return;
+        }
+        var BGCBuildLevel = window.THData.KJLevel[9];
+        var BGCMaxLevel = window.THData.KJLevel[5];
+        var BGCKJDiv = document.createElement("div");
+        BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
+        BGCKJDiv.style.width='200px';
+        BGCKJDiv.style.height='80px';
+        BGCKJDiv.style.background='white';
+        BGCDiv.append(BGCKJDiv);
+    
+        var BGCKJTitle = document.createElement("h4");
+        BGCKJTitle.style.margin='8px';
+        BGCKJTitle.innerHTML = '科技';
+        BGCKJDiv.append(BGCKJTitle);
+    
+        var BGCBuildLevelLabel = document.createElement("h5");
+        BGCBuildLevelLabel.style.margin='0px';
+        BGCBuildLevelLabel.innerHTML = '兵工厂建造等级:'+BGCBuildLevel;
+        BGCKJDiv.append(BGCBuildLevelLabel);
+    
+        var BGCMaxLevelLabel = document.createElement("h5");
+        BGCMaxLevelLabel.style.margin='0px';
+        BGCMaxLevelLabel.innerHTML = '兵工厂合成等级:'+BGCMaxLevel;
+        BGCKJDiv.append(BGCMaxLevelLabel);
     }
-    var BGCBuildLevel = window.THData.KJLevel[9];
-    var BGCMaxLevel = window.THData.KJLevel[5];
-    var BYKJDiv = document.createElement("div");
-    BYKJDiv.id = 'topwar_helper_BYKJDiv';
-    BYKJDiv.style.width='200px';
-    BYKJDiv.style.height='80px';
-    BYKJDiv.style.background='white';
-    BYDiv.append(BYKJDiv);
+    
+    // 当前状态
+    {
+        bgcInfos = THGetBGCinfos();
 
-    var BYKJTitle = document.createElement("h4");
-    BYKJTitle.style.margin='8px';
-    BYKJTitle.innerHTML = '科技';
-    BYKJDiv.append(BYKJTitle);
+        var BGCInfoDiv = document.createElement("div");
+        BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
+        BGCInfoDiv.style.width='200px';
+        BGCInfoDiv.style.height='200px';
+        BGCInfoDiv.style.background='white';
+        BGCDiv.append(BGCInfoDiv);
 
-    var BGCBuildLevelLabel = document.createElement("h5");
-    BGCBuildLevelLabel.style.margin='0px';
-    BGCBuildLevelLabel.innerHTML = '兵工厂建造等级:'+BGCBuildLevel;
-    BYKJDiv.append(BGCBuildLevelLabel);
+        var BGCInfoTitle = document.createElement("h4");
+        BGCInfoTitle.style.margin='8px';
+        BGCInfoTitle.innerHTML = '目前状态';
+        BGCInfoDiv.append(BGCInfoTitle);
 
-    var BGCMaxLevelLabel = document.createElement("h5");
-    BGCMaxLevelLabel.style.margin='0px';
-    BGCMaxLevelLabel.innerHTML = '兵工厂合成等级:'+BGCMaxLevel;
-    BYKJDiv.append(BGCMaxLevelLabel);
+        for (var i=0;i<bgcInfos.length; ++i){
+            if (bgcInfos[i]>0){
+                var level = i+1;
+
+                var label = document.createElement("h5");
+                label.style.margin='0px';
+                label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+                BGCInfoDiv.append(label);
+            }
+        }
+    }
 
 }
