@@ -123,6 +123,9 @@ function taskMainBtnClicked() {
 
 // 任务相关初始化
 function taskSystemInit() {
+    // 任务列表
+    window.THData.Tasks = [];
+
     var rootDiv = document.getElementById("topwar_helper_rootDiv");
     var taskRootDiv = document.createElement("div");
     taskRootDiv.id = 'topwar_helper_taskRootDiv';
@@ -174,6 +177,24 @@ function showMainUI() {
     THBGCDivInit();
 }
 
+function BGCTaskButtonClicked() {
+    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');("input");
+    // 找到旧的同类任务，删掉然后添加新的
+    for (var i = 0; i <window.THData.Tasks.length;++i){
+        task = window.THData.Tasks[i];
+        if (task.type == 'BGCBuild') {
+            window.THData.Tasks.splice(i, 1);
+            break;
+        }
+    }
+    newTask = {
+        type : 'BGCBuild',
+        level: window.THData.KJLevel[5],
+        count: parseInt(BGCTaskInput.value) 
+    }
+    window.THData.Tasks.push(newTask);
+}
+
 // 兵工厂
 function THBGCDivInit() {
     // 底板
@@ -181,7 +202,7 @@ function THBGCDivInit() {
     var BGCDiv = document.createElement("div");
     BGCDiv.id = 'topwar_helper_BGCDiv';
     BGCDiv.style.width='400px';
-    BGCDiv.style.height='400px';
+    BGCDiv.style.height='500px';
     BGCDiv.style.background='pink';
     parentNode.append(BGCDiv);
     
@@ -248,4 +269,35 @@ function THBGCDivInit() {
         }
     }
 
+    // 制造任务
+    {
+        var BGCTaskDiv = document.createElement("div");
+        BGCTaskDiv.id = 'topwar_helper_BGCTaskDiv';
+        BGCTaskDiv.style.width='200px';
+        BGCTaskDiv.style.height='200px';
+        BGCTaskDiv.style.background='white';
+        BGCDiv.append(BGCTaskDiv);
+
+        var BGCTaskTitle = document.createElement("h4");
+        BGCTaskTitle.style.margin='8px';
+        BGCTaskTitle.innerHTML = '建造任务';
+        BGCTaskDiv.append(BGCTaskTitle);
+
+        var BGCTaskDescribtion = document.createElement("h6");
+        BGCTaskDescribtion.style.margin='0px';
+        BGCTaskDescribtion.innerHTML = '建造最高级兵工厂至下面数量';
+        BGCTaskDiv.append(BGCTaskDescribtion);
+
+        var BGCTaskInput = document.createElement("input");
+        BGCTaskInput.type = 'text';
+        BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
+        BGCTaskInput.value = 32;
+        BGCTaskDiv.append(BGCTaskInput);
+
+        BGCTaskButton = document.createElement("button");
+        BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
+        BGCTaskButton.innerHTML = '下发任务';
+        BGCTaskButton.setAttribute("onclick", "BGCTaskButtonClicked()");
+        BGCTaskDiv.append(BGCTaskButton);        
+    }
 }
