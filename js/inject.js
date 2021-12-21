@@ -59,35 +59,6 @@ function THZB() {
         }
     }
 };
-// 获得科技信息
-// 按照顺序，应该是
-// 金矿合成 陆军单位 海军单位 空军单位 金矿建造 兵工厂合成 造船厂合成 飞机厂合成 空 兵工厂建造 造船厂建造 飞机厂建造 
-// function THGetKJ() {
-//     // 打开科技界面
-//     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
-//     for (var i = 0; i < bList.length; ++i) {
-//         b = bList[i]; if (b.name == 'BuildingItem') {
-//             c = b.getComponent('BuildingItem');
-//             c.OnHeadquartersClick();
-//         }
-//     }
-//     // 这里可能需要等待一下
-
-//     // 目前版本是这个，但是可能会变化
-//     var levels = [];
-//     var hp = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent("HeadquartersPanelOld");
-//     var itemNodes = hp.centerContent.getChildren();
-//     for (var i=0;i<itemNodes.length;++i) {
-//         var item = itemNodes[i].getComponent('HeadquartersItemOld');
-//         var level = parseInt(item.LabLevel.string);
-//         levels.push(level);
-//     }
-
-//     // 关闭科技界面
-//     hp.close();
-
-//     window.THData.KJLevel = levels;
-// }
 
 // 获得兵工厂科技等级，返回(合成等级,建造等级)
 function THGetBGCKJ() {
@@ -306,7 +277,7 @@ const THBGCIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050,
 
 // 处理建造兵工厂的任务
 function THBGCBuildTask(task) {
-    homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
+    var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
     // 如果目前有多余的正准备添加建筑，就取消掉
     if (c.AddingItem) {
         c.CancelBuildBuilding(c.AddingItem);
@@ -325,73 +296,53 @@ function THBGCBuildTask(task) {
         return
     }
     
-    var canMerge = false;
-    
-    if (canMerge) {
-        // 如果有可以合成的兵工厂，就合成
-    }else {
-        // 不能合成就要建造一个目前可以建造的兵工厂
-        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
-        var buidingId =  THBGCIdList[task.level-1];
-        homeMap.BuildNewBuilding(104020,-1,true);
-        homeMap.BuildNewBuilding(104020,-1,true);
-    }
-}
-
-/**地图的逻辑坐标转换为显示坐标 */
-function getNodePos(pos) {
-    var _BW = 136 * 1.0;
-    var _BH = 98 * 1.0;
-
-    var startX = _BW / 2;
-    var startY = -_BH / 2;
-    var PosX = startX + (pos.x * _BW) / 2;
-    var posY = startY - (pos.y * _BH) / 2;
-    return new cc.Vec2(PosX, posY);
-}
-
-function test() {
-    homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
-    // 2,18 - > 7,23
-    beginPos = {localPoint:getNodePos({x:2,y:18})};
-    endPos = {startPoint:homeMap.node.convertToWorldSpaceAR(getNodePos({x:2,y:18})),point:homeMap.node.convertToWorldSpaceAR(getNodePos({x:7,y:23})),localPoint:getNodePos({x:7,y:23})};
-
-    console.log(endPos);
-
-    homeMap.onTouchBegin(beginPos,[beginPos]);
-    homeMap.onTouchMove(endPos,[endPos]);
-    homeMap.onTouchEnd(endPos,[endPos]);
-}
-
-
-function merge() {
-    var GameTools = window.__require('GameTools');
-    var ItemMergeController = window.__require('ItemMergeController');
-
-    homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
-    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
-
-    for (var i = 0; i < bList.length; ++i) {
-        b = bList[i]; if (b.name == 'BuildingItem') {
-            c = b.getComponent('BuildingItem');
-            if (c.ItemData.id == 104020){ console.log(i,c.ItemData.id);}
+    var canMergeBGCId = 0;
+    // 从低级开始到合成等级的前一级，找到能合并的兵工厂
+    for (var i = 0; i < task.level-1;++i){
+        // TODO:暂时不考虑正在造兵的，这可能会导致一直卡主，但是也是个办法，防止之后又多余
+        if (bgcInfos[i]>1) {
+            canMergeBGCId = THBGCIdList[i];
+            break;
         }
     }
+    if (canMergeBGCId > 0) {
+        console.log('try 2 merge');
+        var itemList = [];
+        // 如果有可以合成的兵工厂，就合成
+        var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+        for (var i = 0; i < bList.length; ++i) {
+            b = bList[i]; 
+            if (b.name == 'BuildingItem') {
+                c = b.getComponent('BuildingItem');
+                if (c.ItemData.id == canMergeBGCId){ 
+                    itemList.push(c);
+                }
+            }
+        }
+        merge(itemList);
+    }else {
+        console.log('try 2 build');
+        // 不能合成就要建造一个目前可以建造的兵工厂
+        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
+        var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
+        var buidingId =  THBGCIdList[BGCBuildLevel-1];
+        homeMap.BuildNewBuilding(buidingId,-1,true);
+        homeMap.BuildNewBuilding(buidingId,-1,true);
+    }
+}
 
-    // var ccc = bList[52].getComponent('BuildingItem');
-    // var ddd = bList[61].getComponent('BuildingItem');
-    
-    // ItemMergeController.ItemMergeController.Instance.findSameBuildItem(ccc.OriginalPos,ccc.id,ddd.OriginalPos)
-    // homeMap._processMerge(ccc);
+// 这里应该不用区分建筑还是兵营
+function merge(itemList) {
+    var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
+    var ItemMergeController = window.__require('ItemMergeController');
 
+    batchMergeAllItemIds = [];
+    for (var i = 0; i <itemList.length;++i){
+        batchMergeAllItemIds.push(itemList[i].ID);
+    }
 
     // 搞了半天，这个最直接，这是费劲
-    ItemMergeController.ItemMergeController.Instance._batchMergeAllItemIds=[
-        bList[52].getComponent('BuildingItem').ID,
-        bList[61].getComponent('BuildingItem').ID,
-        bList[67].getComponent('BuildingItem').ID,
-        bList[70].getComponent('BuildingItem').ID
-    ]
-
-    homeMap._processMerge(bList[52].getComponent('BuildingItem'));
+    ItemMergeController.ItemMergeController.Instance._batchMergeAllItemIds=batchMergeAllItemIds;
+    
+    homeMap._processMerge(itemList[0]);
 }
