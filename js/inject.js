@@ -365,6 +365,9 @@ function test() {
 
 
 function merge() {
+    var GameTools = window.__require('GameTools');
+    var ItemMergeController = window.__require('ItemMergeController');
+
     homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
 
@@ -375,11 +378,20 @@ function merge() {
         }
     }
 
-    var ccc = bList[64].getComponent('BuildingItem');
-    var ddd = bList[72].getComponent('BuildingItem');
+    // var ccc = bList[52].getComponent('BuildingItem');
+    // var ddd = bList[61].getComponent('BuildingItem');
     
-    homeMap._holdingItem = ccc;
-    ccc.UpdatePos({x:7,y:25});
-    ccc.MergeTargetID = ddd.ID;
-    homeMap._processMerge(ccc);
+    // ItemMergeController.ItemMergeController.Instance.findSameBuildItem(ccc.OriginalPos,ccc.id,ddd.OriginalPos)
+    // homeMap._processMerge(ccc);
+
+
+    // 搞了半天，这个最直接，这是费劲
+    ItemMergeController.ItemMergeController.Instance._batchMergeAllItemIds=[
+        bList[52].getComponent('BuildingItem').ID,
+        bList[61].getComponent('BuildingItem').ID,
+        bList[67].getComponent('BuildingItem').ID,
+        bList[70].getComponent('BuildingItem').ID
+    ]
+
+    homeMap._processMerge(bList[52].getComponent('BuildingItem'));
 }
