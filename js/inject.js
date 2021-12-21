@@ -62,32 +62,41 @@ function THZB() {
 // 获得科技信息
 // 按照顺序，应该是
 // 金矿合成 陆军单位 海军单位 空军单位 金矿建造 兵工厂合成 造船厂合成 飞机厂合成 空 兵工厂建造 造船厂建造 飞机厂建造 
-function THGetKJ() {
-    // 打开科技界面
-    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
-    for (var i = 0; i < bList.length; ++i) {
-        b = bList[i]; if (b.name == 'BuildingItem') {
-            c = b.getComponent('BuildingItem');
-            c.OnHeadquartersClick();
-        }
-    }
-    // 这里可能需要等待一下
+// function THGetKJ() {
+//     // 打开科技界面
+//     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+//     for (var i = 0; i < bList.length; ++i) {
+//         b = bList[i]; if (b.name == 'BuildingItem') {
+//             c = b.getComponent('BuildingItem');
+//             c.OnHeadquartersClick();
+//         }
+//     }
+//     // 这里可能需要等待一下
 
-    // 目前版本是这个，但是可能会变化
-    var levels = [];
-    var hp = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent("HeadquartersPanelOld");
-    var itemNodes = hp.centerContent.getChildren();
-    for (var i=0;i<itemNodes.length;++i) {
-        var item = itemNodes[i].getComponent('HeadquartersItemOld');
-        var level = parseInt(item.LabLevel.string);
-        levels.push(level);
-    }
+//     // 目前版本是这个，但是可能会变化
+//     var levels = [];
+//     var hp = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent("HeadquartersPanelOld");
+//     var itemNodes = hp.centerContent.getChildren();
+//     for (var i=0;i<itemNodes.length;++i) {
+//         var item = itemNodes[i].getComponent('HeadquartersItemOld');
+//         var level = parseInt(item.LabLevel.string);
+//         levels.push(level);
+//     }
 
-    // 关闭科技界面
-    hp.close();
+//     // 关闭科技界面
+//     hp.close();
 
-    window.THData.KJLevel = levels;
+//     window.THData.KJLevel = levels;
+// }
+
+// 获得兵工厂科技等级，返回(合成等级,建造等级)
+function THGetBGCKJ() {
+    var dataCenter = window.__require('DataCenter');
+    var maxLevel = dataCenter.DATA.UserData.getScienceByGroupId(311000)._Data.level;
+    var buildLevel = dataCenter.DATA.UserData.getScienceByGroupId(301000)._Data.level;
+    return [maxLevel,buildLevel];
 }
+
 
 // 任务调度器
 function THTaskUpdate() {
@@ -165,8 +174,6 @@ function showMainUI() {
         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
     }
 
-    THGetKJ();
-
     THBGCDivInit();
 }
 
@@ -180,9 +187,10 @@ function BGCTaskButtonClicked() {
             break;
         }
     }
+
     newTask = {
         type : 'BGCBuild',
-        level: window.THData.KJLevel[5],
+        level: THGetBGCKJ()[0],
         count: parseInt(BGCTaskInput.value) 
     }
     window.THData.Tasks.push(newTask);
@@ -206,16 +214,9 @@ function THBGCDivInit() {
 
     // 科技
     {
-        if (window.THData.KJLevel == null) {
-            // 找到当前科技等级是必要的，不然后面都不做
-            var BGCKJWaringLabel = document.createElement("h4");
-            BGCKJWaringLabel.style.margin='8px';
-            BGCKJWaringLabel.innerHTML = '读取科技信息失败，请重试';
-            BGCDiv.append(BGCKJWaringLabel);
-            return;
-        }
-        var BGCBuildLevel = window.THData.KJLevel[9];
-        var BGCMaxLevel = window.THData.KJLevel[5];
+
+        var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
+        console.log(BGCMaxLevel,BGCBuildLevel);
         var BGCKJDiv = document.createElement("div");
         BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
         BGCKJDiv.style.width='200px';
@@ -335,4 +336,50 @@ function THBGCBuildTask(task) {
         homeMap.BuildNewBuilding(104020,-1,true);
         homeMap.BuildNewBuilding(104020,-1,true);
     }
+}
+
+/**地图的逻辑坐标转换为显示坐标 */
+function getNodePos(pos) {
+    var _BW = 136 * 1.0;
+    var _BH = 98 * 1.0;
+
+    var startX = _BW / 2;
+    var startY = -_BH / 2;
+    var PosX = startX + (pos.x * _BW) / 2;
+    var posY = startY - (pos.y * _BH) / 2;
+    return new cc.Vec2(PosX, posY);
+}
+
+function test() {
+    homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
+    // 2,18 - > 7,23
+    beginPos = {localPoint:getNodePos({x:2,y:18})};
+    endPos = {startPoint:homeMap.node.convertToWorldSpaceAR(getNodePos({x:2,y:18})),point:homeMap.node.convertToWorldSpaceAR(getNodePos({x:7,y:23})),localPoint:getNodePos({x:7,y:23})};
+
+    console.log(endPos);
+
+    homeMap.onTouchBegin(beginPos,[beginPos]);
+    homeMap.onTouchMove(endPos,[endPos]);
+    homeMap.onTouchEnd(endPos,[endPos]);
+}
+
+
+function merge() {
+    homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
+    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+
+    for (var i = 0; i < bList.length; ++i) {
+        b = bList[i]; if (b.name == 'BuildingItem') {
+            c = b.getComponent('BuildingItem');
+            if (c.ItemData.id == 104020){ console.log(i,c.ItemData.id);}
+        }
+    }
+
+    var ccc = bList[64].getComponent('BuildingItem');
+    var ddd = bList[72].getComponent('BuildingItem');
+    
+    homeMap._holdingItem = ccc;
+    ccc.UpdatePos({x:7,y:25});
+    ccc.MergeTargetID = ddd.ID;
+    homeMap._processMerge(ccc);
 }
