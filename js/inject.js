@@ -129,9 +129,15 @@ function statusSystemInit() {
 }
 // 显示主界面
 function showMainUI() {
+    // 如果截面已打开，就关上
+    var rootDiv = document.getElementById('topwar_helper_rootDiv');
+    if (rootDiv){
+        // TODO:关闭界面，暂时不做，由于目前界面设计还没有做，这种纯表现的功能可以先不做
+        return;
+    }
     THDataInit();
     var parentNode = document.getElementById("xsLoginDiv");
-    var rootDiv = document.createElement("div");
+    rootDiv = document.createElement("div");
     rootDiv.id = 'topwar_helper_rootDiv';
     rootDiv.style.width='600px';
     rootDiv.style.height='600px';
