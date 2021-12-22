@@ -97,7 +97,9 @@ function taskMainBtnClicked() {
 // 任务相关初始化
 function taskSystemInit() {
     // 任务列表
-    window.THData.Tasks = [];
+    if (window.THData.Tasks == null) {
+        window.THData.Tasks = [];
+    }
 
     var rootDiv = document.getElementById("topwar_helper_rootDiv");
     var taskRootDiv = document.createElement("div");
@@ -261,7 +263,7 @@ function THBGCDivInit() {
         var BGCTaskInput = document.createElement("input");
         BGCTaskInput.type = 'text';
         BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
-        BGCTaskInput.value = 32;
+        BGCTaskInput.value = 16;
         BGCTaskDiv.append(BGCTaskInput);
 
         BGCTaskButton = document.createElement("button");
@@ -278,6 +280,10 @@ const THBGCIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050,
 // 处理建造兵工厂的任务
 function THBGCBuildTask(task) {
     var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
+    if (!homeMap) {
+        // 界面不对，暂停工作
+        return;
+    }
     // 如果目前有多余的正准备添加建筑，就取消掉
     if (c.AddingItem) {
         c.CancelBuildBuilding(c.AddingItem);
@@ -299,14 +305,13 @@ function THBGCBuildTask(task) {
     var canMergeBGCId = 0;
     // 从低级开始到合成等级的前一级，找到能合并的兵工厂
     for (var i = 0; i < task.level-1;++i){
-        // TODO:暂时不考虑正在造兵的，这可能会导致一直卡主，但是也是个办法，防止之后又多余
         if (bgcInfos[i]>1) {
             canMergeBGCId = THBGCIdList[i];
             break;
         }
     }
     if (canMergeBGCId > 0) {
-        console.log('try 2 merge');
+        // console.log('try 2 merge');
         var itemList = [];
         // 如果有可以合成的兵工厂，就合成
         var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
@@ -315,13 +320,17 @@ function THBGCBuildTask(task) {
             if (b.name == 'BuildingItem') {
                 c = b.getComponent('BuildingItem');
                 if (c.ItemData.id == canMergeBGCId){ 
+                    if (c._curProNum > 0) {
+                        // 正在造兵，那就暂停目前任务
+                        return;
+                    }
                     itemList.push(c);
                 }
             }
         }
         merge(itemList);
     }else {
-        console.log('try 2 build');
+        // console.log('try 2 build');
         // 不能合成就要建造一个目前可以建造的兵工厂
         // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
         var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
@@ -342,6 +351,8 @@ function merge(itemList) {
     }
 
     // 搞了半天，这个最直接，这是费劲
+    
+    ItemMergeController.ItemMergeController.Instance._batchMergeItemIds=batchMergeAllItemIds;
     ItemMergeController.ItemMergeController.Instance._batchMergeAllItemIds=batchMergeAllItemIds;
     
     homeMap._processMerge(itemList[0]);
