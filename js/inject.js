@@ -195,14 +195,40 @@ function THBGCDivInit() {
     var BGCDiv = document.createElement("div");
     BGCDiv.id = 'topwar_helper_BGCDiv';
     BGCDiv.style.width='400px';
-    BGCDiv.style.height='500px';
+    BGCDiv.style.height='260px';
     BGCDiv.style.background='pink';
     parentNode.append(BGCDiv);
     
     var BGCTitle = document.createElement("h3");
-    BGCTitle.style.margin='8px';
+    BGCTitle.style.margin='4px';
     BGCTitle.innerHTML = '兵工厂';
     BGCDiv.append(BGCTitle);
+    
+    var BGCContentDiv = document.createElement("div");
+    BGCContentDiv.id = 'topwar_helper_BGCContentDiv';
+    BGCContentDiv.style.width='390px';
+    BGCContentDiv.style.height='210px';
+    BGCContentDiv.style.background='pink';
+    BGCContentDiv.style.display='flex';
+    BGCContentDiv.style.padding='5px';
+    BGCDiv.append(BGCContentDiv);
+
+    // 简单排版
+    var BGCLeftDiv = document.createElement("div");
+    BGCLeftDiv.id = 'topwar_helper_BGCLeftDiv';
+    BGCLeftDiv.style.width='185px';
+    BGCLeftDiv.style.height='200px';
+    BGCLeftDiv.style.background='pink';
+    BGCLeftDiv.style.padding='5px';
+    BGCContentDiv.append(BGCLeftDiv);
+
+    var BGCRightDiv = document.createElement("div");
+    BGCRightDiv.id = 'topwar_helper_BGCRightDiv';
+    BGCRightDiv.style.width='185px';
+    BGCRightDiv.style.height='200px';
+    BGCRightDiv.style.background='pink';
+    BGCRightDiv.style.padding='5px';
+    BGCContentDiv.append(BGCRightDiv);
 
     // 科技
     var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
@@ -210,10 +236,10 @@ function THBGCDivInit() {
         console.log(BGCMaxLevel,BGCBuildLevel);
         var BGCKJDiv = document.createElement("div");
         BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
-        BGCKJDiv.style.width='200px';
+        BGCKJDiv.style.width='185px';
         BGCKJDiv.style.height='80px';
         BGCKJDiv.style.background='white';
-        BGCDiv.append(BGCKJDiv);
+        BGCLeftDiv.append(BGCKJDiv);
     
         var BGCKJTitle = document.createElement("h4");
         BGCKJTitle.style.margin='8px';
@@ -236,10 +262,10 @@ function THBGCDivInit() {
     {
         var BGCInfoDiv = document.createElement("div");
         BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
-        BGCInfoDiv.style.width='200px';
-        BGCInfoDiv.style.height='200px';
+        BGCInfoDiv.style.width='185px';
+        BGCInfoDiv.style.height='190px';
         BGCInfoDiv.style.background='white';
-        BGCDiv.append(BGCInfoDiv);
+        BGCRightDiv.append(BGCInfoDiv);
 
         var BGCInfoTitle = document.createElement("h4");
         BGCInfoTitle.style.margin='8px';
@@ -262,10 +288,10 @@ function THBGCDivInit() {
     {
         var BGCTaskDiv = document.createElement("div");
         BGCTaskDiv.id = 'topwar_helper_BGCTaskDiv';
-        BGCTaskDiv.style.width='200px';
+        BGCTaskDiv.style.width='185px';
         BGCTaskDiv.style.height='100px';
         BGCTaskDiv.style.background='white';
-        BGCDiv.append(BGCTaskDiv);
+        BGCLeftDiv.append(BGCTaskDiv);
 
         var BGCTaskTitle = document.createElement("h4");
         BGCTaskTitle.style.margin='8px';
