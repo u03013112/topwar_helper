@@ -10,6 +10,9 @@ function test() {
 // 获取兵营信息
 function THGetBGCinfos() {
     ret = [];
+    if (!cc.find('Canvas/HomeMap')){
+        return ret;
+    }
     // bbIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 104011, 104012, 104013, 104014, 104015, 104016, 104017, 104018, 104019, 104020, 104021, 104022, 104023, 104024, 104025, 104026, 104027, 104028, 104029, 104030, 104031, 104032, 104033, 104034, 104035, 104036, 104037, 104038, 104039, 104040, 104041, 104042, 104043, 104044, 104045, 104046, 104047, 104048, 104049, 104050, 104051, 104052, 104053, 104054, 104055, 104056, 104057, 104058, 104059, 104060, 104061, 104062, 104063, 104064, 104065, 104066, 104067, 104068, 104069, 104070, 104071, 104072, 104073, 104074, 104075, 104076, 104077, 104078, 104079, 104080, 104081, 104082, 104083, 104084, 104085, 104086, 104087, 104088, 104089, 104090, 104091, 104092, 104093, 104094, 104095, 104096, 104097, 104098, 104099, 104100]
     for(var i = 0; i <THBGCIdList.length;++i){
         ret[i] = 0;
@@ -42,7 +45,7 @@ function getArmyInfos() {
 function THDataInit() {
     if (window.THData == null) {
         window.THData = {}
-        window.THData.timer = setInterval(function() {THTaskUpdate();},1000);
+        window.THData.timer = setInterval(function() {THTaskUpdate();},500);
     }
 }
 
@@ -76,20 +79,24 @@ function THTaskUpdate() {
             task = window.THData.Tasks[i];
             // TODO:判断整体状态，比如界面不对的时候要暂停任务
             if (task.type == 'BGCBuild'){
-                THBGCBuildTask(task);
+                var status = THBGCBuildTask(task);
+                // 目前任务状态写入
+                window.THData.Status.BGCStatus = status;
             }
         }
     }
+    // 更新界面暂时也写在这
+    THBGCStatusUpdate();
 }
 
 function taskMainBtnClicked() {
-    taskMainButton = document.getElementById("topwar_helper_taskMainButton");
+    var taskMainButton = document.getElementById("topwar_helper_taskMainButton");
     if (window.THData.timer != null) {
         clearInterval(window.THData.timer);
         window.THData.timer = null;
         taskMainButton.innerHTML = '任务暂停中';
     }else{
-        window.THData.timer = setInterval(function() {THTaskUpdate();},1000);
+        window.THData.timer = setInterval(function() {THTaskUpdate();},500);
         taskMainButton.innerHTML = '任务进行中';
     }
 }
@@ -114,7 +121,12 @@ function taskSystemInit() {
     taskRootDiv.append(taskMainButton);
     rootDiv.append(taskRootDiv);
 }
-
+function statusSystemInit() {
+    // 暂时只是一个记录状态的map
+    if (window.THData.Status == null){
+        window.THData.Status = {};
+    }
+}
 // 显示主界面
 function showMainUI() {
     THDataInit();
@@ -128,6 +140,7 @@ function showMainUI() {
     parentNode.append(rootDiv);
     parentNode.style.setProperty('display','block');
 
+    statusSystemInit();
     taskSystemInit();
     // // 临时功能
     // tmpZBButton = document.createElement("button");
@@ -186,9 +199,8 @@ function THBGCDivInit() {
     BGCDiv.append(BGCTitle);
 
     // 科技
+    var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
     {
-
-        var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
         console.log(BGCMaxLevel,BGCBuildLevel);
         var BGCKJDiv = document.createElement("div");
         BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
@@ -214,9 +226,8 @@ function THBGCDivInit() {
     }
     
     // 当前状态
+    var bgcInfos = THGetBGCinfos();
     {
-        bgcInfos = THGetBGCinfos();
-
         var BGCInfoDiv = document.createElement("div");
         BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
         BGCInfoDiv.style.width='200px';
@@ -263,7 +274,7 @@ function THBGCDivInit() {
         var BGCTaskInput = document.createElement("input");
         BGCTaskInput.type = 'text';
         BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
-        BGCTaskInput.value = 16;
+        BGCTaskInput.value = bgcInfos[BGCMaxLevel-1];
         BGCTaskDiv.append(BGCTaskInput);
 
         BGCTaskButton = document.createElement("button");
@@ -274,24 +285,59 @@ function THBGCDivInit() {
     }
 }
 
+// 更新兵工厂状态，更新到界面，如果有
+function THBGCStatusUpdate() {
+    var BGCInfoDiv = document.getElementById('topwar_helper_BGCInfoDiv');
+    if (!BGCInfoDiv) {
+        return;
+    }
+    var bgcInfos = THGetBGCinfos();
+    var ndList = BGCInfoDiv.childNodes;
+    // 清楚旧内容第一个是标题，不用更新
+    for (var i = ndList.length-1; i >0; i--) {
+        BGCInfoDiv.removeChild(ndList[i]);
+    }
+    // 添加新内容
+    for (var i=0;i<bgcInfos.length; ++i){
+        if (bgcInfos[i]>0){
+            var level = i+1;
+
+            var label = document.createElement("h5");
+            label.style.margin='0px';
+            label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+            BGCInfoDiv.append(label);
+        }
+    }
+
+    if (window.THData.Status.BGCStatus) {
+        var label = document.createElement("h5");
+        label.style.margin='0px';
+        label.innerHTML = window.THData.Status.BGCStatus;
+        BGCInfoDiv.append(label);
+    }
+}
+
 // 兵营Id列表，找策划要的
 const THBGCIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050, 104011, 104012, 104013, 104014, 104015, 104016, 104017, 104018, 104019, 104020, 104021, 104022, 104023, 104024, 104025, 104026, 104027, 104028, 104029, 104030, 104031, 104032, 104033, 104034, 104035, 104036, 104037, 104038, 104039, 104040, 104041, 104042, 104043, 104044, 104045, 104046, 104047, 104048, 104049, 104050, 104051, 104052, 104053, 104054, 104055, 104056, 104057, 104058, 104059, 104060, 104061, 104062, 104063, 104064, 104065, 104066, 104067, 104068, 104069, 104070, 104071, 104072, 104073, 104074, 104075, 104076, 104077, 104078, 104079, 104080, 104081, 104082, 104083, 104084, 104085, 104086, 104087, 104088, 104089, 104090, 104091, 104092, 104093, 104094, 104095, 104096, 104097, 104098, 104099, 104100];
 
 // 处理建造兵工厂的任务
 function THBGCBuildTask(task) {
-    var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
-    if (!homeMap) {
-        // 界面不对，暂停工作
-        return;
+    var status = '任务进行中';
+    var homeMapNode = cc.find('Canvas/HomeMap');
+    if (!homeMapNode) {
+        status = '界面不对，暂停工作';
+        return status;
     }
+    var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
     // 如果目前有多余的正准备添加建筑，就取消掉
     if (c.AddingItem) {
         c.CancelBuildBuilding(c.AddingItem);
     }
     // 如果已有足够多的兵工厂，任务结束
-    bgcInfos = THGetBGCinfos();
+    var bgcInfos = THGetBGCinfos();
     if (bgcInfos[task.level-1]>= task.count){
-        console.log("任务完成");
+        // console.log("任务完成");
+        status = '任务完成';
         for (var i = 0; i <window.THData.Tasks.length;++i){
             task = window.THData.Tasks[i];
             if (task.type == 'BGCBuild') {
@@ -299,7 +345,7 @@ function THBGCBuildTask(task) {
                 break;
             }
         }
-        return
+        return status;
     }
     
     var canMergeBGCId = 0;
@@ -312,6 +358,7 @@ function THBGCBuildTask(task) {
     }
     if (canMergeBGCId > 0) {
         // console.log('try 2 merge');
+        status = '合并中';
         var itemList = [];
         // 如果有可以合成的兵工厂，就合成
         var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
@@ -321,8 +368,9 @@ function THBGCBuildTask(task) {
                 c = b.getComponent('BuildingItem');
                 if (c.ItemData.id == canMergeBGCId){ 
                     if (c._curProNum > 0) {
+                        status = '正在造兵，暂停工作';
                         // 正在造兵，那就暂停目前任务
-                        return;
+                        return status;
                     }
                     itemList.push(c);
                 }
@@ -330,6 +378,7 @@ function THBGCBuildTask(task) {
         }
         merge(itemList);
     }else {
+        status = '建造中';
         // console.log('try 2 build');
         // 不能合成就要建造一个目前可以建造的兵工厂
         // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
@@ -338,6 +387,7 @@ function THBGCBuildTask(task) {
         homeMap.BuildNewBuilding(buidingId,-1,true);
         homeMap.BuildNewBuilding(buidingId,-1,true);
     }
+    return status;
 }
 
 // 这里应该不用区分建筑还是兵营
