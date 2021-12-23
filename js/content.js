@@ -10,9 +10,6 @@ function injectCustomJs(jsPath) {
         this.parentNode.removeChild(this);
     };
 }
-/** 
- * HTML被完全加载以及解析时，执行处理器
- * 这时候，我们才将之注入到页面，否则会因为 HTML 未加载，脚本就注入完成，导致 DOM 中获取失败。
- */
-// document.addEventListener('DOMContentLoaded', () => { injectCustomJs() })
-injectCustomJs();
+
+injectCustomJs('js/inject.js');
+injectCustomJs('js/bgc.js');

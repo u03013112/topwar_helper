@@ -1,9 +1,9 @@
 function addButton() {
     var button = document.createElement("button");
-    button.innerHTML = "Test";
-    button.id = "aButton123";
+    button.innerHTML = "兵工厂";
+    button.id = "THButtonBGC";
     button.type = "button";
-    button.setAttribute("onclick", "showMainUI()");
+    button.setAttribute("onclick", "showBGCUI()");
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
