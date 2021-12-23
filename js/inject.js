@@ -66,6 +66,10 @@ function THZB() {
 // 获得兵工厂科技等级，返回(合成等级,建造等级)
 function THGetBGCKJ() {
     var dataCenter = window.__require('DataCenter');
+    if(!dataCenter.DATA.UserData.getScienceByGroupId(311000)){
+        // 不能获得用户科技，大概率是没有登录成功
+        return;
+    }
     var maxLevel = dataCenter.DATA.UserData.getScienceByGroupId(311000)._Data.level;
     var buildLevel = dataCenter.DATA.UserData.getScienceByGroupId(301000)._Data.level;
     return [maxLevel,buildLevel];
