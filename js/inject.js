@@ -14,7 +14,7 @@ function getArmyInfos() {
 function THDataInit() {
     if (window.THData == null) {
         window.THData = {}
-        window.THData.timer = setInterval(function() {THTaskUpdate();},500);
+        window.THData.timer = setInterval(function() {THTaskUpdate();},800);
     }
 }
 
@@ -40,18 +40,20 @@ function THTaskUpdate() {
             // TODO:判断整体状态，比如界面不对的时候要暂停任务
             if (task.type == 'BGCBuild'){
                 var status = THBGCBuildTask(task);
-                // 目前任务状态写入
                 window.THData.Status.BGCStatus = status;
             }else if(task.type == 'JKBuild'){
                 var status = THJKBuildTask(task);
-                // 目前任务状态写入
                 window.THData.Status.JKStatus = status;
+            }else if(task.type == 'ZCCBuild'){
+                var status = THZCCBuildTask(task);
+                window.THData.Status.ZCCStatus = status;
             }
         }
     }
     // 更新界面暂时也写在这
     THBGCStatusUpdate();
     THJKStatusUpdate();
+    THZCCStatusUpdate();
 }
 
 function taskMainBtnClicked() {
@@ -61,7 +63,7 @@ function taskMainBtnClicked() {
         window.THData.timer = null;
         taskMainButton.innerHTML = '任务暂停中';
     }else{
-        window.THData.timer = setInterval(function() {THTaskUpdate();},500);
+        window.THData.timer = setInterval(function() {THTaskUpdate();},800);
         taskMainButton.innerHTML = '任务进行中';
     }
 }

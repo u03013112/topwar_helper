@@ -16,6 +16,16 @@ function addJKButton() {
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
+function addZCCButton() {
+    var button = document.createElement("button");
+    button.innerHTML = "造船厂";
+    button.id = "THButtonZCC";
+    button.type = "button";
+    button.setAttribute("onclick", "showZCCUI()");
+    var parentElement = document.getElementById("header")
+    parentElement.insertBefore(button, parentElement.children[1]);
+}
 
 addBGCButton();
 addJKButton();
+addZCCButton();
