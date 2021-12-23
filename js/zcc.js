@@ -49,7 +49,7 @@ function showZCCUI() {
     rootDiv = document.createElement("div");
     rootDiv.id = 'topwar_helper_rootDiv';
     rootDiv.style.width='400px';
-    rootDiv.style.height='300px';
+    rootDiv.style.height='320px';
     rootDiv.style.background='white';
     rootDiv.style.opacity='0.9';
     parentNode.append(rootDiv);
@@ -64,6 +64,16 @@ function showZCCUI() {
     }
 
     THZCCDivInit();
+
+    // 造兵按钮
+    ZCCZBButton = document.createElement("button");
+    ZCCZBButton.id = 'topwar_helper_ZCCZBButton';
+    ZCCZBButton.innerHTML = '一起造兵!';
+    if (window.THData.timer == null){
+        ZCCZBButton.innerHTML = '任务暂停中';
+    }
+    ZCCZBButton.setAttribute("onclick", "THZCCZB()");
+    rootDiv.append(ZCCZBButton);
 }
 
 function THZCCDivInit() {
@@ -309,3 +319,17 @@ function ZCCTaskButtonClicked() {
     }
     window.THData.Tasks.push(newTask);
 }
+
+// 造兵，每一个兵工厂都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
+function THZCCZB() {
+    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+    for (var i = 0; i < bList.length; ++i) {
+        b = bList[i]; if (b.name == 'BuildingItem') {
+            c = b.getComponent('BuildingItem');
+            if (THZCCIdList.includes(c.ItemData.id)) {
+                c.OnClickProductOrHarvest();
+                c._aniState = false;
+            }
+        }
+    }
+};
