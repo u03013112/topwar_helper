@@ -13,3 +13,4 @@ function injectCustomJs(jsPath) {
 
 injectCustomJs('js/inject.js');
 injectCustomJs('js/bgc.js');
+injectCustomJs('js/jk.js');

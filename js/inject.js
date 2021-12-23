@@ -42,11 +42,16 @@ function THTaskUpdate() {
                 var status = THBGCBuildTask(task);
                 // 目前任务状态写入
                 window.THData.Status.BGCStatus = status;
+            }else if(task.type == 'JKBuild'){
+                var status = THJKBuildTask(task);
+                // 目前任务状态写入
+                window.THData.Status.JKStatus = status;
             }
         }
     }
     // 更新界面暂时也写在这
     THBGCStatusUpdate();
+    THJKStatusUpdate();
 }
 
 function taskMainBtnClicked() {
@@ -86,25 +91,6 @@ function statusSystemInit() {
     if (window.THData.Status == null){
         window.THData.Status = {};
     }
-}
-
-function BGCTaskButtonClicked() {
-    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');("input");
-    // 找到旧的同类任务，删掉然后添加新的
-    for (var i = 0; i <window.THData.Tasks.length;++i){
-        task = window.THData.Tasks[i];
-        if (task.type == 'BGCBuild') {
-            window.THData.Tasks.splice(i, 1);
-            break;
-        }
-    }
-
-    newTask = {
-        type : 'BGCBuild',
-        level: THGetBGCKJ()[0],
-        count: parseInt(BGCTaskInput.value) 
-    }
-    window.THData.Tasks.push(newTask);
 }
 
 // 这里应该不用区分建筑还是兵营

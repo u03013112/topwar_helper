@@ -37,6 +37,7 @@
     ],
     "web_accessible_resources": [
         "js/inject.js",
-        "js/bgc.js"
+        "js/bgc.js",
+        "js/jk.js"
     ]
 }

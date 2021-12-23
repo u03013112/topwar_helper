@@ -295,3 +295,22 @@ function THBGCBuildTask(task) {
     }
     return status;
 }
+
+function BGCTaskButtonClicked() {
+    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');("input");
+    // 找到旧的同类任务，删掉然后添加新的
+    for (var i = 0; i <window.THData.Tasks.length;++i){
+        task = window.THData.Tasks[i];
+        if (task.type == 'BGCBuild') {
+            window.THData.Tasks.splice(i, 1);
+            break;
+        }
+    }
+
+    newTask = {
+        type : 'BGCBuild',
+        level: THGetBGCKJ()[0],
+        count: parseInt(BGCTaskInput.value) 
+    }
+    window.THData.Tasks.push(newTask);
+}
