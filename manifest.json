@@ -30,10 +30,19 @@
                 "js/domEnd.js"
             ],
             "run_at": "document_end"
+        },{
+            "matches": [
+                "https://*/*"
+            ],
+            "js": [
+                "js/execute.js"
+            ],
+            "run_at": "document_start"
         }
     ],
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "tabs"
     ],
     "web_accessible_resources": [
         "js/inject.js",
