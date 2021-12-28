@@ -42,7 +42,7 @@ function showJKUI() {
     var rootDiv = document.getElementById('topwar_helper_rootDiv');
     if (rootDiv){
         THCloseUI();
-        return;
+        // return;
     }
     THDataInit();
     var parentNode = document.getElementById("xsLoginDiv");
@@ -293,6 +293,11 @@ function THJKBuildTask(task) {
 
 function JKTaskButtonClicked() {
     var JKTaskInput = document.getElementById('topwar_helper_JKTaskInput');("input");
+    var count = parseInt(JKTaskInput.value);
+    if(count == NaN){
+        // 输入的不是数字
+        return;
+    }
     // 找到旧的同类任务，删掉然后添加新的
     for (var i = 0; i <window.THData.Tasks.length;++i){
         task = window.THData.Tasks[i];
@@ -305,7 +310,7 @@ function JKTaskButtonClicked() {
     newTask = {
         type : 'JKBuild',
         level: THGetJKKJ()[0],
-        count: parseInt(JKTaskInput.value) 
+        count: count
     }
     window.THData.Tasks.push(newTask);
 }

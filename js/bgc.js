@@ -42,7 +42,7 @@ function showBGCUI() {
     var rootDiv = document.getElementById('topwar_helper_rootDiv');
     if (rootDiv){
         THCloseUI();
-        return;
+        // return;
     }
     THDataInit();
     var parentNode = document.getElementById("xsLoginDiv");
@@ -308,6 +308,11 @@ function THBGCBuildTask(task) {
 
 function BGCTaskButtonClicked() {
     var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');("input");
+    var count = parseInt(BGCTaskInput.value);
+    if(count == NaN){
+        // 输入的不是数字
+        return;
+    }
     // 找到旧的同类任务，删掉然后添加新的
     for (var i = 0; i <window.THData.Tasks.length;++i){
         task = window.THData.Tasks[i];
@@ -320,7 +325,7 @@ function BGCTaskButtonClicked() {
     newTask = {
         type : 'BGCBuild',
         level: THGetBGCKJ()[0],
-        count: parseInt(BGCTaskInput.value) 
+        count: count
     }
     window.THData.Tasks.push(newTask);
 }

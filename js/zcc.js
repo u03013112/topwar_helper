@@ -42,7 +42,7 @@ function showZCCUI() {
     var rootDiv = document.getElementById('topwar_helper_rootDiv');
     if (rootDiv){
         THCloseUI();
-        return;
+        // return;
     }
     THDataInit();
     var parentNode = document.getElementById("xsLoginDiv");
@@ -303,6 +303,12 @@ function THZCCBuildTask(task) {
 
 function ZCCTaskButtonClicked() {
     var ZCCTaskInput = document.getElementById('topwar_helper_ZCCTaskInput');("input");
+    var count = parseInt(ZCCTaskInput.value);
+    if(count == NaN){
+        // 输入的不是数字
+        return;
+    }
+
     // 找到旧的同类任务，删掉然后添加新的
     for (var i = 0; i <window.THData.Tasks.length;++i){
         task = window.THData.Tasks[i];
@@ -315,7 +321,7 @@ function ZCCTaskButtonClicked() {
     newTask = {
         type : 'ZCCBuild',
         level: THGetZCCKJ()[0],
-        count: parseInt(ZCCTaskInput.value) 
+        count: count
     }
     window.THData.Tasks.push(newTask);
 }
