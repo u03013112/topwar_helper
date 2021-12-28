@@ -47,10 +47,10 @@ function taskMainBtnClicked() {
     if (window.THData.timer != null) {
         clearInterval(window.THData.timer);
         window.THData.timer = null;
-        taskMainButton.innerHTML = '任务暂停中';
+        taskMainButton.innerHTML = 'Task is suspended';
     }else{
         window.THData.timer = setInterval(function() {THTaskUpdate();},800);
-        taskMainButton.innerHTML = '任务进行中';
+        taskMainButton.innerHTML = 'Task in progress...';
     }
 }
 
@@ -66,9 +66,9 @@ function taskSystemInit() {
     taskRootDiv.id = 'topwar_helper_taskRootDiv';
     taskMainButton = document.createElement("button");
     taskMainButton.id = 'topwar_helper_taskMainButton';
-    taskMainButton.innerHTML = '任务进行中';
+    taskMainButton.innerHTML = 'Task in progress...';
     if (window.THData.timer == null){
-        taskMainButton.innerHTML = '任务暂停中';
+        taskMainButton.innerHTML = 'Task is suspended';
     }
     taskMainButton.setAttribute("onclick", "taskMainBtnClicked()");
     taskRootDiv.append(taskMainButton);

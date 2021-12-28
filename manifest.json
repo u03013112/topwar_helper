@@ -52,5 +52,6 @@
         "js/bgc.js",
         "js/jk.js",
         "js/zcc.js"
-    ]
+    ],
+    "default_locale": "en"
 }

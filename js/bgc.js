@@ -24,7 +24,7 @@ function THGetBGCinfos() {
     return ret;
 }
 
-// 获得兵工厂科技等级，返回(合成等级,建造等级)
+// 获得Barracks科技等级，返回( Merge level, Building level)
 function THGetBGCKJ() {
     var dataCenter = window.__require('DataCenter');
     if(!dataCenter.DATA.UserData.getScienceByGroupId(311000)){
@@ -68,9 +68,9 @@ function showBGCUI() {
     // 造兵按钮
     BGCZBButton = document.createElement("button");
     BGCZBButton.id = 'topwar_helper_BGCZBButton';
-    BGCZBButton.innerHTML = '一起造兵!';
+    BGCZBButton.innerHTML = 'Train soldiers together!';
     if (window.THData.timer == null){
-        BGCZBButton.innerHTML = '任务暂停中';
+        BGCZBButton.innerHTML = 'Task is suspended';
     }
     BGCZBButton.setAttribute("onclick", "THBGCZB()");
     rootDiv.append(BGCZBButton);
@@ -88,7 +88,7 @@ function THBGCDivInit() {
     
     var BGCTitle = document.createElement("h3");
     BGCTitle.style.margin='4px';
-    BGCTitle.innerHTML = '兵工厂';
+    BGCTitle.innerHTML = 'Barracks';
     BGCDiv.append(BGCTitle);
     
     var BGCContentDiv = document.createElement("div");
@@ -117,7 +117,7 @@ function THBGCDivInit() {
     BGCRightDiv.style.padding='5px';
     BGCContentDiv.append(BGCRightDiv);
 
-    // 科技
+    // Technology
     var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
     {
         // console.log(BGCMaxLevel,BGCBuildLevel);
@@ -130,17 +130,17 @@ function THBGCDivInit() {
     
         var BGCKJTitle = document.createElement("h4");
         BGCKJTitle.style.margin='8px';
-        BGCKJTitle.innerHTML = '科技';
+        BGCKJTitle.innerHTML = 'Technology';
         BGCKJDiv.append(BGCKJTitle);
     
         var BGCBuildLevelLabel = document.createElement("h5");
         BGCBuildLevelLabel.style.margin='0px';
-        BGCBuildLevelLabel.innerHTML = '兵工厂建造等级:'+BGCBuildLevel;
+        BGCBuildLevelLabel.innerHTML = 'Barracks Building level:'+BGCBuildLevel;
         BGCKJDiv.append(BGCBuildLevelLabel);
     
         var BGCMaxLevelLabel = document.createElement("h5");
         BGCMaxLevelLabel.style.margin='0px';
-        BGCMaxLevelLabel.innerHTML = '兵工厂合成等级:'+BGCMaxLevel;
+        BGCMaxLevelLabel.innerHTML = 'Barracks Merge level:'+BGCMaxLevel;
         BGCKJDiv.append(BGCMaxLevelLabel);
     }
     
@@ -156,7 +156,7 @@ function THBGCDivInit() {
 
         var BGCInfoTitle = document.createElement("h4");
         BGCInfoTitle.style.margin='8px';
-        BGCInfoTitle.innerHTML = '目前状态';
+        BGCInfoTitle.innerHTML = 'Status';
         BGCInfoDiv.append(BGCInfoTitle);
 
         for (var i=0;i<bgcInfos.length; ++i){
@@ -165,7 +165,7 @@ function THBGCDivInit() {
 
                 var label = document.createElement("h5");
                 label.style.margin='0px';
-                label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+                label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
                 BGCInfoDiv.append(label);
             }
         }
@@ -182,12 +182,12 @@ function THBGCDivInit() {
 
         var BGCTaskTitle = document.createElement("h4");
         BGCTaskTitle.style.margin='8px';
-        BGCTaskTitle.innerHTML = '建造任务';
+        BGCTaskTitle.innerHTML = 'Build task';
         BGCTaskDiv.append(BGCTaskTitle);
 
         var BGCTaskDescribtion = document.createElement("h6");
         BGCTaskDescribtion.style.margin='0px';
-        BGCTaskDescribtion.innerHTML = '建造最高级兵工厂至下面数量';
+        BGCTaskDescribtion.innerHTML = 'Build Barracks level '+BGCMaxLevel+' to the following quantity';
         BGCTaskDiv.append(BGCTaskDescribtion);
 
         var BGCTaskInput = document.createElement("input");
@@ -198,13 +198,13 @@ function THBGCDivInit() {
 
         BGCTaskButton = document.createElement("button");
         BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
-        BGCTaskButton.innerHTML = '下发任务';
+        BGCTaskButton.innerHTML = 'Dispatch a task';
         BGCTaskButton.setAttribute("onclick", "BGCTaskButtonClicked()");
         BGCTaskDiv.append(BGCTaskButton);        
     }
 }
 
-// 更新兵工厂状态，更新到界面，如果有
+// 更新Barracks状态，更新到界面，如果有
 function THBGCStatusUpdate() {
     var BGCInfoDiv = document.getElementById('topwar_helper_BGCInfoDiv');
     if (!BGCInfoDiv) {
@@ -223,7 +223,7 @@ function THBGCStatusUpdate() {
 
             var label = document.createElement("h5");
             label.style.margin='0px';
-            label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+            label.innerHTML = 'Level '+level+' count:'+bgcInfos[i];
             BGCInfoDiv.append(label);
         }
     }
@@ -236,12 +236,12 @@ function THBGCStatusUpdate() {
     }
 }
 
-// 处理建造兵工厂的任务
+// 处理建造Barracks的任务
 function THBGCBuildTask(task) {
-    var status = '任务进行中';
+    var status = 'Task in progress...';
     var homeMapNode = cc.find('Canvas/HomeMap');
     if (!homeMapNode) {
-        status = '界面不对，暂停工作';
+        status = 'Not in the Base interface, suspended work';
         return status;
     }
     var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
@@ -249,11 +249,11 @@ function THBGCBuildTask(task) {
     if (c.AddingItem) {
         c.CancelBuildBuilding(c.AddingItem);
     }
-    // 如果已有足够多的兵工厂，任务结束
+    // 如果已有足够多的Barracks，任务结束
     var bgcInfos = THGetBGCinfos();
     if (bgcInfos[task.level-1]>= task.count){
-        // console.log("任务完成");
-        status = '任务完成';
+        // console.log("mission completed");
+        status = 'mission completed';
         for (var i = 0; i <window.THData.Tasks.length;++i){
             task = window.THData.Tasks[i];
             if (task.type == 'BGCBuild') {
@@ -265,7 +265,7 @@ function THBGCBuildTask(task) {
     }
     
     var canMergeBGCId = 0;
-    // 从低级开始到合成等级的前一级，找到能合并的兵工厂
+    // 从低级开始到 Merge level的前一级，找到能合并的Barracks
     for (var i = 0; i < task.level-1;++i){
         if (bgcInfos[i]>1) {
             canMergeBGCId = THBGCIdList[i];
@@ -274,9 +274,9 @@ function THBGCBuildTask(task) {
     }
     if (canMergeBGCId > 0) {
         // console.log('try 2 merge');
-        status = '合并中';
+        status = 'Merging';
         var itemList = [];
-        // 如果有可以合成的兵工厂，就合成
+        // 如果有可以合成的Barracks，就合成
         var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
         for (var i = 0; i < bList.length; ++i) {
             b = bList[i]; 
@@ -284,7 +284,7 @@ function THBGCBuildTask(task) {
                 c = b.getComponent('BuildingItem');
                 if (c.ItemData.id == canMergeBGCId){ 
                     if (c._curProNum > 0) {
-                        status = '正在造兵，暂停工作';
+                        status = 'Is building troops, suspended work';
                         // 正在造兵，那就暂停目前任务
                         return status;
                     }
@@ -294,10 +294,10 @@ function THBGCBuildTask(task) {
         }
         THMerge(itemList);
     }else {
-        status = '建造中';
+        status = 'Building';
         // console.log('try 2 build');
-        // 不能合成就要建造一个目前可以建造的兵工厂
-        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
+        // 不能合成就要建造一个目前可以建造的Barracks
+        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前 Building level还低的，没需求
         var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
         var buidingId =  THBGCIdList[BGCBuildLevel-1];
         homeMap.BuildNewBuilding(buidingId,-1,true);
@@ -325,7 +325,7 @@ function BGCTaskButtonClicked() {
     window.THData.Tasks.push(newTask);
 }
 
-// 造兵，每一个兵工厂都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
+// 造兵，每一个Barracks都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
 function THBGCZB() {
     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
     for (var i = 0; i < bList.length; ++i) {

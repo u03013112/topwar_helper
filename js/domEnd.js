@@ -1,6 +1,6 @@
 function addBGCButton() {
     var button = document.createElement("button");
-    button.innerHTML = "兵工厂";
+    button.innerHTML = "Barracks";
     button.id = "THButtonBGC";
     button.type = "button";
     button.setAttribute("onclick", "showBGCUI()");

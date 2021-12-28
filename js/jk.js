@@ -1,7 +1,7 @@
-// 金矿Id列表，找策划要的
+// Gold MineId列表，找策划要的
 const THJKIdList = [1701,1702,1703,1704,1705,1706,1707,1708,1709,1710,1711,1712,1713,1714,1715,1716,1717,1718,1719,1720,1721,1722,1723,1724,1725,1726,1727,1728,1729,1730,1731,1732,1733,1734,1735,1736,1737,1738,1739,1740,1741,1742,1743,1744,1745,1746,1747,1748,1749,1750,1751,1752,1753,1754,1755,1756,1757,1758,1759,1760,1761,1762,1763,1764,1765,1766,1767,1768,1769,1770,1771,1772,1773,1774,1775,1776,1777,1778,1779,1780,1781,1782,1783,1784,1785,1786,1787,1788,1789,1790,1791,1792,1793,1794,1795,1796,1797,1798,1799,1800];
 
-// 获取金矿信息
+// 获取Gold Mine信息
 function THGetJKinfos() {
     ret = [];
     if (!cc.find('Canvas/HomeMap')){
@@ -24,7 +24,7 @@ function THGetJKinfos() {
     return ret;
 }
 
-// 获得金矿科技等级，返回(合成等级,建造等级)
+// 获得Gold Mine科技等级，返回( Merge level, Building level)
 function THGetJKKJ() {
     var dataCenter = window.__require('DataCenter');
     if(!dataCenter.DATA.UserData.getScienceByGroupId(310000)){
@@ -78,7 +78,7 @@ function THJKDivInit() {
     
     var JKTitle = document.createElement("h3");
     JKTitle.style.margin='4px';
-    JKTitle.innerHTML = '金矿';
+    JKTitle.innerHTML = 'Gold Mine';
     JKDiv.append(JKTitle);
     
     var JKContentDiv = document.createElement("div");
@@ -107,7 +107,7 @@ function THJKDivInit() {
     JKRightDiv.style.padding='5px';
     JKContentDiv.append(JKRightDiv);
 
-    // 科技
+    // Technology
     var [JKMaxLevel,JKBuildLevel] = THGetJKKJ();
     {
         // console.log(JKMaxLevel,JKBuildLevel);
@@ -120,17 +120,17 @@ function THJKDivInit() {
     
         var JKKJTitle = document.createElement("h4");
         JKKJTitle.style.margin='8px';
-        JKKJTitle.innerHTML = '科技';
+        JKKJTitle.innerHTML = 'Technology';
         JKKJDiv.append(JKKJTitle);
     
         var JKBuildLevelLabel = document.createElement("h5");
         JKBuildLevelLabel.style.margin='0px';
-        JKBuildLevelLabel.innerHTML = '金矿建造等级:'+JKBuildLevel;
+        JKBuildLevelLabel.innerHTML = 'Gold Mine Building level:'+JKBuildLevel;
         JKKJDiv.append(JKBuildLevelLabel);
     
         var JKMaxLevelLabel = document.createElement("h5");
         JKMaxLevelLabel.style.margin='0px';
-        JKMaxLevelLabel.innerHTML = '金矿合成等级:'+JKMaxLevel;
+        JKMaxLevelLabel.innerHTML = 'Gold Mine Merge level:'+JKMaxLevel;
         JKKJDiv.append(JKMaxLevelLabel);
     }
     
@@ -146,7 +146,7 @@ function THJKDivInit() {
 
         var JKInfoTitle = document.createElement("h4");
         JKInfoTitle.style.margin='8px';
-        JKInfoTitle.innerHTML = '目前状态';
+        JKInfoTitle.innerHTML = 'Status';
         JKInfoDiv.append(JKInfoTitle);
 
         for (var i=0;i<bgcInfos.length; ++i){
@@ -155,7 +155,7 @@ function THJKDivInit() {
 
                 var label = document.createElement("h5");
                 label.style.margin='0px';
-                label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+                label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
                 JKInfoDiv.append(label);
             }
         }
@@ -172,12 +172,12 @@ function THJKDivInit() {
 
         var JKTaskTitle = document.createElement("h4");
         JKTaskTitle.style.margin='8px';
-        JKTaskTitle.innerHTML = '建造任务';
+        JKTaskTitle.innerHTML = 'Build task';
         JKTaskDiv.append(JKTaskTitle);
 
         var JKTaskDescribtion = document.createElement("h6");
         JKTaskDescribtion.style.margin='0px';
-        JKTaskDescribtion.innerHTML = '建造最高级金矿至下面数量';
+        JKTaskDescribtion.innerHTML = 'Build Gold Mine level '+BGCMaxLevel+' to the following quantity';
         JKTaskDiv.append(JKTaskDescribtion);
 
         var JKTaskInput = document.createElement("input");
@@ -188,13 +188,13 @@ function THJKDivInit() {
 
         JKTaskButton = document.createElement("button");
         JKTaskButton.id = 'topwar_helper_JKTaskButton';
-        JKTaskButton.innerHTML = '下发任务';
+        JKTaskButton.innerHTML = 'Dispatch a task';
         JKTaskButton.setAttribute("onclick", "JKTaskButtonClicked()");
         JKTaskDiv.append(JKTaskButton);        
     }
 }
 
-// 更新金矿状态，更新到界面，如果有
+// 更新Gold Mine状态，更新到界面，如果有
 function THJKStatusUpdate() {
     var JKInfoDiv = document.getElementById('topwar_helper_JKInfoDiv');
     if (!JKInfoDiv) {
@@ -213,7 +213,7 @@ function THJKStatusUpdate() {
 
             var label = document.createElement("h5");
             label.style.margin='0px';
-            label.innerHTML = '等级:'+level+'->数量:'+bgcInfos[i];
+            label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
             JKInfoDiv.append(label);
         }
     }
@@ -226,12 +226,12 @@ function THJKStatusUpdate() {
     }
 }
 
-// 处理建造金矿的任务
+// 处理建造Gold Mine的任务
 function THJKBuildTask(task) {
-    var status = '任务进行中';
+    var status = 'Task in progress...';
     var homeMapNode = cc.find('Canvas/HomeMap');
     if (!homeMapNode) {
-        status = '界面不对，暂停工作';
+        status = 'Not in the Base interface, suspended work';
         return status;
     }
     var homeMap = cc.find('Canvas/HomeMap').getComponent('HomeMap');
@@ -239,11 +239,11 @@ function THJKBuildTask(task) {
     if (c.AddingItem) {
         c.CancelBuildBuilding(c.AddingItem);
     }
-    // 如果已有足够多的金矿，任务结束
+    // 如果已有足够多的Gold Mine，任务结束
     var bgcInfos = THGetJKinfos();
     if (bgcInfos[task.level-1]>= task.count){
-        // console.log("任务完成");
-        status = '任务完成';
+        // console.log("mission completed");
+        status = 'mission completed';
         for (var i = 0; i <window.THData.Tasks.length;++i){
             task = window.THData.Tasks[i];
             if (task.type == 'JKBuild') {
@@ -255,7 +255,7 @@ function THJKBuildTask(task) {
     }
     
     var canMergeJKId = 0;
-    // 从低级开始到合成等级的前一级，找到能合并的金矿
+    // 从低级开始到 Merge level的前一级，找到能合并的Gold Mine
     for (var i = 0; i < task.level-1;++i){
         if (bgcInfos[i]>1) {
             canMergeJKId = THJKIdList[i];
@@ -264,9 +264,9 @@ function THJKBuildTask(task) {
     }
     if (canMergeJKId > 0) {
         // console.log('try 2 merge');
-        status = '合并中';
+        status = 'Merging';
         var itemList = [];
-        // 如果有可以合成的金矿，就合成
+        // 如果有可以合成的Gold Mine，就合成
         var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
         for (var i = 0; i < bList.length; ++i) {
             b = bList[i]; 
@@ -279,10 +279,10 @@ function THJKBuildTask(task) {
         }
         THMerge(itemList);
     }else {
-        status = '建造中';
+        status = 'Building';
         // console.log('try 2 build');
-        // 不能合成就要建造一个目前可以建造的金矿
-        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前建造等级还低的，没需求
+        // 不能合成就要建造一个目前可以建造的Gold Mine
+        // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前 Building level还低的，没需求
         var [JKMaxLevel,JKBuildLevel] = THGetJKKJ();
         var buidingId =  THJKIdList[JKBuildLevel-1];
         homeMap.BuildNewBuilding(buidingId,-1,true);
