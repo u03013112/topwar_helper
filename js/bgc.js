@@ -4,10 +4,10 @@ const THBGCIdList = [1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049, 1050,
 // 获取兵营信息
 function THGetBGCinfos() {
     ret = [];
-    if (!cc.find('Canvas/HomeMap')){
+    if (!cc.find('Canvas/HomeMap')) {
         return ret;
     }
-    for(var i = 0; i <THBGCIdList.length;++i){
+    for (var i = 0; i < THBGCIdList.length; ++i) {
         ret[i] = 0;
     }
     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
@@ -15,7 +15,7 @@ function THGetBGCinfos() {
         b = bList[i]; if (b.name == 'BuildingItem') {
             c = b.getComponent('BuildingItem');
             index = THBGCIdList.indexOf(c.ItemData.id);
-            if (index<0){
+            if (index < 0) {
                 continue;
             }
             ret[index] += 1;
@@ -27,20 +27,20 @@ function THGetBGCinfos() {
 // 获得Barracks科技等级，返回( Merge level, Building level)
 function THGetBGCKJ() {
     var dataCenter = window.__require('DataCenter');
-    if(!dataCenter.DATA.UserData.getScienceByGroupId(311000)){
+    if (!dataCenter.DATA.UserData.getScienceByGroupId(311000)) {
         // 不能获得用户科技，大概率是没有登录成功
         return;
     }
     var maxLevel = dataCenter.DATA.UserData.getScienceByGroupId(311000)._Data.level;
     var buildLevel = dataCenter.DATA.UserData.getScienceByGroupId(301000)._Data.level;
-    return [maxLevel,buildLevel];
+    return [maxLevel, buildLevel];
 }
 
 // 显示主界面
 function showBGCUI() {
     // 如果截面已打开，就关上
     var rootDiv = document.getElementById('topwar_helper_rootDiv');
-    if (rootDiv){
+    if (rootDiv) {
         THCloseUI();
         // return;
     }
@@ -48,18 +48,18 @@ function showBGCUI() {
     var parentNode = document.getElementById("xsLoginDiv");
     rootDiv = document.createElement("div");
     rootDiv.id = 'topwar_helper_rootDiv';
-    rootDiv.style.width='400px';
-    rootDiv.style.height='320px';
-    rootDiv.style.background='white';
-    rootDiv.style.opacity='0.9';
+    rootDiv.style.width = '400px';
+    rootDiv.style.height = '320px';
+    rootDiv.style.background = 'white';
+    rootDiv.style.opacity = '0.9';
     parentNode.append(rootDiv);
-    parentNode.style.setProperty('display','block');
+    parentNode.style.setProperty('display', 'block');
 
     statusSystemInit();
     taskSystemInit();
-    
+
     // 如果有必要，把其他弹出界面先关了
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0){
+    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
     }
 
@@ -68,8 +68,9 @@ function showBGCUI() {
     // 造兵按钮
     BGCZBButton = document.createElement("button");
     BGCZBButton.id = 'topwar_helper_BGCZBButton';
+    BGCZBButton.style.margin = '5px';
     BGCZBButton.innerHTML = 'Train soldiers together!';
-    if (window.THData.timer == null){
+    if (window.THData.timer == null) {
         BGCZBButton.innerHTML = 'Task is suspended';
     }
     BGCZBButton.setAttribute("onclick", "THBGCZB()");
@@ -81,91 +82,91 @@ function THBGCDivInit() {
     var parentNode = document.getElementById("topwar_helper_rootDiv");
     var BGCDiv = document.createElement("div");
     BGCDiv.id = 'topwar_helper_BGCDiv';
-    BGCDiv.style.width='400px';
-    BGCDiv.style.height='260px';
-    BGCDiv.style.background='pink';
+    BGCDiv.style.width = '400px';
+    BGCDiv.style.height = '260px';
+    BGCDiv.style.background = 'pink';
     parentNode.append(BGCDiv);
-    
+
     var BGCTitle = document.createElement("h3");
-    BGCTitle.style.margin='4px';
+    BGCTitle.style.margin = '4px';
     BGCTitle.innerHTML = 'Barracks';
     BGCDiv.append(BGCTitle);
-    
+
     var BGCContentDiv = document.createElement("div");
     BGCContentDiv.id = 'topwar_helper_BGCContentDiv';
-    BGCContentDiv.style.width='390px';
-    BGCContentDiv.style.height='210px';
-    BGCContentDiv.style.background='pink';
-    BGCContentDiv.style.display='flex';
-    BGCContentDiv.style.padding='5px';
+    BGCContentDiv.style.width = '390px';
+    BGCContentDiv.style.height = '210px';
+    BGCContentDiv.style.background = 'pink';
+    BGCContentDiv.style.display = 'flex';
+    BGCContentDiv.style.padding = '5px';
     BGCDiv.append(BGCContentDiv);
 
     // 简单排版
     var BGCLeftDiv = document.createElement("div");
     BGCLeftDiv.id = 'topwar_helper_BGCLeftDiv';
-    BGCLeftDiv.style.width='185px';
-    BGCLeftDiv.style.height='200px';
-    BGCLeftDiv.style.background='pink';
-    BGCLeftDiv.style.padding='5px';
+    BGCLeftDiv.style.width = '185px';
+    BGCLeftDiv.style.height = '200px';
+    BGCLeftDiv.style.background = 'pink';
+    BGCLeftDiv.style.padding = '5px';
     BGCContentDiv.append(BGCLeftDiv);
 
     var BGCRightDiv = document.createElement("div");
     BGCRightDiv.id = 'topwar_helper_BGCRightDiv';
-    BGCRightDiv.style.width='185px';
-    BGCRightDiv.style.height='200px';
-    BGCRightDiv.style.background='pink';
-    BGCRightDiv.style.padding='5px';
+    BGCRightDiv.style.width = '185px';
+    BGCRightDiv.style.height = '200px';
+    BGCRightDiv.style.background = 'pink';
+    BGCRightDiv.style.padding = '5px';
     BGCContentDiv.append(BGCRightDiv);
 
     // Technology
-    var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
+    var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
     {
         // console.log(BGCMaxLevel,BGCBuildLevel);
         var BGCKJDiv = document.createElement("div");
         BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
-        BGCKJDiv.style.width='185px';
-        BGCKJDiv.style.height='80px';
-        BGCKJDiv.style.background='white';
+        BGCKJDiv.style.width = '185px';
+        BGCKJDiv.style.height = '80px';
+        BGCKJDiv.style.background = 'white';
         BGCLeftDiv.append(BGCKJDiv);
-    
+
         var BGCKJTitle = document.createElement("h4");
-        BGCKJTitle.style.margin='8px';
+        BGCKJTitle.style.margin = '8px';
         BGCKJTitle.innerHTML = 'Technology';
         BGCKJDiv.append(BGCKJTitle);
-    
+
         var BGCBuildLevelLabel = document.createElement("h5");
-        BGCBuildLevelLabel.style.margin='0px';
-        BGCBuildLevelLabel.innerHTML = 'Barracks building level:'+BGCBuildLevel;
+        BGCBuildLevelLabel.style.margin = '0px';
+        BGCBuildLevelLabel.innerHTML = 'Barracks building level:' + BGCBuildLevel;
         BGCKJDiv.append(BGCBuildLevelLabel);
-    
+
         var BGCMaxLevelLabel = document.createElement("h5");
-        BGCMaxLevelLabel.style.margin='0px';
-        BGCMaxLevelLabel.innerHTML = 'Barracks merge level:'+BGCMaxLevel;
+        BGCMaxLevelLabel.style.margin = '0px';
+        BGCMaxLevelLabel.innerHTML = 'Barracks merge level:' + BGCMaxLevel;
         BGCKJDiv.append(BGCMaxLevelLabel);
     }
-    
+
     // 当前状态
     var bgcInfos = THGetBGCinfos();
     {
         var BGCInfoDiv = document.createElement("div");
         BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
-        BGCInfoDiv.style.width='185px';
-        BGCInfoDiv.style.height='190px';
-        BGCInfoDiv.style.background='white';
+        BGCInfoDiv.style.width = '185px';
+        BGCInfoDiv.style.height = '210px';
+        BGCInfoDiv.style.background = 'white';
         BGCRightDiv.append(BGCInfoDiv);
 
         var BGCInfoTitle = document.createElement("h4");
-        BGCInfoTitle.style.margin='8px';
+        BGCInfoTitle.style.margin = '8px';
         BGCInfoTitle.innerHTML = 'Status';
         BGCInfoDiv.append(BGCInfoTitle);
 
-        for (var i=0;i<bgcInfos.length; ++i){
-            if (bgcInfos[i]>0){
-                var level = i+1;
+        for (var i = 0; i < bgcInfos.length; ++i) {
+            if (bgcInfos[i] > 0) {
+                var level = i + 1;
 
                 var label = document.createElement("h5");
-                label.style.margin='0px';
-                label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
+                label.style.margin = '0px';
+                label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
                 BGCInfoDiv.append(label);
             }
         }
@@ -175,32 +176,42 @@ function THBGCDivInit() {
     {
         var BGCTaskDiv = document.createElement("div");
         BGCTaskDiv.id = 'topwar_helper_BGCTaskDiv';
-        BGCTaskDiv.style.width='185px';
-        BGCTaskDiv.style.height='100px';
-        BGCTaskDiv.style.background='white';
+        BGCTaskDiv.style.width = '185px';
+        BGCTaskDiv.style.height = '120px';
+        BGCTaskDiv.style.background = 'white';
         BGCLeftDiv.append(BGCTaskDiv);
 
         var BGCTaskTitle = document.createElement("h4");
-        BGCTaskTitle.style.margin='8px';
+        BGCTaskTitle.style.margin = '8px';
         BGCTaskTitle.innerHTML = 'Build task';
         BGCTaskDiv.append(BGCTaskTitle);
 
         var BGCTaskDescribtion = document.createElement("h6");
-        BGCTaskDescribtion.style.margin='0px';
-        BGCTaskDescribtion.innerHTML = 'Build Barracks level '+BGCMaxLevel+' to the following quantity';
+        BGCTaskDescribtion.style.margin = '0px';
+        BGCTaskDescribtion.innerHTML = 'Build Barracks level ' + BGCMaxLevel + ' to the following quantity';
         BGCTaskDiv.append(BGCTaskDescribtion);
 
+        var BGCTaskInputLabel = document.createElement("h6");
+        BGCTaskInputLabel.style.margin = '0px';
+        BGCTaskInputLabel.innerHTML = bgcInfos[BGCMaxLevel - 1];
+        BGCTaskDiv.append(BGCTaskInputLabel);
+
         var BGCTaskInput = document.createElement("input");
-        BGCTaskInput.type = 'text';
-        BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
-        BGCTaskInput.value = bgcInfos[BGCMaxLevel-1];
+        // BGCTaskInput.style.margin = '0px';
+        BGCTaskInput.type = 'range';
+        BGCTaskInput.min = bgcInfos[BGCMaxLevel - 1];
+        BGCTaskInput.max = "32";
+        BGCTaskInput.value = bgcInfos[BGCMaxLevel - 1];
+        BGCTaskInput.oninput = function () {
+            BGCTaskInputLabel.innerHTML = this.value;
+        }
         BGCTaskDiv.append(BGCTaskInput);
 
         BGCTaskButton = document.createElement("button");
         BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
         BGCTaskButton.innerHTML = 'Dispatch a task';
         BGCTaskButton.setAttribute("onclick", "BGCTaskButtonClicked()");
-        BGCTaskDiv.append(BGCTaskButton);        
+        BGCTaskDiv.append(BGCTaskButton);
     }
 }
 
@@ -213,24 +224,24 @@ function THBGCStatusUpdate() {
     var bgcInfos = THGetBGCinfos();
     var ndList = BGCInfoDiv.childNodes;
     // 清楚旧内容第一个是标题，不用更新
-    for (var i = ndList.length-1; i >0; i--) {
+    for (var i = ndList.length - 1; i > 0; i--) {
         BGCInfoDiv.removeChild(ndList[i]);
     }
     // 添加新内容
-    for (var i=0;i<bgcInfos.length; ++i){
-        if (bgcInfos[i]>0){
-            var level = i+1;
+    for (var i = 0; i < bgcInfos.length; ++i) {
+        if (bgcInfos[i] > 0) {
+            var level = i + 1;
 
             var label = document.createElement("h5");
-            label.style.margin='0px';
-            label.innerHTML = 'Level '+level+' count:'+bgcInfos[i];
+            label.style.margin = '0px';
+            label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
             BGCInfoDiv.append(label);
         }
     }
 
     if (window.THData.Status.BGCStatus) {
         var label = document.createElement("h5");
-        label.style.margin='0px';
+        label.style.margin = '0px';
         label.innerHTML = window.THData.Status.BGCStatus;
         BGCInfoDiv.append(label);
     }
@@ -251,10 +262,10 @@ function THBGCBuildTask(task) {
     }
     // 如果已有足够多的Barracks，任务结束
     var bgcInfos = THGetBGCinfos();
-    if (bgcInfos[task.level-1]>= task.count){
+    if (bgcInfos[task.level - 1] >= task.count) {
         // console.log("mission completed");
         status = 'mission completed';
-        for (var i = 0; i <window.THData.Tasks.length;++i){
+        for (var i = 0; i < window.THData.Tasks.length; ++i) {
             task = window.THData.Tasks[i];
             if (task.type == 'BGCBuild') {
                 window.THData.Tasks.splice(i, 1);
@@ -263,11 +274,11 @@ function THBGCBuildTask(task) {
         }
         return status;
     }
-    
+
     var canMergeBGCId = 0;
     // 从低级开始到 Merge level的前一级，找到能合并的Barracks
-    for (var i = 0; i < task.level-1;++i){
-        if (bgcInfos[i]>1) {
+    for (var i = 0; i < task.level - 1; ++i) {
+        if (bgcInfos[i] > 1) {
             canMergeBGCId = THBGCIdList[i];
             break;
         }
@@ -279,10 +290,10 @@ function THBGCBuildTask(task) {
         // 如果有可以合成的Barracks，就合成
         var bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
         for (var i = 0; i < bList.length; ++i) {
-            b = bList[i]; 
+            b = bList[i];
             if (b.name == 'BuildingItem') {
                 c = b.getComponent('BuildingItem');
-                if (c.ItemData.id == canMergeBGCId){ 
+                if (c.ItemData.id == canMergeBGCId) {
                     if (c._curProNum > 0) {
                         status = 'Is building troops, suspended work';
                         // 正在造兵，那就暂停目前任务
@@ -293,28 +304,28 @@ function THBGCBuildTask(task) {
             }
         }
         THMerge(itemList);
-    }else {
+    } else {
         status = 'Building';
         // console.log('try 2 build');
         // 不能合成就要建造一个目前可以建造的Barracks
         // 其实目前可以调接口建更低级的，但是暂时不考虑等级比目前 Building level还低的，没需求
-        var [BGCMaxLevel,BGCBuildLevel] = THGetBGCKJ();
-        var buidingId =  THBGCIdList[BGCBuildLevel-1];
-        homeMap.BuildNewBuilding(buidingId,-1,true);
-        homeMap.BuildNewBuilding(buidingId,-1,true);
+        var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
+        var buidingId = THBGCIdList[BGCBuildLevel - 1];
+        homeMap.BuildNewBuilding(buidingId, -1, true);
+        homeMap.BuildNewBuilding(buidingId, -1, true);
     }
     return status;
 }
 
 function BGCTaskButtonClicked() {
-    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');("input");
+    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput'); ("input");
     var count = parseInt(BGCTaskInput.value);
-    if(count == NaN){
+    if (count == NaN) {
         // 输入的不是数字
         return;
     }
     // 找到旧的同类任务，删掉然后添加新的
-    for (var i = 0; i <window.THData.Tasks.length;++i){
+    for (var i = 0; i < window.THData.Tasks.length; ++i) {
         task = window.THData.Tasks[i];
         if (task.type == 'BGCBuild') {
             window.THData.Tasks.splice(i, 1);
@@ -323,7 +334,7 @@ function BGCTaskButtonClicked() {
     }
 
     newTask = {
-        type : 'BGCBuild',
+        type: 'BGCBuild',
         level: THGetBGCKJ()[0],
         count: count
     }
