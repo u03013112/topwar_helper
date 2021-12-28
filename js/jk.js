@@ -186,7 +186,7 @@ function THJKDivInit() {
         JKTaskDiv.append(JKTaskInputLabel);
 
         var JKTaskInput = document.createElement("input");
-        // JKTaskInput.style.margin = '0px';
+        JKTaskInput.id = 'topwar_helper_JKTaskInput';
         JKTaskInput.type = 'range';
         JKTaskInput.min = bgcInfos[JKMaxLevel - 1];
         JKTaskInput.max = "10";
