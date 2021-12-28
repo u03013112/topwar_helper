@@ -200,7 +200,7 @@ function THBGCDivInit() {
         BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
         BGCTaskInput.type = 'range';
         BGCTaskInput.min = bgcInfos[BGCMaxLevel - 1];
-        BGCTaskInput.max = "32";
+        BGCTaskInput.max = "16";
         BGCTaskInput.value = bgcInfos[BGCMaxLevel - 1];
         BGCTaskInput.oninput = function () {
             BGCTaskInputLabel.innerHTML = this.value;

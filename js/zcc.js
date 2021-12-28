@@ -200,7 +200,7 @@ function THZCCDivInit() {
         ZCCTaskInput.id = 'topwar_helper_ZCCTaskInput';
         ZCCTaskInput.type = 'range';
         ZCCTaskInput.min = bgcInfos[ZCCMaxLevel - 1];
-        ZCCTaskInput.max = "32";
+        ZCCTaskInput.max = "16";
         ZCCTaskInput.value = bgcInfos[ZCCMaxLevel - 1];
         ZCCTaskInput.oninput = function () {
             ZCCTaskInputLabel.innerHTML = this.value;
