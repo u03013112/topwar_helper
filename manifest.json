@@ -13,6 +13,9 @@
         "default_title": "for topwar",
         "default_popup": "popup.html"
     },
+    "background":{
+        "scripts": ["js/background.js"]
+    },
     "content_scripts": [
         {
             "matches": [
