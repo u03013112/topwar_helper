@@ -191,11 +191,6 @@ function THBGCDivInit() {
         BGCTaskDescribtion.innerHTML = 'Build Barracks level ' + BGCMaxLevel + ' to the following quantity';
         BGCTaskDiv.append(BGCTaskDescribtion);
 
-        var BGCTaskInputLabel = document.createElement("h6");
-        BGCTaskInputLabel.style.margin = '0px';
-        BGCTaskInputLabel.innerHTML = bgcInfos[BGCMaxLevel - 1];
-        BGCTaskDiv.append(BGCTaskInputLabel);
-
         var BGCTaskInput = document.createElement("input");
         BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
         BGCTaskInput.type = 'range';
@@ -206,6 +201,11 @@ function THBGCDivInit() {
             BGCTaskInputLabel.innerHTML = this.value;
         }
         BGCTaskDiv.append(BGCTaskInput);
+
+        var BGCTaskInputLabel = document.createElement("h6");
+        BGCTaskInputLabel.style.margin = '0px';
+        BGCTaskInputLabel.innerHTML = bgcInfos[BGCMaxLevel - 1];
+        BGCTaskDiv.append(BGCTaskInputLabel);
 
         BGCTaskButton = document.createElement("button");
         BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
