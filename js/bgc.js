@@ -135,12 +135,12 @@ function THBGCDivInit() {
     
         var BGCBuildLevelLabel = document.createElement("h5");
         BGCBuildLevelLabel.style.margin='0px';
-        BGCBuildLevelLabel.innerHTML = 'Barracks Building level:'+BGCBuildLevel;
+        BGCBuildLevelLabel.innerHTML = 'Barracks building level:'+BGCBuildLevel;
         BGCKJDiv.append(BGCBuildLevelLabel);
     
         var BGCMaxLevelLabel = document.createElement("h5");
         BGCMaxLevelLabel.style.margin='0px';
-        BGCMaxLevelLabel.innerHTML = 'Barracks Merge level:'+BGCMaxLevel;
+        BGCMaxLevelLabel.innerHTML = 'Barracks merge level:'+BGCMaxLevel;
         BGCKJDiv.append(BGCMaxLevelLabel);
     }
     

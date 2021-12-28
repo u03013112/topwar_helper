@@ -135,12 +135,12 @@ function THZCCDivInit() {
     
         var ZCCBuildLevelLabel = document.createElement("h5");
         ZCCBuildLevelLabel.style.margin='0px';
-        ZCCBuildLevelLabel.innerHTML = 'Shipyard Building level:'+ZCCBuildLevel;
+        ZCCBuildLevelLabel.innerHTML = 'Shipyard building level:'+ZCCBuildLevel;
         ZCCKJDiv.append(ZCCBuildLevelLabel);
     
         var ZCCMaxLevelLabel = document.createElement("h5");
         ZCCMaxLevelLabel.style.margin='0px';
-        ZCCMaxLevelLabel.innerHTML = 'Shipyard Merge level:'+ZCCMaxLevel;
+        ZCCMaxLevelLabel.innerHTML = 'Shipyard merge level:'+ZCCMaxLevel;
         ZCCKJDiv.append(ZCCMaxLevelLabel);
     }
     
@@ -165,7 +165,7 @@ function THZCCDivInit() {
 
                 var label = document.createElement("h5");
                 label.style.margin='0px';
-                label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
+                label.innerHTML = 'Level '+level+' count:'+bgcInfos[i];
                 ZCCInfoDiv.append(label);
             }
         }

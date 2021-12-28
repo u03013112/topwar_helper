@@ -125,12 +125,12 @@ function THJKDivInit() {
     
         var JKBuildLevelLabel = document.createElement("h5");
         JKBuildLevelLabel.style.margin='0px';
-        JKBuildLevelLabel.innerHTML = 'Gold Mine Building level:'+JKBuildLevel;
+        JKBuildLevelLabel.innerHTML = 'Gold Mine building level:'+JKBuildLevel;
         JKKJDiv.append(JKBuildLevelLabel);
     
         var JKMaxLevelLabel = document.createElement("h5");
         JKMaxLevelLabel.style.margin='0px';
-        JKMaxLevelLabel.innerHTML = 'Gold Mine Merge level:'+JKMaxLevel;
+        JKMaxLevelLabel.innerHTML = 'Gold Mine merge level:'+JKMaxLevel;
         JKKJDiv.append(JKMaxLevelLabel);
     }
     
@@ -213,7 +213,7 @@ function THJKStatusUpdate() {
 
             var label = document.createElement("h5");
             label.style.margin='0px';
-            label.innerHTML = 'Level:'+level+' count:'+bgcInfos[i];
+            label.innerHTML = 'Level '+level+' count:'+bgcInfos[i];
             JKInfoDiv.append(label);
         }
     }
