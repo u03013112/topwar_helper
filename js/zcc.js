@@ -191,6 +191,11 @@ function THZCCDivInit() {
         ZCCTaskDescribtion.innerHTML = 'Build Shipyard level ' + ZCCMaxLevel + ' to the following quantity';
         ZCCTaskDiv.append(ZCCTaskDescribtion);
 
+        var ZCCTaskInputLabel = document.createElement("h6");
+        ZCCTaskInputLabel.style.margin = '0px';
+        ZCCTaskInputLabel.innerHTML = bgcInfos[ZCCMaxLevel - 1];
+        ZCCTaskDiv.append(ZCCTaskInputLabel);
+
         var ZCCTaskInput = document.createElement("input");
         ZCCTaskInput.id = 'topwar_helper_ZCCTaskInput';
         ZCCTaskInput.type = 'range';
@@ -201,11 +206,6 @@ function THZCCDivInit() {
             ZCCTaskInputLabel.innerHTML = this.value;
         }
         ZCCTaskDiv.append(ZCCTaskInput);
-        
-        var ZCCTaskInputLabel = document.createElement("h6");
-        ZCCTaskInputLabel.style.margin = '0px';
-        ZCCTaskInputLabel.innerHTML = bgcInfos[ZCCMaxLevel - 1];
-        ZCCTaskDiv.append(ZCCTaskInputLabel);
 
         ZCCTaskButton = document.createElement("button");
         ZCCTaskButton.id = 'topwar_helper_ZCCTaskButton';

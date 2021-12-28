@@ -180,6 +180,11 @@ function THJKDivInit() {
         JKTaskDescribtion.innerHTML = 'Build Gold Mine level ' + JKMaxLevel + ' to the following quantity';
         JKTaskDiv.append(JKTaskDescribtion);
 
+        var JKTaskInputLabel = document.createElement("h6");
+        JKTaskInputLabel.style.margin = '0px';
+        JKTaskInputLabel.innerHTML = bgcInfos[JKMaxLevel - 1];
+        JKTaskDiv.append(JKTaskInputLabel);
+
         var JKTaskInput = document.createElement("input");
         JKTaskInput.id = 'topwar_helper_JKTaskInput';
         JKTaskInput.type = 'range';
@@ -190,11 +195,6 @@ function THJKDivInit() {
             JKTaskInputLabel.innerHTML = this.value;
         }
         JKTaskDiv.append(JKTaskInput);
-
-        var JKTaskInputLabel = document.createElement("h6");
-        JKTaskInputLabel.style.margin = '0px';
-        JKTaskInputLabel.innerHTML = bgcInfos[JKMaxLevel - 1];
-        JKTaskDiv.append(JKTaskInputLabel);
 
         JKTaskButton = document.createElement("button");
         JKTaskButton.id = 'topwar_helper_JKTaskButton';
