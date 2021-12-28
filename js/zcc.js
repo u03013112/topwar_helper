@@ -187,7 +187,7 @@ function THZCCDivInit() {
 
         var ZCCTaskDescribtion = document.createElement("h6");
         ZCCTaskDescribtion.style.margin='0px';
-        ZCCTaskDescribtion.innerHTML = 'Build Shipyard level '+BGCMaxLevel+' to the following quantity';
+        ZCCTaskDescribtion.innerHTML = 'Build Shipyard level '+ZCCMaxLevel+' to the following quantity';
         ZCCTaskDiv.append(ZCCTaskDescribtion);
 
         var ZCCTaskInput = document.createElement("input");

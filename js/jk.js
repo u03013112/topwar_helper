@@ -177,7 +177,7 @@ function THJKDivInit() {
 
         var JKTaskDescribtion = document.createElement("h6");
         JKTaskDescribtion.style.margin='0px';
-        JKTaskDescribtion.innerHTML = 'Build Gold Mine level '+BGCMaxLevel+' to the following quantity';
+        JKTaskDescribtion.innerHTML = 'Build Gold Mine level '+JKMaxLevel+' to the following quantity';
         JKTaskDiv.append(JKTaskDescribtion);
 
         var JKTaskInput = document.createElement("input");

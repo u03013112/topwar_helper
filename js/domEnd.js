@@ -9,7 +9,7 @@ function addBGCButton() {
 }
 function addJKButton() {
     var button = document.createElement("button");
-    button.innerHTML = "金矿";
+    button.innerHTML = "Gold Mine";
     button.id = "THButtonJK";
     button.type = "button";
     button.setAttribute("onclick", "showJKUI()");
@@ -18,7 +18,7 @@ function addJKButton() {
 }
 function addZCCButton() {
     var button = document.createElement("button");
-    button.innerHTML = "造船厂";
+    button.innerHTML = "Shipyard";
     button.id = "THButtonZCC";
     button.type = "button";
     button.setAttribute("onclick", "showZCCUI()");
