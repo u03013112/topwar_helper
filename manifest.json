@@ -51,7 +51,8 @@
         "js/inject.js",
         "js/bgc.js",
         "js/jk.js",
-        "js/zcc.js"
+        "js/zcc.js",
+        "js/hotkey.js"
     ],
     "default_locale": "en"
 }

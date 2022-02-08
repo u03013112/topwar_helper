@@ -20,6 +20,8 @@ function THDataInit() {
 
 // 任务调度器
 function THTaskUpdate() {
+    THRegHotkey();
+
     if (window.THData.Tasks && window.THData.Tasks.length>0){
         for (var i=0;i<window.THData.Tasks.length;++i){
             task = window.THData.Tasks[i];
@@ -103,4 +105,46 @@ function THCloseUI() {
     var obj = document.getElementById("xsLoginDiv");
     obj.removeChild(obj.lastChild);
     obj.style.setProperty("display","none");
+}
+
+// 打开关闭界面都放在这里
+function showRightUI() {
+    var rightUI = document.getElementById("topwar_helper_rightUI");
+    if (rightUI) {
+        hideRightUI();
+        return;
+    }
+
+    var xsLoginDiv = document.getElementById("xsLoginDiv");
+    var parentNode = xsLoginDiv.parentNode;
+    rightUI = document.createElement("div");
+    rightUI.id = "topwar_helper_rightUI";
+    rightUI.style.position = "absolute";
+    rightUI.style.width="20%";
+    rightUI.style.height="100%";
+    rightUI.style.right = "0";
+    rightUI.style.background="pink";
+    parentNode.insertBefore(rightUI, xsLoginDiv);
+
+    var headerDiv = document.getElementById("header");
+    headerDiv.style.width="80%";
+    var canvasDiv = document.getElementById("canvas");
+    canvas.style.width="80%";
+    triggerResize();
+}
+
+function hideRightUI() {
+    var rightUI = document.getElementById("topwar_helper_rightUI");
+    rightUI.parentNode.removeChild(rightUI);
+    var headerDiv = document.getElementById("header");
+    headerDiv.style.width="100%";
+    var canvasDiv = document.getElementById("canvas");
+    canvas.style.width="100%";
+    triggerResize();
+}
+
+function triggerResize(){
+    // 为了触发一下，让canvas适应一下
+    var e = new Event("resize", {"bubbles":true, "cancelable":true});
+    window.dispatchEvent(e);
 }

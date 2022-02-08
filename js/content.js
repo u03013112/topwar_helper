@@ -15,3 +15,4 @@ injectCustomJs('js/inject.js');
 injectCustomJs('js/bgc.js');
 injectCustomJs('js/jk.js');
 injectCustomJs('js/zcc.js');
+injectCustomJs('js/hotkey.js');
