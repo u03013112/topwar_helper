@@ -124,6 +124,7 @@ function showRightUI() {
     rightUI.style.height="100%";
     rightUI.style.right = "0";
     rightUI.style.background="pink";
+    rightUI.innerHTML = THGetRightUIInner();
     parentNode.insertBefore(rightUI, xsLoginDiv);
 
     var headerDiv = document.getElementById("header");

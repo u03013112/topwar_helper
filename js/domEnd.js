@@ -27,16 +27,15 @@ function addZCCButton() {
 }
 
 function addTestButton() {
-    var button = document.createElement("button");
-    button.innerHTML = "Test";
-    button.id = "THButtonTest";
-    button.type = "button";
-    button.setAttribute("onclick", "showRightUI()");
+    var button = document.createElement('div');
+    button.innerHTML = `<button id="THButtonTest" type="button" onclick="showRightUI()">Test</button>`;
+
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
+    
 }
 
 addTestButton();
-addZCCButton();
-addBGCButton();
-addJKButton();
+// addZCCButton();
+// addBGCButton();
+// addJKButton();

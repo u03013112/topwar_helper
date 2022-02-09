@@ -52,7 +52,8 @@
         "js/bgc.js",
         "js/jk.js",
         "js/zcc.js",
-        "js/hotkey.js"
+        "js/hotkey.js",
+        "js/rightUI.js"
     ],
     "default_locale": "en"
 }
