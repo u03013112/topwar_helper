@@ -215,6 +215,22 @@ function THBGCDivInit() {
     }
 }
 
+function THBGCVueUpdate() {
+    var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
+    window.THVueApp.barrack.buildingLevel = BGCBuildLevel;
+    window.THVueApp.barrack.mergeLevel = BGCMaxLevel;
+
+    var bgcInfos = THGetBGCinfos();
+    window.THVueApp.barrack.statusStrs = []
+    for (var i = 0; i < bgcInfos.length; ++i) {
+        if (bgcInfos[i] > 0) {
+            var level = i + 1;
+            statusStr = {text:'Level:' + level + ' count:' + bgcInfos[i]};
+            window.THVueApp.barrack.statusStrs.push(statusStr);
+        }
+    }
+}
+
 // 更新Barracks状态，更新到界面，如果有
 function THBGCStatusUpdate() {
     var BGCInfoDiv = document.getElementById('topwar_helper_BGCInfoDiv');

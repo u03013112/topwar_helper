@@ -22,9 +22,12 @@ function THTaskUpdate() {
     // 先判断是否已经是可以操作状态，这里简单判断，进入主界面就算可以操作
     if (window.THVueApp && window.THVueApp.notReady == true) {
         // 还没准备好的时候才进行检测
+        console.log('THTaskUpdate1');
         if (cc && cc.find('Canvas/HomeMap')) {
             window.THVueApp.notReady = false;
+            console.log('THTaskUpdate2');
         }else{
+            console.log('THTaskUpdate3');
             return;
         }
     }
@@ -47,10 +50,13 @@ function THTaskUpdate() {
             }
         }
     }
+
+    // Vue之后就不用更新了
     // 更新界面暂时也写在这
-    THBGCStatusUpdate();
-    THJKStatusUpdate();
-    THZCCStatusUpdate();
+    // THBGCStatusUpdate();
+    // THJKStatusUpdate();
+    // THZCCStatusUpdate();
+    THBGCVueUpdate();
 }
 
 function taskMainBtnClicked() {
