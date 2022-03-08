@@ -188,7 +188,7 @@ function THVueJsInit(){
             hotkeys: [
                 { text: 'Escape : Skip the battle' },
                 { text: 'Escape : Quit from some menu' },
-                { text: 'q : Quick deploy in battle' },
+                { text: 'Q : Quick deploy in battle' },
                 { text: 'Enter: Start battle' }
             ],
             goldMine: {

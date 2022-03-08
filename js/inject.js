@@ -1,5 +1,3 @@
-
-
 function getArmyInfos() {
     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
     for (var i = 0; i < bList.length; ++i) {
@@ -14,12 +12,23 @@ function getArmyInfos() {
 function THDataInit() {
     if (window.THData == null) {
         window.THData = {}
-        window.THData.timer = setInterval(function() {THTaskUpdate();},800);
+        window.THData.timer = setInterval(function() {THTaskUpdate();},1000);
     }
 }
 
 // 任务调度器
 function THTaskUpdate() {
+    console.log('THTaskUpdate');
+    // 先判断是否已经是可以操作状态，这里简单判断，进入主界面就算可以操作
+    if (window.THVueApp && window.THVueApp.notReady == true) {
+        // 还没准备好的时候才进行检测
+        if (cc && cc.find('Canvas/HomeMap')) {
+            window.THVueApp.notReady = false;
+        }else{
+            return;
+        }
+    }
+
     THRegHotkey();
 
     if (window.THData.Tasks && window.THData.Tasks.length>0){
@@ -151,3 +160,5 @@ function triggerResize(){
     var e = new Event("resize", {"bubbles":true, "cancelable":true});
     window.dispatchEvent(e);
 }
+
+THDataInit();
