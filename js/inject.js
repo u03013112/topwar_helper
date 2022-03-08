@@ -132,6 +132,8 @@ function showRightUI() {
     var canvasDiv = document.getElementById("canvas");
     canvas.style.width="80%";
     triggerResize();
+
+    THVueJsInit();
 }
 
 function hideRightUI() {

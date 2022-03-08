@@ -22,25 +22,10 @@
                 "https://h5.topwargame.com/h5game/index.html*"
             ],
             "js": [
-                "js/content.js"
+                "js/injectCustomJs.js",
+                "js/addButton.js"
             ],
             "run_at": "document_end"
-        },{
-            "matches": [
-                "https://h5.topwargame.com/h5game/index.html*"
-            ],
-            "js": [
-                "js/domEnd.js"
-            ],
-            "run_at": "document_end"
-        },{
-            "matches": [
-                "https://*/*"
-            ],
-            "js": [
-                "js/execute.js"
-            ],
-            "run_at": "document_start"
         }
     ],
     "permissions": [
@@ -53,6 +38,7 @@
         "js/jk.js",
         "js/zcc.js",
         "js/hotkey.js",
+        "js/vue.js",
         "js/rightUI.js"
     ],
     "default_locale": "en"
