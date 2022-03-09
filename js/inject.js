@@ -27,23 +27,30 @@ function THDataInit() {
 // 调度器
 function THTaskUpdate() {
     try{
-        if ( !window.THVueApp ) {
+        if ( !window.THRightUIInitStart ) {
+            // 这里采用新变量window.THRightUIInitStart，为了防止加载过程重复
+            window.THRightUIInitStart = true;
             THRightUIInit();
         }
     }catch(e){
-        // console.log(e.message);
+        console.log(e.message);
         return;
     }
 
-    // 先判断是否已经是可以操作状态，这里简单判断，进入主界面就算可以操作
-    if (window.THVueApp && window.THVueApp.notReady == true) {
-        // 还没准备好的时候才进行检测
-        if (cc && cc.find('Canvas/HomeMap')) {
-            window.THVueApp.notReady = false;
-        }else{
-            return;
+    // 先判断vue部分已经搞定了，这个需要花一些时间
+    if ( window.THVueApp ){
+        if ( window.THVueApp.notReady == true) {
+            // 还没准备好的时候才进行检测
+            if (cc && cc.find('Canvas/HomeMap')) {
+                window.THVueApp.notReady = false;
+            }else{
+                return;
+            }
         }
+    }else{
+        return;
     }
+        
 
     THRegHotkey();
 

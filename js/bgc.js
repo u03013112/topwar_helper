@@ -230,7 +230,7 @@ function THBGCVueUpdate() {
         }
     }
     if (window.THData.Status.BGCStatus) {
-        window.THVueApp.barrack.statusStrs.push(window.THData.Status.BGCStatus);
+        window.THVueApp.barrack.statusStrs.push({text:window.THData.Status.BGCStatus});
     }
 }
 
@@ -337,7 +337,8 @@ function THBGCBuildTask(task) {
 }
 
 function BGCTaskButtonClicked() {
-    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput'); ("input");
+    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');
+    console.log(BGCTaskInput);
     var count = parseInt(BGCTaskInput.value);
     if (count == NaN) {
         // 输入的不是数字

@@ -49,8 +49,6 @@ function THGetRightUIInner() {
                 background: black;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
         <div id="topwar_helper_rightUI" style="position: absolute; width: 100%; height: 100%; right: 0px; background: pink;">
             <div id="app">
@@ -114,16 +112,9 @@ function THGetRightUIInner() {
                                 <div style="height: 130px; background: white;">
                                     <h4 style="margin: 8px;">Build task</h4>
                                     <h6 style="margin: 0px;">Build level {{ barrack.mergeLevel }} to the following quantity</h6>
-                                    <h6 style="margin: 0px;" id="topwar_helper_BGCTaskInputResult">{{ barrack.buildMax }}</h6>
-                                    <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="10"
+                                    <h6 style="margin: 0px;" id="topwar_helper_BGCTaskInputResult">{{ barrack.buildCount }}</h6>
+                                    <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="32"
                                         name="topwar_helper_BGCTaskInput">
-                                    <script type='text/javascript'>
-                                        $(function () {
-                                            $('#topwar_helper_BGCTaskInput').bind('input propertychange', function () {
-                                                $('#topwar_helper_BGCTaskInputResult').html($(this).val());
-                                            });
-                                        })
-                                    </script>
                                     <button onclick="BGCTaskButtonClicked()">Dispatch a
                                         task</button>
                                 </div>
@@ -200,7 +191,8 @@ function THVueJsInit(){
             barrack: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                buildMax: 16,
+                buildMax: 32,
+                buildCount:32,
                 statusStrs: []
             },
             shipyard: {
@@ -228,4 +220,13 @@ function THRightUIInit() {
     parentNode.insertBefore(rightUI, xsLoginDiv);
 
     THVueJsInit();
+
+    THScript();
+}
+
+function THScript () {
+    var BGCTaskInput = document.getElementById("topwar_helper_BGCTaskInput");
+    BGCTaskInput.oninput = function () {
+        window.THVueApp.barrack.buildCount = this.value;
+    }
 }
