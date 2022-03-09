@@ -37,215 +37,235 @@ function THGetZCCKJ() {
 }
 
 // 显示主界面
-function showZCCUI() {
-    // 如果截面已打开，就关上
-    var rootDiv = document.getElementById('topwar_helper_rootDiv');
-    if (rootDiv) {
-        THCloseUI();
-        // return;
-    }
-    THDataInit();
-    var parentNode = document.getElementById("xsLoginDiv");
-    rootDiv = document.createElement("div");
-    rootDiv.id = 'topwar_helper_rootDiv';
-    rootDiv.style.width = '400px';
-    rootDiv.style.height = '320px';
-    rootDiv.style.background = 'white';
-    rootDiv.style.opacity = '0.9';
-    parentNode.append(rootDiv);
-    parentNode.style.setProperty('display', 'block');
+// function showZCCUI() {
+//     // 如果截面已打开，就关上
+//     var rootDiv = document.getElementById('topwar_helper_rootDiv');
+//     if (rootDiv) {
+//         THCloseUI();
+//         // return;
+//     }
+//     THDataInit();
+//     var parentNode = document.getElementById("xsLoginDiv");
+//     rootDiv = document.createElement("div");
+//     rootDiv.id = 'topwar_helper_rootDiv';
+//     rootDiv.style.width = '400px';
+//     rootDiv.style.height = '320px';
+//     rootDiv.style.background = 'white';
+//     rootDiv.style.opacity = '0.9';
+//     parentNode.append(rootDiv);
+//     parentNode.style.setProperty('display', 'block');
 
-    statusSystemInit();
-    taskSystemInit();
+//     statusSystemInit();
+//     taskSystemInit();
 
-    // 如果有必要，把其他弹出界面先关了
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
-        cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
-    }
+//     // 如果有必要，把其他弹出界面先关了
+//     if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
+//         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
+//     }
 
-    THZCCDivInit();
+//     THZCCDivInit();
 
-    // 造兵按钮
-    ZCCZBButton = document.createElement("button");
-    ZCCZBButton.id = 'topwar_helper_ZCCZBButton';
-    ZCCZBButton.style.margin = '5px';
-    ZCCZBButton.innerHTML = 'Train soldiers together!';
-    if (window.THData.timer == null) {
-        ZCCZBButton.innerHTML = 'Task is suspended';
-    }
-    ZCCZBButton.setAttribute("onclick", "THZCCZB()");
-    rootDiv.append(ZCCZBButton);
-}
+//     // 造兵按钮
+//     ZCCZBButton = document.createElement("button");
+//     ZCCZBButton.id = 'topwar_helper_ZCCZBButton';
+//     ZCCZBButton.style.margin = '5px';
+//     ZCCZBButton.innerHTML = 'Train soldiers together!';
+//     if (window.THData.timer == null) {
+//         ZCCZBButton.innerHTML = 'Task is suspended';
+//     }
+//     ZCCZBButton.setAttribute("onclick", "THZCCZB()");
+//     rootDiv.append(ZCCZBButton);
+// }
 
-function THZCCDivInit() {
-    // 底板
-    var parentNode = document.getElementById("topwar_helper_rootDiv");
-    var ZCCDiv = document.createElement("div");
-    ZCCDiv.id = 'topwar_helper_ZCCDiv';
-    ZCCDiv.style.width = '400px';
-    ZCCDiv.style.height = '260px';
-    ZCCDiv.style.background = 'pink';
-    parentNode.append(ZCCDiv);
+// function THZCCDivInit() {
+//     // 底板
+//     var parentNode = document.getElementById("topwar_helper_rootDiv");
+//     var ZCCDiv = document.createElement("div");
+//     ZCCDiv.id = 'topwar_helper_ZCCDiv';
+//     ZCCDiv.style.width = '400px';
+//     ZCCDiv.style.height = '260px';
+//     ZCCDiv.style.background = 'pink';
+//     parentNode.append(ZCCDiv);
 
-    var ZCCTitle = document.createElement("h3");
-    ZCCTitle.style.margin = '4px';
-    ZCCTitle.innerHTML = 'Shipyard';
-    ZCCDiv.append(ZCCTitle);
+//     var ZCCTitle = document.createElement("h3");
+//     ZCCTitle.style.margin = '4px';
+//     ZCCTitle.innerHTML = 'Shipyard';
+//     ZCCDiv.append(ZCCTitle);
 
-    var ZCCContentDiv = document.createElement("div");
-    ZCCContentDiv.id = 'topwar_helper_ZCCContentDiv';
-    ZCCContentDiv.style.width = '390px';
-    ZCCContentDiv.style.height = '210px';
-    ZCCContentDiv.style.background = 'pink';
-    ZCCContentDiv.style.display = 'flex';
-    ZCCContentDiv.style.padding = '5px';
-    ZCCDiv.append(ZCCContentDiv);
+//     var ZCCContentDiv = document.createElement("div");
+//     ZCCContentDiv.id = 'topwar_helper_ZCCContentDiv';
+//     ZCCContentDiv.style.width = '390px';
+//     ZCCContentDiv.style.height = '210px';
+//     ZCCContentDiv.style.background = 'pink';
+//     ZCCContentDiv.style.display = 'flex';
+//     ZCCContentDiv.style.padding = '5px';
+//     ZCCDiv.append(ZCCContentDiv);
 
-    // 简单排版
-    var ZCCLeftDiv = document.createElement("div");
-    ZCCLeftDiv.id = 'topwar_helper_ZCCLeftDiv';
-    ZCCLeftDiv.style.width = '185px';
-    ZCCLeftDiv.style.height = '200px';
-    ZCCLeftDiv.style.background = 'pink';
-    ZCCLeftDiv.style.padding = '5px';
-    ZCCContentDiv.append(ZCCLeftDiv);
+//     // 简单排版
+//     var ZCCLeftDiv = document.createElement("div");
+//     ZCCLeftDiv.id = 'topwar_helper_ZCCLeftDiv';
+//     ZCCLeftDiv.style.width = '185px';
+//     ZCCLeftDiv.style.height = '200px';
+//     ZCCLeftDiv.style.background = 'pink';
+//     ZCCLeftDiv.style.padding = '5px';
+//     ZCCContentDiv.append(ZCCLeftDiv);
 
-    var ZCCRightDiv = document.createElement("div");
-    ZCCRightDiv.id = 'topwar_helper_ZCCRightDiv';
-    ZCCRightDiv.style.width = '185px';
-    ZCCRightDiv.style.height = '200px';
-    ZCCRightDiv.style.background = 'pink';
-    ZCCRightDiv.style.padding = '5px';
-    ZCCContentDiv.append(ZCCRightDiv);
+//     var ZCCRightDiv = document.createElement("div");
+//     ZCCRightDiv.id = 'topwar_helper_ZCCRightDiv';
+//     ZCCRightDiv.style.width = '185px';
+//     ZCCRightDiv.style.height = '200px';
+//     ZCCRightDiv.style.background = 'pink';
+//     ZCCRightDiv.style.padding = '5px';
+//     ZCCContentDiv.append(ZCCRightDiv);
 
-    // Technology
+//     // Technology
+//     var [ZCCMaxLevel, ZCCBuildLevel] = THGetZCCKJ();
+//     {
+//         // console.log(ZCCMaxLevel,ZCCBuildLevel);
+//         var ZCCKJDiv = document.createElement("div");
+//         ZCCKJDiv.id = 'topwar_helper_ZCCKJDiv';
+//         ZCCKJDiv.style.width = '185px';
+//         ZCCKJDiv.style.height = '80px';
+//         ZCCKJDiv.style.background = 'white';
+//         ZCCLeftDiv.append(ZCCKJDiv);
+
+//         var ZCCKJTitle = document.createElement("h4");
+//         ZCCKJTitle.style.margin = '8px';
+//         ZCCKJTitle.innerHTML = 'Technology';
+//         ZCCKJDiv.append(ZCCKJTitle);
+
+//         var ZCCBuildLevelLabel = document.createElement("h5");
+//         ZCCBuildLevelLabel.style.margin = '0px';
+//         ZCCBuildLevelLabel.innerHTML = 'Shipyard building level:' + ZCCBuildLevel;
+//         ZCCKJDiv.append(ZCCBuildLevelLabel);
+
+//         var ZCCMaxLevelLabel = document.createElement("h5");
+//         ZCCMaxLevelLabel.style.margin = '0px';
+//         ZCCMaxLevelLabel.innerHTML = 'Shipyard merge level:' + ZCCMaxLevel;
+//         ZCCKJDiv.append(ZCCMaxLevelLabel);
+//     }
+
+//     // 当前状态
+//     var bgcInfos = THGetZCCinfos();
+//     {
+//         var ZCCInfoDiv = document.createElement("div");
+//         ZCCInfoDiv.id = 'topwar_helper_ZCCInfoDiv';
+//         ZCCInfoDiv.style.width = '185px';
+//         ZCCInfoDiv.style.height = '210px';
+//         ZCCInfoDiv.style.background = 'white';
+//         ZCCRightDiv.append(ZCCInfoDiv);
+
+//         var ZCCInfoTitle = document.createElement("h4");
+//         ZCCInfoTitle.style.margin = '8px';
+//         ZCCInfoTitle.innerHTML = 'Status';
+//         ZCCInfoDiv.append(ZCCInfoTitle);
+
+//         for (var i = 0; i < bgcInfos.length; ++i) {
+//             if (bgcInfos[i] > 0) {
+//                 var level = i + 1;
+
+//                 var label = document.createElement("h5");
+//                 label.style.margin = '0px';
+//                 label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
+//                 ZCCInfoDiv.append(label);
+//             }
+//         }
+//     }
+
+//     // 制造任务
+//     {
+//         var ZCCTaskDiv = document.createElement("div");
+//         ZCCTaskDiv.id = 'topwar_helper_ZCCTaskDiv';
+//         ZCCTaskDiv.style.width = '185px';
+//         ZCCTaskDiv.style.height = '120px';
+//         ZCCTaskDiv.style.background = 'white';
+//         ZCCLeftDiv.append(ZCCTaskDiv);
+
+//         var ZCCTaskTitle = document.createElement("h4");
+//         ZCCTaskTitle.style.margin = '8px';
+//         ZCCTaskTitle.innerHTML = 'Build task';
+//         ZCCTaskDiv.append(ZCCTaskTitle);
+
+//         var ZCCTaskDescribtion = document.createElement("h6");
+//         ZCCTaskDescribtion.style.margin = '0px';
+//         ZCCTaskDescribtion.innerHTML = 'Build Shipyard level ' + ZCCMaxLevel + ' to the following quantity';
+//         ZCCTaskDiv.append(ZCCTaskDescribtion);
+
+//         var ZCCTaskInputLabel = document.createElement("h6");
+//         ZCCTaskInputLabel.style.margin = '0px';
+//         ZCCTaskInputLabel.innerHTML = bgcInfos[ZCCMaxLevel - 1];
+//         ZCCTaskDiv.append(ZCCTaskInputLabel);
+
+//         var ZCCTaskInput = document.createElement("input");
+//         ZCCTaskInput.id = 'topwar_helper_ZCCTaskInput';
+//         ZCCTaskInput.type = 'range';
+//         ZCCTaskInput.min = bgcInfos[ZCCMaxLevel - 1];
+//         ZCCTaskInput.max = "16";
+//         ZCCTaskInput.value = bgcInfos[ZCCMaxLevel - 1];
+//         ZCCTaskInput.oninput = function () {
+//             ZCCTaskInputLabel.innerHTML = this.value;
+//         }
+//         ZCCTaskDiv.append(ZCCTaskInput);
+
+//         ZCCTaskButton = document.createElement("button");
+//         ZCCTaskButton.id = 'topwar_helper_ZCCTaskButton';
+//         ZCCTaskButton.innerHTML = 'Dispatch a task';
+//         ZCCTaskButton.setAttribute("onclick", "ZCCTaskButtonClicked()");
+//         ZCCTaskDiv.append(ZCCTaskButton);
+//     }
+// }
+
+function THZCCVueUpdate() {
     var [ZCCMaxLevel, ZCCBuildLevel] = THGetZCCKJ();
-    {
-        // console.log(ZCCMaxLevel,ZCCBuildLevel);
-        var ZCCKJDiv = document.createElement("div");
-        ZCCKJDiv.id = 'topwar_helper_ZCCKJDiv';
-        ZCCKJDiv.style.width = '185px';
-        ZCCKJDiv.style.height = '80px';
-        ZCCKJDiv.style.background = 'white';
-        ZCCLeftDiv.append(ZCCKJDiv);
+    window.THVueApp.shipyard.buildingLevel = ZCCBuildLevel;
+    window.THVueApp.shipyard.mergeLevel = ZCCMaxLevel;
 
-        var ZCCKJTitle = document.createElement("h4");
-        ZCCKJTitle.style.margin = '8px';
-        ZCCKJTitle.innerHTML = 'Technology';
-        ZCCKJDiv.append(ZCCKJTitle);
-
-        var ZCCBuildLevelLabel = document.createElement("h5");
-        ZCCBuildLevelLabel.style.margin = '0px';
-        ZCCBuildLevelLabel.innerHTML = 'Shipyard building level:' + ZCCBuildLevel;
-        ZCCKJDiv.append(ZCCBuildLevelLabel);
-
-        var ZCCMaxLevelLabel = document.createElement("h5");
-        ZCCMaxLevelLabel.style.margin = '0px';
-        ZCCMaxLevelLabel.innerHTML = 'Shipyard merge level:' + ZCCMaxLevel;
-        ZCCKJDiv.append(ZCCMaxLevelLabel);
-    }
-
-    // 当前状态
-    var bgcInfos = THGetZCCinfos();
-    {
-        var ZCCInfoDiv = document.createElement("div");
-        ZCCInfoDiv.id = 'topwar_helper_ZCCInfoDiv';
-        ZCCInfoDiv.style.width = '185px';
-        ZCCInfoDiv.style.height = '210px';
-        ZCCInfoDiv.style.background = 'white';
-        ZCCRightDiv.append(ZCCInfoDiv);
-
-        var ZCCInfoTitle = document.createElement("h4");
-        ZCCInfoTitle.style.margin = '8px';
-        ZCCInfoTitle.innerHTML = 'Status';
-        ZCCInfoDiv.append(ZCCInfoTitle);
-
-        for (var i = 0; i < bgcInfos.length; ++i) {
-            if (bgcInfos[i] > 0) {
-                var level = i + 1;
-
-                var label = document.createElement("h5");
-                label.style.margin = '0px';
-                label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
-                ZCCInfoDiv.append(label);
-            }
+    var zccInfos = THGetZCCinfos();
+    window.THVueApp.shipyard.statusStrs = []
+    for (var i = 0; i < zccInfos.length; ++i) {
+        if (zccInfos[i] > 0) {
+            var level = i + 1;
+            statusStr = {text:'Level:' + level + ' count:' + zccInfos[i]};
+            window.THVueApp.shipyard.statusStrs.push(statusStr);
         }
     }
-
-    // 制造任务
-    {
-        var ZCCTaskDiv = document.createElement("div");
-        ZCCTaskDiv.id = 'topwar_helper_ZCCTaskDiv';
-        ZCCTaskDiv.style.width = '185px';
-        ZCCTaskDiv.style.height = '120px';
-        ZCCTaskDiv.style.background = 'white';
-        ZCCLeftDiv.append(ZCCTaskDiv);
-
-        var ZCCTaskTitle = document.createElement("h4");
-        ZCCTaskTitle.style.margin = '8px';
-        ZCCTaskTitle.innerHTML = 'Build task';
-        ZCCTaskDiv.append(ZCCTaskTitle);
-
-        var ZCCTaskDescribtion = document.createElement("h6");
-        ZCCTaskDescribtion.style.margin = '0px';
-        ZCCTaskDescribtion.innerHTML = 'Build Shipyard level ' + ZCCMaxLevel + ' to the following quantity';
-        ZCCTaskDiv.append(ZCCTaskDescribtion);
-
-        var ZCCTaskInputLabel = document.createElement("h6");
-        ZCCTaskInputLabel.style.margin = '0px';
-        ZCCTaskInputLabel.innerHTML = bgcInfos[ZCCMaxLevel - 1];
-        ZCCTaskDiv.append(ZCCTaskInputLabel);
-
-        var ZCCTaskInput = document.createElement("input");
-        ZCCTaskInput.id = 'topwar_helper_ZCCTaskInput';
-        ZCCTaskInput.type = 'range';
-        ZCCTaskInput.min = bgcInfos[ZCCMaxLevel - 1];
-        ZCCTaskInput.max = "16";
-        ZCCTaskInput.value = bgcInfos[ZCCMaxLevel - 1];
-        ZCCTaskInput.oninput = function () {
-            ZCCTaskInputLabel.innerHTML = this.value;
-        }
-        ZCCTaskDiv.append(ZCCTaskInput);
-
-        ZCCTaskButton = document.createElement("button");
-        ZCCTaskButton.id = 'topwar_helper_ZCCTaskButton';
-        ZCCTaskButton.innerHTML = 'Dispatch a task';
-        ZCCTaskButton.setAttribute("onclick", "ZCCTaskButtonClicked()");
-        ZCCTaskDiv.append(ZCCTaskButton);
+    if (window.THData.Status.ZCCStatus) {
+        window.THVueApp.shipyard.statusStrs.push({text:window.THData.Status.ZCCStatus});
     }
 }
+
 
 // 更新Shipyard状态，更新到界面，如果有
-function THZCCStatusUpdate() {
-    var ZCCInfoDiv = document.getElementById('topwar_helper_ZCCInfoDiv');
-    if (!ZCCInfoDiv) {
-        return;
-    }
-    var bgcInfos = THGetZCCinfos();
-    var ndList = ZCCInfoDiv.childNodes;
-    // 清楚旧内容第一个是标题，不用更新
-    for (var i = ndList.length - 1; i > 0; i--) {
-        ZCCInfoDiv.removeChild(ndList[i]);
-    }
-    // 添加新内容
-    for (var i = 0; i < bgcInfos.length; ++i) {
-        if (bgcInfos[i] > 0) {
-            var level = i + 1;
+// function THZCCStatusUpdate() {
+//     var ZCCInfoDiv = document.getElementById('topwar_helper_ZCCInfoDiv');
+//     if (!ZCCInfoDiv) {
+//         return;
+//     }
+//     var bgcInfos = THGetZCCinfos();
+//     var ndList = ZCCInfoDiv.childNodes;
+//     // 清楚旧内容第一个是标题，不用更新
+//     for (var i = ndList.length - 1; i > 0; i--) {
+//         ZCCInfoDiv.removeChild(ndList[i]);
+//     }
+//     // 添加新内容
+//     for (var i = 0; i < bgcInfos.length; ++i) {
+//         if (bgcInfos[i] > 0) {
+//             var level = i + 1;
 
-            var label = document.createElement("h5");
-            label.style.margin = '0px';
-            label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
-            ZCCInfoDiv.append(label);
-        }
-    }
+//             var label = document.createElement("h5");
+//             label.style.margin = '0px';
+//             label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
+//             ZCCInfoDiv.append(label);
+//         }
+//     }
 
-    if (window.THData.Status.ZCCStatus) {
-        var label = document.createElement("h5");
-        label.style.margin = '0px';
-        label.innerHTML = window.THData.Status.ZCCStatus;
-        ZCCInfoDiv.append(label);
-    }
-}
+//     if (window.THData.Status.ZCCStatus) {
+//         var label = document.createElement("h5");
+//         label.style.margin = '0px';
+//         label.innerHTML = window.THData.Status.ZCCStatus;
+//         ZCCInfoDiv.append(label);
+//     }
+// }
 
 // 处理建造Shipyard的任务
 function THZCCBuildTask(task) {
@@ -338,15 +358,15 @@ function ZCCTaskButtonClicked() {
 }
 
 // 造兵，每一个Barracks都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
-function THZCCZB() {
-    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
-    for (var i = 0; i < bList.length; ++i) {
-        b = bList[i]; if (b.name == 'BuildingItem') {
-            c = b.getComponent('BuildingItem');
-            if (THZCCIdList.includes(c.ItemData.id)) {
-                c.OnClickProductOrHarvest();
-                c._aniState = false;
-            }
-        }
-    }
-};
+// function THZCCZB() {
+//     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+//     for (var i = 0; i < bList.length; ++i) {
+//         b = bList[i]; if (b.name == 'BuildingItem') {
+//             c = b.getComponent('BuildingItem');
+//             if (THZCCIdList.includes(c.ItemData.id)) {
+//                 c.OnClickProductOrHarvest();
+//                 c._aniState = false;
+//             }
+//         }
+//     }
+// };

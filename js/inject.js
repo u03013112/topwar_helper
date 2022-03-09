@@ -70,8 +70,9 @@ function THTaskUpdate() {
             }
         }
     }
-
+    THJKVueUpdate();
     THBGCVueUpdate();
+    THZCCVueUpdate();
 }
 
 function taskMainBtnClicked() {

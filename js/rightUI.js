@@ -23,12 +23,6 @@ function THGetRightUIInner() {
                 pointer-events: none;
                 transition: 0.5s;
             }
-            .navigation span:nth-child(2){
-                transform: translateY(-8px);
-            }
-            .navigation span:nth-child(3){
-                transform: translateY(8px);
-            }
             .navigation input:checked ~ div{
                 height: 100%;
             }
@@ -79,16 +73,9 @@ function THGetRightUIInner() {
                                 <div style="height: 130px; background: white;">
                                     <h4 style="margin: 8px;">Build task</h4>
                                     <h6 style="margin: 0px;">Build level {{ goldMine.mergeLevel }} to the following quantity</h6>
-                                    <h6 style="margin: 0px;" id="topwar_helper_JKTaskInputResult">{{ goldMine.buildMax }}</h6>
+                                    <h6 style="margin: 0px;" id="topwar_helper_JKTaskInputResult">{{ goldMine.buildCount }}</h6>
                                     <input id="topwar_helper_JKTaskInput" type="range" min="1" max="10"
                                         name="topwar_helper_JKTaskInput">
-                                    <script type='text/javascript'>
-                                        $(function () {
-                                            $('#topwar_helper_JKTaskInput').bind('input propertychange', function () {
-                                                $('#topwar_helper_JKTaskInputResult').html($(this).val());
-                                            });
-                                        })
-                                    </script>
                                     <button onclick="JKTaskButtonClicked()">Dispatch a
                                         task</button>
                                 </div>
@@ -138,16 +125,9 @@ function THGetRightUIInner() {
                                 <div style="height: 130px; background: white;">
                                     <h4 style="margin: 8px;">Build task</h4>
                                     <h6 style="margin: 0px;">Build level {{ shipyard.mergeLevel }} to the following quantity</h6>
-                                    <h6 style="margin: 0px;" id="topwar_helper_ZCCTaskInputResult">{{ shipyard.buildMax }}</h6>
+                                    <h6 style="margin: 0px;" id="topwar_helper_ZCCTaskInputResult">{{ shipyard.buildCount }}</h6>
                                     <input id="topwar_helper_ZCCTaskInput" type="range" min="1" max="16"
                                         name="topwar_helper_ZCCTaskInput">
-                                    <script type='text/javascript'>
-                                        $(function () {
-                                            $('#topwar_helper_ZCCTaskInput').bind('input propertychange', function () {
-                                                $('#topwar_helper_ZCCTaskInputResult').html($(this).val());
-                                            });
-                                        })
-                                    </script>
                                     <button onclick="ZCCTaskButtonClicked()">Dispatch a
                                         task</button>
                                 </div>
@@ -185,20 +165,19 @@ function THVueJsInit(){
             goldMine: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                buildMax: 10,
+                buildCount:10,
                 statusStrs: []
             },
             barrack: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                buildMax: 32,
                 buildCount:32,
                 statusStrs: []
             },
             shipyard: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                buildMax: 16,
+                buildCount:16,
                 statusStrs: []
             }
         }
@@ -224,9 +203,20 @@ function THRightUIInit() {
     THScript();
 }
 
+// 更新界面所需脚本
 function THScript () {
+    var JKTaskInput = document.getElementById("topwar_helper_JKTaskInput");
+    JKTaskInput.oninput = function () {
+        window.THVueApp.goldMine.buildCount = this.value;
+    }
+
     var BGCTaskInput = document.getElementById("topwar_helper_BGCTaskInput");
     BGCTaskInput.oninput = function () {
         window.THVueApp.barrack.buildCount = this.value;
+    }
+
+    var ZCCTaskInput = document.getElementById("topwar_helper_ZCCTaskInput");
+    ZCCTaskInput.oninput = function () {
+        window.THVueApp.shipyard.buildCount = this.value;
     }
 }

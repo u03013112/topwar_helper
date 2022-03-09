@@ -37,204 +37,223 @@ function THGetJKKJ() {
 }
 
 // 显示主界面
-function showJKUI() {
-    // 如果截面已打开，就关上
-    var rootDiv = document.getElementById('topwar_helper_rootDiv');
-    if (rootDiv) {
-        THCloseUI();
-        // return;
-    }
-    THDataInit();
-    var parentNode = document.getElementById("xsLoginDiv");
-    rootDiv = document.createElement("div");
-    rootDiv.id = 'topwar_helper_rootDiv';
-    rootDiv.style.width = '400px';
-    rootDiv.style.height = '300px';
-    rootDiv.style.background = 'white';
-    rootDiv.style.opacity = '0.9';
-    parentNode.append(rootDiv);
-    parentNode.style.setProperty('display', 'block');
+// function showJKUI() {
+//     // 如果截面已打开，就关上
+//     var rootDiv = document.getElementById('topwar_helper_rootDiv');
+//     if (rootDiv) {
+//         THCloseUI();
+//         // return;
+//     }
+//     THDataInit();
+//     var parentNode = document.getElementById("xsLoginDiv");
+//     rootDiv = document.createElement("div");
+//     rootDiv.id = 'topwar_helper_rootDiv';
+//     rootDiv.style.width = '400px';
+//     rootDiv.style.height = '300px';
+//     rootDiv.style.background = 'white';
+//     rootDiv.style.opacity = '0.9';
+//     parentNode.append(rootDiv);
+//     parentNode.style.setProperty('display', 'block');
 
-    statusSystemInit();
-    taskSystemInit();
+//     statusSystemInit();
+//     taskSystemInit();
 
-    // 如果有必要，把其他弹出界面先关了
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
-        cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
-    }
+//     // 如果有必要，把其他弹出界面先关了
+//     if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
+//         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
+//     }
 
-    THJKDivInit();
-}
+//     THJKDivInit();
+// }
 
-function THJKDivInit() {
-    // 底板
-    var parentNode = document.getElementById("topwar_helper_rootDiv");
-    var JKDiv = document.createElement("div");
-    JKDiv.id = 'topwar_helper_JKDiv';
-    JKDiv.style.width = '400px';
-    JKDiv.style.height = '260px';
-    JKDiv.style.background = 'pink';
-    parentNode.append(JKDiv);
+// function THJKDivInit() {
+//     // 底板
+//     var parentNode = document.getElementById("topwar_helper_rootDiv");
+//     var JKDiv = document.createElement("div");
+//     JKDiv.id = 'topwar_helper_JKDiv';
+//     JKDiv.style.width = '400px';
+//     JKDiv.style.height = '260px';
+//     JKDiv.style.background = 'pink';
+//     parentNode.append(JKDiv);
 
-    var JKTitle = document.createElement("h3");
-    JKTitle.style.margin = '4px';
-    JKTitle.innerHTML = 'Gold Mine';
-    JKDiv.append(JKTitle);
+//     var JKTitle = document.createElement("h3");
+//     JKTitle.style.margin = '4px';
+//     JKTitle.innerHTML = 'Gold Mine';
+//     JKDiv.append(JKTitle);
 
-    var JKContentDiv = document.createElement("div");
-    JKContentDiv.id = 'topwar_helper_JKContentDiv';
-    JKContentDiv.style.width = '390px';
-    JKContentDiv.style.height = '210px';
-    JKContentDiv.style.background = 'pink';
-    JKContentDiv.style.display = 'flex';
-    JKContentDiv.style.padding = '5px';
-    JKDiv.append(JKContentDiv);
+//     var JKContentDiv = document.createElement("div");
+//     JKContentDiv.id = 'topwar_helper_JKContentDiv';
+//     JKContentDiv.style.width = '390px';
+//     JKContentDiv.style.height = '210px';
+//     JKContentDiv.style.background = 'pink';
+//     JKContentDiv.style.display = 'flex';
+//     JKContentDiv.style.padding = '5px';
+//     JKDiv.append(JKContentDiv);
 
-    // 简单排版
-    var JKLeftDiv = document.createElement("div");
-    JKLeftDiv.id = 'topwar_helper_JKLeftDiv';
-    JKLeftDiv.style.width = '185px';
-    JKLeftDiv.style.height = '200px';
-    JKLeftDiv.style.background = 'pink';
-    JKLeftDiv.style.padding = '5px';
-    JKContentDiv.append(JKLeftDiv);
+//     // 简单排版
+//     var JKLeftDiv = document.createElement("div");
+//     JKLeftDiv.id = 'topwar_helper_JKLeftDiv';
+//     JKLeftDiv.style.width = '185px';
+//     JKLeftDiv.style.height = '200px';
+//     JKLeftDiv.style.background = 'pink';
+//     JKLeftDiv.style.padding = '5px';
+//     JKContentDiv.append(JKLeftDiv);
 
-    var JKRightDiv = document.createElement("div");
-    JKRightDiv.id = 'topwar_helper_JKRightDiv';
-    JKRightDiv.style.width = '185px';
-    JKRightDiv.style.height = '200px';
-    JKRightDiv.style.background = 'pink';
-    JKRightDiv.style.padding = '5px';
-    JKContentDiv.append(JKRightDiv);
+//     var JKRightDiv = document.createElement("div");
+//     JKRightDiv.id = 'topwar_helper_JKRightDiv';
+//     JKRightDiv.style.width = '185px';
+//     JKRightDiv.style.height = '200px';
+//     JKRightDiv.style.background = 'pink';
+//     JKRightDiv.style.padding = '5px';
+//     JKContentDiv.append(JKRightDiv);
 
-    // Technology
+//     // Technology
+//     var [JKMaxLevel, JKBuildLevel] = THGetJKKJ();
+//     {
+//         // console.log(JKMaxLevel,JKBuildLevel);
+//         var JKKJDiv = document.createElement("div");
+//         JKKJDiv.id = 'topwar_helper_JKKJDiv';
+//         JKKJDiv.style.width = '185px';
+//         JKKJDiv.style.height = '80px';
+//         JKKJDiv.style.background = 'white';
+//         JKLeftDiv.append(JKKJDiv);
+
+//         var JKKJTitle = document.createElement("h4");
+//         JKKJTitle.style.margin = '8px';
+//         JKKJTitle.innerHTML = 'Technology';
+//         JKKJDiv.append(JKKJTitle);
+
+//         var JKBuildLevelLabel = document.createElement("h5");
+//         JKBuildLevelLabel.style.margin = '0px';
+//         JKBuildLevelLabel.innerHTML = 'Gold Mine building level:' + JKBuildLevel;
+//         JKKJDiv.append(JKBuildLevelLabel);
+
+//         var JKMaxLevelLabel = document.createElement("h5");
+//         JKMaxLevelLabel.style.margin = '0px';
+//         JKMaxLevelLabel.innerHTML = 'Gold Mine merge level:' + JKMaxLevel;
+//         JKKJDiv.append(JKMaxLevelLabel);
+//     }
+
+//     // 当前状态
+//     var bgcInfos = THGetJKinfos();
+//     {
+//         var JKInfoDiv = document.createElement("div");
+//         JKInfoDiv.id = 'topwar_helper_JKInfoDiv';
+//         JKInfoDiv.style.width = '185px';
+//         JKInfoDiv.style.height = '210px';
+//         JKInfoDiv.style.background = 'white';
+//         JKRightDiv.append(JKInfoDiv);
+
+//         var JKInfoTitle = document.createElement("h4");
+//         JKInfoTitle.style.margin = '8px';
+//         JKInfoTitle.innerHTML = 'Status';
+//         JKInfoDiv.append(JKInfoTitle);
+
+//         for (var i = 0; i < bgcInfos.length; ++i) {
+//             if (bgcInfos[i] > 0) {
+//                 var level = i + 1;
+
+//                 var label = document.createElement("h5");
+//                 label.style.margin = '0px';
+//                 label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
+//                 JKInfoDiv.append(label);
+//             }
+//         }
+//     }
+
+//     // 制造任务
+//     {
+//         var JKTaskDiv = document.createElement("div");
+//         JKTaskDiv.id = 'topwar_helper_JKTaskDiv';
+//         JKTaskDiv.style.width = '185px';
+//         JKTaskDiv.style.height = '120px';
+//         JKTaskDiv.style.background = 'white';
+//         JKLeftDiv.append(JKTaskDiv);
+
+//         var JKTaskTitle = document.createElement("h4");
+//         JKTaskTitle.style.margin = '8px';
+//         JKTaskTitle.innerHTML = 'Build task';
+//         JKTaskDiv.append(JKTaskTitle);
+
+//         var JKTaskDescribtion = document.createElement("h6");
+//         JKTaskDescribtion.style.margin = '0px';
+//         JKTaskDescribtion.innerHTML = 'Build Gold Mine level ' + JKMaxLevel + ' to the following quantity';
+//         JKTaskDiv.append(JKTaskDescribtion);
+
+//         var JKTaskInputLabel = document.createElement("h6");
+//         JKTaskInputLabel.style.margin = '0px';
+//         JKTaskInputLabel.innerHTML = bgcInfos[JKMaxLevel - 1];
+//         JKTaskDiv.append(JKTaskInputLabel);
+
+//         var JKTaskInput = document.createElement("input");
+//         JKTaskInput.id = 'topwar_helper_JKTaskInput';
+//         JKTaskInput.type = 'range';
+//         JKTaskInput.min = bgcInfos[JKMaxLevel - 1];
+//         JKTaskInput.max = "10";
+//         JKTaskInput.value = bgcInfos[JKMaxLevel - 1];
+//         JKTaskInput.oninput = function () {
+//             JKTaskInputLabel.innerHTML = this.value;
+//         }
+//         JKTaskDiv.append(JKTaskInput);
+
+//         JKTaskButton = document.createElement("button");
+//         JKTaskButton.id = 'topwar_helper_JKTaskButton';
+//         JKTaskButton.innerHTML = 'Dispatch a task';
+//         JKTaskButton.setAttribute("onclick", "JKTaskButtonClicked()");
+//         JKTaskDiv.append(JKTaskButton);
+//     }
+// }
+
+function THJKVueUpdate() {
     var [JKMaxLevel, JKBuildLevel] = THGetJKKJ();
-    {
-        // console.log(JKMaxLevel,JKBuildLevel);
-        var JKKJDiv = document.createElement("div");
-        JKKJDiv.id = 'topwar_helper_JKKJDiv';
-        JKKJDiv.style.width = '185px';
-        JKKJDiv.style.height = '80px';
-        JKKJDiv.style.background = 'white';
-        JKLeftDiv.append(JKKJDiv);
+    window.THVueApp.goldMine.buildingLevel = JKBuildLevel;
+    window.THVueApp.goldMine.mergeLevel = JKMaxLevel;
 
-        var JKKJTitle = document.createElement("h4");
-        JKKJTitle.style.margin = '8px';
-        JKKJTitle.innerHTML = 'Technology';
-        JKKJDiv.append(JKKJTitle);
-
-        var JKBuildLevelLabel = document.createElement("h5");
-        JKBuildLevelLabel.style.margin = '0px';
-        JKBuildLevelLabel.innerHTML = 'Gold Mine building level:' + JKBuildLevel;
-        JKKJDiv.append(JKBuildLevelLabel);
-
-        var JKMaxLevelLabel = document.createElement("h5");
-        JKMaxLevelLabel.style.margin = '0px';
-        JKMaxLevelLabel.innerHTML = 'Gold Mine merge level:' + JKMaxLevel;
-        JKKJDiv.append(JKMaxLevelLabel);
-    }
-
-    // 当前状态
-    var bgcInfos = THGetJKinfos();
-    {
-        var JKInfoDiv = document.createElement("div");
-        JKInfoDiv.id = 'topwar_helper_JKInfoDiv';
-        JKInfoDiv.style.width = '185px';
-        JKInfoDiv.style.height = '210px';
-        JKInfoDiv.style.background = 'white';
-        JKRightDiv.append(JKInfoDiv);
-
-        var JKInfoTitle = document.createElement("h4");
-        JKInfoTitle.style.margin = '8px';
-        JKInfoTitle.innerHTML = 'Status';
-        JKInfoDiv.append(JKInfoTitle);
-
-        for (var i = 0; i < bgcInfos.length; ++i) {
-            if (bgcInfos[i] > 0) {
-                var level = i + 1;
-
-                var label = document.createElement("h5");
-                label.style.margin = '0px';
-                label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
-                JKInfoDiv.append(label);
-            }
+    var jkInfos = THGetJKinfos();
+    window.THVueApp.goldMine.statusStrs = []
+    for (var i = 0; i < jkInfos.length; ++i) {
+        if (jkInfos[i] > 0) {
+            var level = i + 1;
+            statusStr = {text:'Level:' + level + ' count:' + jkInfos[i]};
+            window.THVueApp.goldMine.statusStrs.push(statusStr);
         }
     }
-
-    // 制造任务
-    {
-        var JKTaskDiv = document.createElement("div");
-        JKTaskDiv.id = 'topwar_helper_JKTaskDiv';
-        JKTaskDiv.style.width = '185px';
-        JKTaskDiv.style.height = '120px';
-        JKTaskDiv.style.background = 'white';
-        JKLeftDiv.append(JKTaskDiv);
-
-        var JKTaskTitle = document.createElement("h4");
-        JKTaskTitle.style.margin = '8px';
-        JKTaskTitle.innerHTML = 'Build task';
-        JKTaskDiv.append(JKTaskTitle);
-
-        var JKTaskDescribtion = document.createElement("h6");
-        JKTaskDescribtion.style.margin = '0px';
-        JKTaskDescribtion.innerHTML = 'Build Gold Mine level ' + JKMaxLevel + ' to the following quantity';
-        JKTaskDiv.append(JKTaskDescribtion);
-
-        var JKTaskInputLabel = document.createElement("h6");
-        JKTaskInputLabel.style.margin = '0px';
-        JKTaskInputLabel.innerHTML = bgcInfos[JKMaxLevel - 1];
-        JKTaskDiv.append(JKTaskInputLabel);
-
-        var JKTaskInput = document.createElement("input");
-        JKTaskInput.id = 'topwar_helper_JKTaskInput';
-        JKTaskInput.type = 'range';
-        JKTaskInput.min = bgcInfos[JKMaxLevel - 1];
-        JKTaskInput.max = "10";
-        JKTaskInput.value = bgcInfos[JKMaxLevel - 1];
-        JKTaskInput.oninput = function () {
-            JKTaskInputLabel.innerHTML = this.value;
-        }
-        JKTaskDiv.append(JKTaskInput);
-
-        JKTaskButton = document.createElement("button");
-        JKTaskButton.id = 'topwar_helper_JKTaskButton';
-        JKTaskButton.innerHTML = 'Dispatch a task';
-        JKTaskButton.setAttribute("onclick", "JKTaskButtonClicked()");
-        JKTaskDiv.append(JKTaskButton);
+    if (window.THData.Status.JKStatus) {
+        window.THVueApp.goldMine.statusStrs.push({text:window.THData.Status.JKStatus});
     }
 }
 
 // 更新Gold Mine状态，更新到界面，如果有
-function THJKStatusUpdate() {
-    var JKInfoDiv = document.getElementById('topwar_helper_JKInfoDiv');
-    if (!JKInfoDiv) {
-        return;
-    }
-    var bgcInfos = THGetJKinfos();
-    var ndList = JKInfoDiv.childNodes;
-    // 清楚旧内容第一个是标题，不用更新
-    for (var i = ndList.length - 1; i > 0; i--) {
-        JKInfoDiv.removeChild(ndList[i]);
-    }
-    // 添加新内容
-    for (var i = 0; i < bgcInfos.length; ++i) {
-        if (bgcInfos[i] > 0) {
-            var level = i + 1;
+// function THJKStatusUpdate() {
+//     var JKInfoDiv = document.getElementById('topwar_helper_JKInfoDiv');
+//     if (!JKInfoDiv) {
+//         return;
+//     }
+//     var bgcInfos = THGetJKinfos();
+//     var ndList = JKInfoDiv.childNodes;
+//     // 清楚旧内容第一个是标题，不用更新
+//     for (var i = ndList.length - 1; i > 0; i--) {
+//         JKInfoDiv.removeChild(ndList[i]);
+//     }
+//     // 添加新内容
+//     for (var i = 0; i < bgcInfos.length; ++i) {
+//         if (bgcInfos[i] > 0) {
+//             var level = i + 1;
 
-            var label = document.createElement("h5");
-            label.style.margin = '0px';
-            label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
-            JKInfoDiv.append(label);
-        }
-    }
+//             var label = document.createElement("h5");
+//             label.style.margin = '0px';
+//             label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
+//             JKInfoDiv.append(label);
+//         }
+//     }
 
-    if (window.THData.Status.JKStatus) {
-        var label = document.createElement("h5");
-        label.style.margin = '0px';
-        label.innerHTML = window.THData.Status.JKStatus;
-        JKInfoDiv.append(label);
-    }
-}
+//     if (window.THData.Status.JKStatus) {
+//         var label = document.createElement("h5");
+//         label.style.margin = '0px';
+//         label.innerHTML = window.THData.Status.JKStatus;
+//         JKInfoDiv.append(label);
+//     }
+// }
 
 // 处理建造Gold Mine的任务
 function THJKBuildTask(task) {
