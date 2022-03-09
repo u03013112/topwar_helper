@@ -8,23 +8,14 @@ function THGetRightUIInner() {
                 align-items: left;
                 /* background: rgb(236, 192, 192); */
                 padding: 20px;
-                transition: 0.5s;
                 border-radius: 4px;
                 overflow: hidden;
                 box-shadow: 0 8px 15px rgba(0,0,0,.2);
                 flex-direction: column;
             }
-            .navigation span{
-                position: absolute;
-                left: 26px;
-                width: 32px;
-                height: 4px;
-                background: #666;
-                pointer-events: none;
+            .navigation input:checked ~ .menu{
+                height: 480px;
                 transition: 0.5s;
-            }
-            .navigation input:checked ~ div{
-                height: 100%;
             }
             .menu{
                 height: 0px;
@@ -35,12 +26,7 @@ function THGetRightUIInner() {
                 color: #666;
                 text-transform: uppercase;
                 font-weight: 600;
-                transition: 0.5s;
                 display: inline-block;
-            }
-            .menu1{
-                align-items: left;
-                background: black;
             }
         </style>
 
