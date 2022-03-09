@@ -18,16 +18,21 @@ function THDataInit() {
 
 // 任务调度器
 function THTaskUpdate() {
-    console.log('THTaskUpdate');
+    try{
+        if ( !window.THVueApp ) {
+            THRightUIInit();
+        }
+    }catch(e){
+        // console.log(e.message);
+        return;
+    }
+
     // 先判断是否已经是可以操作状态，这里简单判断，进入主界面就算可以操作
     if (window.THVueApp && window.THVueApp.notReady == true) {
         // 还没准备好的时候才进行检测
-        console.log('THTaskUpdate1');
         if (cc && cc.find('Canvas/HomeMap')) {
             window.THVueApp.notReady = false;
-            console.log('THTaskUpdate2');
         }else{
-            console.log('THTaskUpdate3');
             return;
         }
     }
@@ -51,11 +56,6 @@ function THTaskUpdate() {
         }
     }
 
-    // Vue之后就不用更新了
-    // 更新界面暂时也写在这
-    // THBGCStatusUpdate();
-    // THJKStatusUpdate();
-    // THZCCStatusUpdate();
     THBGCVueUpdate();
 }
 
@@ -125,38 +125,24 @@ function THCloseUI() {
 // 打开关闭界面都放在这里
 function showRightUI() {
     var rightUI = document.getElementById("topwar_helper_rightUI");
-    if (rightUI) {
+    if (rightUI.style.width != "0%") {
         hideRightUI();
         return;
     }
 
-    var xsLoginDiv = document.getElementById("xsLoginDiv");
-    var parentNode = xsLoginDiv.parentNode;
-    rightUI = document.createElement("div");
-    rightUI.id = "topwar_helper_rightUI";
-    rightUI.style.position = "absolute";
+    var rightUI = document.getElementById("topwar_helper_rightUI");
     rightUI.style.width="20%";
-    rightUI.style.height="100%";
-    rightUI.style.right = "0";
-    rightUI.style.background="pink";
-    rightUI.innerHTML = THGetRightUIInner();
-    parentNode.insertBefore(rightUI, xsLoginDiv);
-
     var headerDiv = document.getElementById("header");
     headerDiv.style.width="80%";
-    var canvasDiv = document.getElementById("canvas");
     canvas.style.width="80%";
     triggerResize();
-
-    THVueJsInit();
 }
 
 function hideRightUI() {
     var rightUI = document.getElementById("topwar_helper_rightUI");
-    rightUI.parentNode.removeChild(rightUI);
+    rightUI.style.width="0%";
     var headerDiv = document.getElementById("header");
     headerDiv.style.width="100%";
-    var canvasDiv = document.getElementById("canvas");
     canvas.style.width="100%";
     triggerResize();
 }

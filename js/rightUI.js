@@ -224,3 +224,20 @@ function THVueJsInit(){
         }
     })
 }
+
+function THRightUIInit() {
+    console.log('THRightUIInit');
+    var xsLoginDiv = document.getElementById("xsLoginDiv");
+    var parentNode = xsLoginDiv.parentNode;
+    rightUI = document.createElement("div");
+    rightUI.id = "topwar_helper_rightUI";
+    rightUI.style.position = "absolute";
+    rightUI.style.width="0%";
+    rightUI.style.height="100%";
+    rightUI.style.right = "0";
+    rightUI.style.background="pink";
+    rightUI.innerHTML = THGetRightUIInner();
+    parentNode.insertBefore(rightUI, xsLoginDiv);
+
+    THVueJsInit();
+}
