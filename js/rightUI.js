@@ -192,34 +192,22 @@ function THVueJsInit(){
                 { text: 'Enter: Start battle' }
             ],
             goldMine: {
-                buildingLevel: 10,
-                mergeLevel: 12,
+                buildingLevel: 0,
+                mergeLevel: 0,
                 buildMax: 10,
-                statusStrs: [
-                    { text: 'Level 58 count:10' },
-                    { text: 'Level 58 count:10' },
-                    { text: 'Level 58 count:10' },
-                ]
+                statusStrs: []
             },
             barrack: {
-                buildingLevel: 11,
-                mergeLevel: 15,
+                buildingLevel: 0,
+                mergeLevel: 0,
                 buildMax: 16,
-                statusStrs: [
-                    { text: 'Level 58 count:11' },
-                    { text: 'Level 58 count:12' },
-                    { text: 'Level 58 count:13' },
-                ]
+                statusStrs: []
             },
             shipyard: {
-                buildingLevel: 11,
-                mergeLevel: 15,
+                buildingLevel: 0,
+                mergeLevel: 0,
                 buildMax: 16,
-                statusStrs: [
-                    { text: 'Level 58 count:11' },
-                    { text: 'Level 58 count:12' },
-                    { text: 'Level 58 count:13' },
-                ]
+                statusStrs: []
             }
         }
     })
