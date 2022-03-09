@@ -37,183 +37,183 @@ function THGetBGCKJ() {
 }
 
 // 显示主界面
-function showBGCUI() {
-    // 如果截面已打开，就关上
-    var rootDiv = document.getElementById('topwar_helper_rootDiv');
-    if (rootDiv) {
-        THCloseUI();
-        // return;
-    }
-    THDataInit();
-    var parentNode = document.getElementById("xsLoginDiv");
-    rootDiv = document.createElement("div");
-    rootDiv.id = 'topwar_helper_rootDiv';
-    rootDiv.style.width = '400px';
-    rootDiv.style.height = '320px';
-    rootDiv.style.background = 'white';
-    rootDiv.style.opacity = '0.9';
-    parentNode.append(rootDiv);
-    parentNode.style.setProperty('display', 'block');
+// function showBGCUI() {
+//     // 如果截面已打开，就关上
+//     var rootDiv = document.getElementById('topwar_helper_rootDiv');
+//     if (rootDiv) {
+//         THCloseUI();
+//         // return;
+//     }
+//     THDataInit();
+//     var parentNode = document.getElementById("xsLoginDiv");
+//     rootDiv = document.createElement("div");
+//     rootDiv.id = 'topwar_helper_rootDiv';
+//     rootDiv.style.width = '400px';
+//     rootDiv.style.height = '320px';
+//     rootDiv.style.background = 'white';
+//     rootDiv.style.opacity = '0.9';
+//     parentNode.append(rootDiv);
+//     parentNode.style.setProperty('display', 'block');
 
-    statusSystemInit();
-    taskSystemInit();
+//     statusSystemInit();
+//     taskSystemInit();
 
-    // 如果有必要，把其他弹出界面先关了
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
-        cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
-    }
+//     // 如果有必要，把其他弹出界面先关了
+//     if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
+//         cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
+//     }
 
-    THBGCDivInit();
+//     THBGCDivInit();
 
-    // 造兵按钮
-    BGCZBButton = document.createElement("button");
-    BGCZBButton.id = 'topwar_helper_BGCZBButton';
-    BGCZBButton.style.margin = '5px';
-    BGCZBButton.innerHTML = 'Train soldiers together!';
-    if (window.THData.timer == null) {
-        BGCZBButton.innerHTML = 'Task is suspended';
-    }
-    BGCZBButton.setAttribute("onclick", "THBGCZB()");
-    rootDiv.append(BGCZBButton);
-}
+//     // 造兵按钮
+//     BGCZBButton = document.createElement("button");
+//     BGCZBButton.id = 'topwar_helper_BGCZBButton';
+//     BGCZBButton.style.margin = '5px';
+//     BGCZBButton.innerHTML = 'Train soldiers together!';
+//     if (window.THData.timer == null) {
+//         BGCZBButton.innerHTML = 'Task is suspended';
+//     }
+//     BGCZBButton.setAttribute("onclick", "THBGCZB()");
+//     rootDiv.append(BGCZBButton);
+// }
 
-function THBGCDivInit() {
-    // 底板
-    var parentNode = document.getElementById("topwar_helper_rootDiv");
-    var BGCDiv = document.createElement("div");
-    BGCDiv.id = 'topwar_helper_BGCDiv';
-    BGCDiv.style.width = '400px';
-    BGCDiv.style.height = '260px';
-    BGCDiv.style.background = 'pink';
-    parentNode.append(BGCDiv);
+// function THBGCDivInit() {
+//     // 底板
+//     var parentNode = document.getElementById("topwar_helper_rootDiv");
+//     var BGCDiv = document.createElement("div");
+//     BGCDiv.id = 'topwar_helper_BGCDiv';
+//     BGCDiv.style.width = '400px';
+//     BGCDiv.style.height = '260px';
+//     BGCDiv.style.background = 'pink';
+//     parentNode.append(BGCDiv);
 
-    var BGCTitle = document.createElement("h3");
-    BGCTitle.style.margin = '4px';
-    BGCTitle.innerHTML = 'Barracks';
-    BGCDiv.append(BGCTitle);
+//     var BGCTitle = document.createElement("h3");
+//     BGCTitle.style.margin = '4px';
+//     BGCTitle.innerHTML = 'Barracks';
+//     BGCDiv.append(BGCTitle);
 
-    var BGCContentDiv = document.createElement("div");
-    BGCContentDiv.id = 'topwar_helper_BGCContentDiv';
-    BGCContentDiv.style.width = '390px';
-    BGCContentDiv.style.height = '210px';
-    BGCContentDiv.style.background = 'pink';
-    BGCContentDiv.style.display = 'flex';
-    BGCContentDiv.style.padding = '5px';
-    BGCDiv.append(BGCContentDiv);
+//     var BGCContentDiv = document.createElement("div");
+//     BGCContentDiv.id = 'topwar_helper_BGCContentDiv';
+//     BGCContentDiv.style.width = '390px';
+//     BGCContentDiv.style.height = '210px';
+//     BGCContentDiv.style.background = 'pink';
+//     BGCContentDiv.style.display = 'flex';
+//     BGCContentDiv.style.padding = '5px';
+//     BGCDiv.append(BGCContentDiv);
 
-    // 简单排版
-    var BGCLeftDiv = document.createElement("div");
-    BGCLeftDiv.id = 'topwar_helper_BGCLeftDiv';
-    BGCLeftDiv.style.width = '185px';
-    BGCLeftDiv.style.height = '200px';
-    BGCLeftDiv.style.background = 'pink';
-    BGCLeftDiv.style.padding = '5px';
-    BGCContentDiv.append(BGCLeftDiv);
+//     // 简单排版
+//     var BGCLeftDiv = document.createElement("div");
+//     BGCLeftDiv.id = 'topwar_helper_BGCLeftDiv';
+//     BGCLeftDiv.style.width = '185px';
+//     BGCLeftDiv.style.height = '200px';
+//     BGCLeftDiv.style.background = 'pink';
+//     BGCLeftDiv.style.padding = '5px';
+//     BGCContentDiv.append(BGCLeftDiv);
 
-    var BGCRightDiv = document.createElement("div");
-    BGCRightDiv.id = 'topwar_helper_BGCRightDiv';
-    BGCRightDiv.style.width = '185px';
-    BGCRightDiv.style.height = '200px';
-    BGCRightDiv.style.background = 'pink';
-    BGCRightDiv.style.padding = '5px';
-    BGCContentDiv.append(BGCRightDiv);
+//     var BGCRightDiv = document.createElement("div");
+//     BGCRightDiv.id = 'topwar_helper_BGCRightDiv';
+//     BGCRightDiv.style.width = '185px';
+//     BGCRightDiv.style.height = '200px';
+//     BGCRightDiv.style.background = 'pink';
+//     BGCRightDiv.style.padding = '5px';
+//     BGCContentDiv.append(BGCRightDiv);
 
-    // Technology
-    var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
-    {
-        // console.log(BGCMaxLevel,BGCBuildLevel);
-        var BGCKJDiv = document.createElement("div");
-        BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
-        BGCKJDiv.style.width = '185px';
-        BGCKJDiv.style.height = '80px';
-        BGCKJDiv.style.background = 'white';
-        BGCLeftDiv.append(BGCKJDiv);
+//     // Technology
+//     var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
+//     {
+//         // console.log(BGCMaxLevel,BGCBuildLevel);
+//         var BGCKJDiv = document.createElement("div");
+//         BGCKJDiv.id = 'topwar_helper_BGCKJDiv';
+//         BGCKJDiv.style.width = '185px';
+//         BGCKJDiv.style.height = '80px';
+//         BGCKJDiv.style.background = 'white';
+//         BGCLeftDiv.append(BGCKJDiv);
 
-        var BGCKJTitle = document.createElement("h4");
-        BGCKJTitle.style.margin = '8px';
-        BGCKJTitle.innerHTML = 'Technology';
-        BGCKJDiv.append(BGCKJTitle);
+//         var BGCKJTitle = document.createElement("h4");
+//         BGCKJTitle.style.margin = '8px';
+//         BGCKJTitle.innerHTML = 'Technology';
+//         BGCKJDiv.append(BGCKJTitle);
 
-        var BGCBuildLevelLabel = document.createElement("h5");
-        BGCBuildLevelLabel.style.margin = '0px';
-        BGCBuildLevelLabel.innerHTML = 'Barracks building level:' + BGCBuildLevel;
-        BGCKJDiv.append(BGCBuildLevelLabel);
+//         var BGCBuildLevelLabel = document.createElement("h5");
+//         BGCBuildLevelLabel.style.margin = '0px';
+//         BGCBuildLevelLabel.innerHTML = 'Barracks building level:' + BGCBuildLevel;
+//         BGCKJDiv.append(BGCBuildLevelLabel);
 
-        var BGCMaxLevelLabel = document.createElement("h5");
-        BGCMaxLevelLabel.style.margin = '0px';
-        BGCMaxLevelLabel.innerHTML = 'Barracks merge level:' + BGCMaxLevel;
-        BGCKJDiv.append(BGCMaxLevelLabel);
-    }
+//         var BGCMaxLevelLabel = document.createElement("h5");
+//         BGCMaxLevelLabel.style.margin = '0px';
+//         BGCMaxLevelLabel.innerHTML = 'Barracks merge level:' + BGCMaxLevel;
+//         BGCKJDiv.append(BGCMaxLevelLabel);
+//     }
 
-    // 当前状态
-    var bgcInfos = THGetBGCinfos();
-    {
-        var BGCInfoDiv = document.createElement("div");
-        BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
-        BGCInfoDiv.style.width = '185px';
-        BGCInfoDiv.style.height = '210px';
-        BGCInfoDiv.style.background = 'white';
-        BGCRightDiv.append(BGCInfoDiv);
+//     // 当前状态
+//     var bgcInfos = THGetBGCinfos();
+//     {
+//         var BGCInfoDiv = document.createElement("div");
+//         BGCInfoDiv.id = 'topwar_helper_BGCInfoDiv';
+//         BGCInfoDiv.style.width = '185px';
+//         BGCInfoDiv.style.height = '210px';
+//         BGCInfoDiv.style.background = 'white';
+//         BGCRightDiv.append(BGCInfoDiv);
 
-        var BGCInfoTitle = document.createElement("h4");
-        BGCInfoTitle.style.margin = '8px';
-        BGCInfoTitle.innerHTML = 'Status';
-        BGCInfoDiv.append(BGCInfoTitle);
+//         var BGCInfoTitle = document.createElement("h4");
+//         BGCInfoTitle.style.margin = '8px';
+//         BGCInfoTitle.innerHTML = 'Status';
+//         BGCInfoDiv.append(BGCInfoTitle);
 
-        for (var i = 0; i < bgcInfos.length; ++i) {
-            if (bgcInfos[i] > 0) {
-                var level = i + 1;
+//         for (var i = 0; i < bgcInfos.length; ++i) {
+//             if (bgcInfos[i] > 0) {
+//                 var level = i + 1;
 
-                var label = document.createElement("h5");
-                label.style.margin = '0px';
-                label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
-                BGCInfoDiv.append(label);
-            }
-        }
-    }
+//                 var label = document.createElement("h5");
+//                 label.style.margin = '0px';
+//                 label.innerHTML = 'Level:' + level + ' count:' + bgcInfos[i];
+//                 BGCInfoDiv.append(label);
+//             }
+//         }
+//     }
 
-    // 制造任务
-    {
-        var BGCTaskDiv = document.createElement("div");
-        BGCTaskDiv.id = 'topwar_helper_BGCTaskDiv';
-        BGCTaskDiv.style.width = '185px';
-        BGCTaskDiv.style.height = '120px';
-        BGCTaskDiv.style.background = 'white';
-        BGCLeftDiv.append(BGCTaskDiv);
+//     // 制造任务
+//     {
+//         var BGCTaskDiv = document.createElement("div");
+//         BGCTaskDiv.id = 'topwar_helper_BGCTaskDiv';
+//         BGCTaskDiv.style.width = '185px';
+//         BGCTaskDiv.style.height = '120px';
+//         BGCTaskDiv.style.background = 'white';
+//         BGCLeftDiv.append(BGCTaskDiv);
 
-        var BGCTaskTitle = document.createElement("h4");
-        BGCTaskTitle.style.margin = '8px';
-        BGCTaskTitle.innerHTML = 'Build task';
-        BGCTaskDiv.append(BGCTaskTitle);
+//         var BGCTaskTitle = document.createElement("h4");
+//         BGCTaskTitle.style.margin = '8px';
+//         BGCTaskTitle.innerHTML = 'Build task';
+//         BGCTaskDiv.append(BGCTaskTitle);
 
-        var BGCTaskDescribtion = document.createElement("h6");
-        BGCTaskDescribtion.style.margin = '0px';
-        BGCTaskDescribtion.innerHTML = 'Build Barracks level ' + BGCMaxLevel + ' to the following quantity';
-        BGCTaskDiv.append(BGCTaskDescribtion);
+//         var BGCTaskDescribtion = document.createElement("h6");
+//         BGCTaskDescribtion.style.margin = '0px';
+//         BGCTaskDescribtion.innerHTML = 'Build Barracks level ' + BGCMaxLevel + ' to the following quantity';
+//         BGCTaskDiv.append(BGCTaskDescribtion);
 
-        var BGCTaskInputLabel = document.createElement("h6");
-        BGCTaskInputLabel.style.margin = '0px';
-        BGCTaskInputLabel.innerHTML = bgcInfos[BGCMaxLevel - 1];
-        BGCTaskDiv.append(BGCTaskInputLabel);
+//         var BGCTaskInputLabel = document.createElement("h6");
+//         BGCTaskInputLabel.style.margin = '0px';
+//         BGCTaskInputLabel.innerHTML = bgcInfos[BGCMaxLevel - 1];
+//         BGCTaskDiv.append(BGCTaskInputLabel);
 
-        var BGCTaskInput = document.createElement("input");
-        BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
-        BGCTaskInput.type = 'range';
-        BGCTaskInput.min = bgcInfos[BGCMaxLevel - 1];
-        BGCTaskInput.max = "16";
-        BGCTaskInput.value = bgcInfos[BGCMaxLevel - 1];
-        BGCTaskInput.oninput = function () {
-            BGCTaskInputLabel.innerHTML = this.value;
-        }
-        BGCTaskDiv.append(BGCTaskInput);
+//         var BGCTaskInput = document.createElement("input");
+//         BGCTaskInput.id = 'topwar_helper_BGCTaskInput';
+//         BGCTaskInput.type = 'range';
+//         BGCTaskInput.min = bgcInfos[BGCMaxLevel - 1];
+//         BGCTaskInput.max = "16";
+//         BGCTaskInput.value = bgcInfos[BGCMaxLevel - 1];
+//         BGCTaskInput.oninput = function () {
+//             BGCTaskInputLabel.innerHTML = this.value;
+//         }
+//         BGCTaskDiv.append(BGCTaskInput);
 
-        BGCTaskButton = document.createElement("button");
-        BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
-        BGCTaskButton.innerHTML = 'Dispatch a task';
-        BGCTaskButton.setAttribute("onclick", "BGCTaskButtonClicked()");
-        BGCTaskDiv.append(BGCTaskButton);
-    }
-}
+//         BGCTaskButton = document.createElement("button");
+//         BGCTaskButton.id = 'topwar_helper_BGCTaskButton';
+//         BGCTaskButton.innerHTML = 'Dispatch a task';
+//         BGCTaskButton.setAttribute("onclick", "BGCTaskButtonClicked()");
+//         BGCTaskDiv.append(BGCTaskButton);
+//     }
+// }
 
 function THBGCVueUpdate() {
     var [BGCMaxLevel, BGCBuildLevel] = THGetBGCKJ();
@@ -229,39 +229,42 @@ function THBGCVueUpdate() {
             window.THVueApp.barrack.statusStrs.push(statusStr);
         }
     }
+    if (window.THData.Status.BGCStatus) {
+        window.THVueApp.barrack.statusStrs.push(window.THData.Status.BGCStatus);
+    }
 }
 
 // 更新Barracks状态，更新到界面，如果有
-function THBGCStatusUpdate() {
-    var BGCInfoDiv = document.getElementById('topwar_helper_BGCInfoDiv');
-    if (!BGCInfoDiv) {
-        return;
-    }
-    var bgcInfos = THGetBGCinfos();
-    var ndList = BGCInfoDiv.childNodes;
-    // 清楚旧内容第一个是标题，不用更新
-    for (var i = ndList.length - 1; i > 0; i--) {
-        BGCInfoDiv.removeChild(ndList[i]);
-    }
-    // 添加新内容
-    for (var i = 0; i < bgcInfos.length; ++i) {
-        if (bgcInfos[i] > 0) {
-            var level = i + 1;
+// function THBGCStatusUpdate() {
+//     var BGCInfoDiv = document.getElementById('topwar_helper_BGCInfoDiv');
+//     if (!BGCInfoDiv) {
+//         return;
+//     }
+//     var bgcInfos = THGetBGCinfos();
+//     var ndList = BGCInfoDiv.childNodes;
+//     // 清楚旧内容第一个是标题，不用更新
+//     for (var i = ndList.length - 1; i > 0; i--) {
+//         BGCInfoDiv.removeChild(ndList[i]);
+//     }
+//     // 添加新内容
+//     for (var i = 0; i < bgcInfos.length; ++i) {
+//         if (bgcInfos[i] > 0) {
+//             var level = i + 1;
 
-            var label = document.createElement("h5");
-            label.style.margin = '0px';
-            label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
-            BGCInfoDiv.append(label);
-        }
-    }
+//             var label = document.createElement("h5");
+//             label.style.margin = '0px';
+//             label.innerHTML = 'Level ' + level + ' count:' + bgcInfos[i];
+//             BGCInfoDiv.append(label);
+//         }
+//     }
 
-    if (window.THData.Status.BGCStatus) {
-        var label = document.createElement("h5");
-        label.style.margin = '0px';
-        label.innerHTML = window.THData.Status.BGCStatus;
-        BGCInfoDiv.append(label);
-    }
-}
+//     if (window.THData.Status.BGCStatus) {
+//         var label = document.createElement("h5");
+//         label.style.margin = '0px';
+//         label.innerHTML = window.THData.Status.BGCStatus;
+//         BGCInfoDiv.append(label);
+//     }
+// }
 
 // 处理建造Barracks的任务
 function THBGCBuildTask(task) {
@@ -358,15 +361,15 @@ function BGCTaskButtonClicked() {
 }
 
 // 造兵，每一个Barracks都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
-function THBGCZB() {
-    bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
-    for (var i = 0; i < bList.length; ++i) {
-        b = bList[i]; if (b.name == 'BuildingItem') {
-            c = b.getComponent('BuildingItem');
-            if (THBGCIdList.includes(c.ItemData.id)) {
-                c.OnClickProductOrHarvest();
-                c._aniState = false;
-            }
-        }
-    }
-};
+// function THBGCZB() {
+//     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
+//     for (var i = 0; i < bList.length; ++i) {
+//         b = bList[i]; if (b.name == 'BuildingItem') {
+//             c = b.getComponent('BuildingItem');
+//             if (THBGCIdList.includes(c.ItemData.id)) {
+//                 c.OnClickProductOrHarvest();
+//                 c._aniState = false;
+//             }
+//         }
+//     }
+// };

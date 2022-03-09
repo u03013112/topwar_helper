@@ -10,13 +10,21 @@ function getArmyInfos() {
 
 // 所有的function都加TH（TopwarHelper）开头，毕竟是注入代码，为了避免冲突。
 function THDataInit() {
-    if (window.THData == null) {
-        window.THData = {}
+    if ( !window.THData ) {
+        window.THData = {};
+    }
+    if ( !window.THData.Tasks ) {
+        window.THData.Tasks = [];
+    }
+    if ( !window.THData.Status ){
+        window.THData.Status = {};
+    }
+    if ( !window.THData.timer ) {
         window.THData.timer = setInterval(function() {THTaskUpdate();},1000);
     }
 }
 
-// 任务调度器
+// 调度器
 function THTaskUpdate() {
     try{
         if ( !window.THVueApp ) {
@@ -72,31 +80,31 @@ function taskMainBtnClicked() {
 }
 
 // 任务相关初始化
-function taskSystemInit() {
-    // 任务列表
-    if (window.THData.Tasks == null) {
-        window.THData.Tasks = [];
-    }
+// function taskSystemInit() {
+//     // 任务列表
+//     if (window.THData.Tasks == null) {
+//         window.THData.Tasks = [];
+//     }
 
-    var rootDiv = document.getElementById("topwar_helper_rootDiv");
-    var taskRootDiv = document.createElement("div");
-    taskRootDiv.id = 'topwar_helper_taskRootDiv';
-    taskMainButton = document.createElement("button");
-    taskMainButton.id = 'topwar_helper_taskMainButton';
-    taskMainButton.innerHTML = 'Task in progress...';
-    if (window.THData.timer == null){
-        taskMainButton.innerHTML = 'Task is suspended';
-    }
-    taskMainButton.setAttribute("onclick", "taskMainBtnClicked()");
-    taskRootDiv.append(taskMainButton);
-    rootDiv.append(taskRootDiv);
-}
-function statusSystemInit() {
-    // 暂时只是一个记录状态的map
-    if (window.THData.Status == null){
-        window.THData.Status = {};
-    }
-}
+//     var rootDiv = document.getElementById("topwar_helper_rootDiv");
+//     var taskRootDiv = document.createElement("div");
+//     taskRootDiv.id = 'topwar_helper_taskRootDiv';
+//     taskMainButton = document.createElement("button");
+//     taskMainButton.id = 'topwar_helper_taskMainButton';
+//     taskMainButton.innerHTML = 'Task in progress...';
+//     if (window.THData.timer == null){
+//         taskMainButton.innerHTML = 'Task is suspended';
+//     }
+//     taskMainButton.setAttribute("onclick", "taskMainBtnClicked()");
+//     taskRootDiv.append(taskMainButton);
+//     rootDiv.append(taskRootDiv);
+// }
+// function statusSystemInit() {
+//     // 暂时只是一个记录状态的map
+//     if (window.THData.Status == null){
+//         window.THData.Status = {};
+//     }
+// }
 
 // 这里应该不用区分建筑还是兵营
 function THMerge(itemList) {
