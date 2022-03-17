@@ -26,6 +26,7 @@ function THDataInit() {
 
 // 调度器
 function THTaskUpdate() {
+    // console.log('THTaskUpdate');
     try{
         if ( !window.THRightUIInitStart ) {
             // 这里采用新变量window.THRightUIInitStart，为了防止加载过程重复
