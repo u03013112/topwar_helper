@@ -1,27 +1,16 @@
-function addBGCButton() {
+function addTSButton() {
     var button = document.createElement("button");
-    button.innerHTML = "Barracks";
-    button.id = "THButtonBGC";
+    button.innerHTML = "task start";
     button.type = "button";
-    button.setAttribute("onclick", "showBGCUI()");
+    button.setAttribute("onclick", "THRadarTaskStartButtonClicked()");
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
-function addJKButton() {
+function addTEButton() {
     var button = document.createElement("button");
-    button.innerHTML = "Gold Mine";
-    button.id = "THButtonJK";
+    button.innerHTML = "task stop";
     button.type = "button";
-    button.setAttribute("onclick", "showJKUI()");
-    var parentElement = document.getElementById("header")
-    parentElement.insertBefore(button, parentElement.children[1]);
-}
-function addZCCButton() {
-    var button = document.createElement("button");
-    button.innerHTML = "Shipyard";
-    button.id = "THButtonZCC";
-    button.type = "button";
-    button.setAttribute("onclick", "showZCCUI()");
+    button.setAttribute("onclick", "THRadarTaskStopButtonClicked()");
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
@@ -35,6 +24,5 @@ function addTestButton() {
 }
 
 addTestButton();
-// addZCCButton();
-// addBGCButton();
-// addJKButton();
+addTSButton();
+addTEButton();

@@ -151,7 +151,7 @@ function THRadarTaskStartButtonClicked() {
         // 自动大药
         largeVITCapsules:false,
         // 次数限制
-        countMax:0,
+        countMax:1,
         count:0,
         // 任务间隔时间（秒）
         intervalMax:10,
