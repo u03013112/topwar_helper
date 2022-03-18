@@ -22,7 +22,7 @@ function THGetRadarMessionPriorityByName(taskName) {
     var priorityMap = {
         'Eliminate the Dark Legion remnant':1,
         'Destroy the Dark Legion Fort':2,
-        'Rescue Mission':0,
+        'Rescue Mission':3,
         'Kill Dark Forces':99
     };
     // 默认999
@@ -70,8 +70,11 @@ function THRadarMessionStep0() {
         THOpenRadarUI();
     }
 }
-// 点开任务，参数统一采用taskName+starCount
-function THRadarMessionStep1(taskName,starCount) {
+// 点开任务
+function THRadarMessionStep1(task) {
+    var taskName = task['taskName'];
+    var starCount = task['starCount'];
+
     if (!cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab')) {
         // TODO:界面没能打开，任务失败
     }
@@ -176,48 +179,92 @@ function THRadarTaskStopButtonClicked() {
 function THRadarUpdate(task) {
     switch (task.status) {
         case 'ready':
+            if (task.count >= task.maxCount) {
+                // 任务完成
+                task.status = 'done';
+                return;
+            }
             // 选取一个任务
             var messions = THGetAllMessions();
             // 暂时没有优先级，固定写死优先级
-
+            messions.sort(function(a,b){
+                return a['priority']-b['priority'];
+            })
+            if (messions.length <= 0){
+                // 任务完成
+                // 这个不太可能出现
+                return;
+            }
+            var mession = messions[0];
             // 如果有必要，判断是否有队列
+            if (taskName == 'Eliminate the Dark Legion remnant' || taskName == 'Destroy the Dark Legion Fort'){
+                // 如果没有队列怎么办？
+                // 终止任务，并给出原因就好
+            }
+            
             // 判断是否有体力
-            // 判断是否吃药，这个可能还是需要添加状态
+            if ( true ) {
+                // 判断是否吃药，这个可能还是需要添加状态
+                // 终止任务，并给出原因就好
+            }
+            task.currentTask = mession;
             // 跳转到指定任务类型的step0
+            task.status = 'step0';
             break;
         case 'interval':
             // 正在间隔，间隔计时器累计
+            task.interval += 1;
             // 如果间隔时间足够（可以少1秒提前完成），进入ready状态
+            if (task.interval >= task.intervalMax) {
+                task.interval = 0;
+                task.count += 1;
+                task.status = 'ready';
+            }
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
             // 这步也许可以跳过
+            THRadarMessionStep0();
             // 进入 step1
+            task.status = 'step1';
             break;
         case 'step1':
             // 点开任务
+            THRadarMessionStep1(task.currentTask);
             // 进入 step2
+            task.status = 'step2';
             break;
         case 'step2':
             // 点击界面上的Go
+            THRadarMessionStep2();
             // 根据taskName，判断进入哪个类型的任务下一步
+            if (task.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
+                task.status = 'battleStep0';
+            }
             break;
         case 'battleStep0':
             // 点击攻击按钮
+            THRadarBattleMessionStep0();
             // TODO：10体力那个好像按钮不一样
+            task.status = 'battleStep1';
             // 进入 battleStep1
             break;
         case 'battleStep1':
             // 上阵
+            THRadarBattleMessionStep1();
             // 进入 battleStep2
+            task.status = 'battleStep2';
             break;
         case 'battleStep2':
             // 出战
+            THRadarBattleMessionStep2();
             // 进入 interval
+            task.status = 'interval';
             break;
         default:
             // 没有找到状态，直接退出吧
             // TODO：任务终止
             break;
     }
+    console.log(task.status);
 }
