@@ -11,15 +11,30 @@ function THGetAllMessions() {
 
     messions = [];
     for (var i = 0; i < messions0.length; i++){
-        mession = THGetMession(messions0[i]);
+        mession = THGetRadarMession(messions0[i]);
         messions.push(mession);
     }
     return messions;
 }
 
+// 获取优先级，优先级越低，约优先
+function THGetRadarMessionPriorityByName(taskName) {
+    var priorityMap = {
+        'Eliminate the Dark Legion remnant':1,
+        'Destroy the Dark Legion Fort':2,
+        'Rescue Mission':0,
+        'Kill Dark Forces':99
+    };
+    // 默认999
+    priority = 999;
+    if (taskName in priorityMap) {
+        priority = priorityMap[taskName];
+    }
+    return priority;
+}
 // input:mession -> output: type + start
 // TODO：暂时只能知道这写内容，之后可能再考虑通过奖励来决定做哪个任务
-function THGetMession(mession) {
+function THGetRadarMession(mession) {
     var taskId = mession.getComponent('RadarMainPrefabItemCell')._data.taskId;
     var taskIdMap = {
         10000:'Eliminate the Dark Legion remnant',
@@ -43,7 +58,8 @@ function THGetMession(mession) {
     var name = mession.getChildByName('effectNode').getChildren()[0].name;
     // js 是否支持
     starCount = name[name.length-1] - '0';
-    return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell')};
+    priority = THGetRadarMessionPriorityByName(name);
+    return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority};
 }
 
 // 所有雷达任务的第0步，打开雷达界面
@@ -161,6 +177,9 @@ function THRadarUpdate(task) {
     switch (task.status) {
         case 'ready':
             // 选取一个任务
+            var messions = THGetAllMessions();
+            // 暂时没有优先级，固定写死优先级
+
             // 如果有必要，判断是否有队列
             // 判断是否有体力
             // 判断是否吃药，这个可能还是需要添加状态
