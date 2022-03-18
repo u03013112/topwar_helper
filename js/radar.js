@@ -112,3 +112,93 @@ function THRadarRescueMessionStep0() {
     // TODO:任务完成
     return;
 }
+
+// 以下的任务指的不是游戏中的任务，而是助手的任务
+function THRadarTaskStartButtonClicked() {
+    // 最好直接进入正确的地图
+    // TODO：从页面获取参数
+    // TODO:页面变化
+    newTask = {
+        type: 'RadarTask',
+        // 目前状态，数据都放到数据层来，减少与界面耦合度
+        // ready -> XXstepX -> interval -> done
+        status:'ready',
+        // 会做的任务名字列表
+        allowTaskNames:[],
+        // 保留体力（体力最小值）
+        VIYMin:0,
+        // 自动小药
+        smallVITCapsules:false,
+        // 自动大药
+        largeVITCapsules:false,
+        // 次数限制
+        countMax:0,
+        count:0,
+        // 任务间隔时间（秒）
+        intervalMax:10,
+        interval:0,
+        // 正在做的任务，和status一起组成FSM
+        currentTask:{},
+        // TODO：优先级
+    }
+    window.THData.Tasks.push(newTask);
+}
+
+function THRadarTaskStopButtonClicked() {
+    // 找到旧的同类任务，删掉
+    for (var i = 0; i < window.THData.Tasks.length; ++i) {
+        task = window.THData.Tasks[i];
+        if (task.type == 'RadarTask') {
+            window.THData.Tasks.splice(i, 1);
+            break;
+        }
+    }
+    // TODO:页面变化
+}
+
+// 
+function THRadarUpdate(task) {
+    switch (task.status) {
+        case 'ready':
+            // 选取一个任务
+            // 如果有必要，判断是否有队列
+            // 判断是否有体力
+            // 判断是否吃药，这个可能还是需要添加状态
+            // 跳转到指定任务类型的step0
+            break;
+        case 'interval':
+            // 正在间隔，间隔计时器累计
+            // 如果间隔时间足够（可以少1秒提前完成），进入ready状态
+            break;
+        case 'step0':
+            // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
+            // 这步也许可以跳过
+            // 进入 step1
+            break;
+        case 'step1':
+            // 点开任务
+            // 进入 step2
+            break;
+        case 'step2':
+            // 点击界面上的Go
+            // 根据taskName，判断进入哪个类型的任务下一步
+            break;
+        case 'battleStep0':
+            // 点击攻击按钮
+            // TODO：10体力那个好像按钮不一样
+            // 进入 battleStep1
+            break;
+        case 'battleStep1':
+            // 上阵
+            // 进入 battleStep2
+            break;
+        case 'battleStep2':
+            // 出战
+            // 进入 interval
+            break;
+        default:
+            // 没有找到状态，直接退出吧
+            // TODO：任务终止
+            break;
+    }
+}
