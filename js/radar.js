@@ -36,6 +36,7 @@ function THGetRadarMessionPriorityByName(taskName) {
 // TODO：暂时只能知道这写内容，之后可能再考虑通过奖励来决定做哪个任务
 function THGetRadarMession(mession) {
     var taskId = mession.getComponent('RadarMainPrefabItemCell')._data.taskId;
+    var state = mession.getComponent('RadarMainPrefabItemCell')._data.state;
     var taskIdMap = {
         10000:'Eliminate the Dark Legion remnant',
         10001:'Destroy the Dark Legion Fort',
@@ -59,7 +60,7 @@ function THGetRadarMession(mession) {
     // js 是否支持
     starCount = name[name.length-1] - '0';
     priority = THGetRadarMessionPriorityByName(taskName);
-    return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority};
+    return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority,'state':state};
 }
 
 // 所有雷达任务的第0步，打开雷达界面
@@ -156,7 +157,7 @@ function THRadarTaskStartButtonClicked() {
         countMax:1,
         count:0,
         // 任务间隔时间（秒）
-        intervalMax:10,
+        intervalMax:30,
         interval:0,
         // 正在做的任务，和status一起组成FSM
         currentTask:{},
@@ -180,6 +181,10 @@ function THRadarTaskStopButtonClicked() {
 // 
 function THRadarTask(task) {
     switch (task.status) {
+        case 'reward':
+            cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
+            task.status = 'ready';
+            break;
         case 'ready':
             if (task.count >= task.maxCount) {
                 // 任务完成
@@ -190,6 +195,16 @@ function THRadarTask(task) {
             THRadarMessionStep0();
             // 这里其实应该等一下
             var messions = THGetAllMessions();
+            // 可以领奖就先领奖
+            for (var i = 0; i < messions.length; i++) {
+                mession = messions[i];
+                if (mession['state'] == 4) {
+                    mession['mession'].itemClick();
+                    task.status = 'reward';
+                    return;
+                }
+            }
+            
             // 暂时没有优先级，固定写死优先级
             // TODO：先做星高的
             messions.sort(function(a,b){
