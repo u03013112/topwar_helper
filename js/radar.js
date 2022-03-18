@@ -202,7 +202,7 @@ function THRadarTask(task) {
             }
             var mession = messions[0];
             // 如果有必要，判断是否有队列
-            if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort'){
+            if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort') {
                 // 如果没有队列怎么办？
                 // 终止任务，并给出原因就好
             }
