@@ -68,6 +68,8 @@ function THTaskUpdate() {
             }else if(task.type == 'ZCCBuild'){
                 var status = THZCCBuildTask(task);
                 window.THData.Status.ZCCStatus = status;
+            }else if(task.type == 'RadarTask'){
+                var status = THRadarTask(task);
             }
         }
     }

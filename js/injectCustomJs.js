@@ -32,6 +32,7 @@ injectCustomJs('js/jk.js');
 injectCustomJs('js/zcc.js');
 injectCustomJs('js/hotkey.js');
 injectCustomJs('js/rightUI.js');
+injectCustomJs('js/radar.js');
 
 injectCustomJs2('https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
 injectCustomJs2('https://cdn.jsdelivr.net/npm/vue@2');

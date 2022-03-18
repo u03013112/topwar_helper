@@ -58,7 +58,7 @@ function THGetRadarMession(mession) {
     var name = mession.getChildByName('effectNode').getChildren()[0].name;
     // js 是否支持
     starCount = name[name.length-1] - '0';
-    priority = THGetRadarMessionPriorityByName(name);
+    priority = THGetRadarMessionPriorityByName(taskName);
     return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority};
 }
 
@@ -134,6 +134,8 @@ function THRadarRescueMessionStep0() {
 
 // 以下的任务指的不是游戏中的任务，而是助手的任务
 function THRadarTaskStartButtonClicked() {
+    // 防止反复添加，添加之前先把旧的去掉
+    THRadarTaskStopButtonClicked();
     // 最好直接进入正确的地图
     // TODO：从页面获取参数
     // TODO:页面变化
@@ -176,7 +178,7 @@ function THRadarTaskStopButtonClicked() {
 }
 
 // 
-function THRadarUpdate(task) {
+function THRadarTask(task) {
     switch (task.status) {
         case 'ready':
             if (task.count >= task.maxCount) {
@@ -185,8 +187,11 @@ function THRadarUpdate(task) {
                 return;
             }
             // 选取一个任务
+            THRadarMessionStep0();
+            // 这里其实应该等一下
             var messions = THGetAllMessions();
             // 暂时没有优先级，固定写死优先级
+            // TODO：先做星高的
             messions.sort(function(a,b){
                 return a['priority']-b['priority'];
             })
@@ -197,7 +202,7 @@ function THRadarUpdate(task) {
             }
             var mession = messions[0];
             // 如果有必要，判断是否有队列
-            if (taskName == 'Eliminate the Dark Legion remnant' || taskName == 'Destroy the Dark Legion Fort'){
+            if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort'){
                 // 如果没有队列怎么办？
                 // 终止任务，并给出原因就好
             }
@@ -267,4 +272,5 @@ function THRadarUpdate(task) {
             break;
     }
     console.log(task.status);
+    return task.status;
 }
