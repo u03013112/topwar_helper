@@ -318,6 +318,7 @@ function THRadarTask(task) {
         default:
             // 没有找到状态，直接退出吧
             // TODO：任务终止
+            THRadarTaskStopButtonClicked();
             break;
     }
     console.log(task.status);
