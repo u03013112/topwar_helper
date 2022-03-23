@@ -102,7 +102,7 @@ function THRadarMessionStep2() {
     return true;
 }
 
-// 雷达战斗任务，暂时包括Eliminate the Dark Legion remnant、Destroy the Dark Legion Fort
+// Eliminate the Dark Legion remnant
 // 敌人界面
 function THRadarBattleMessionStep0() {
     if(!cc.find('UICanvas/PopLayer/prefabWorldUIEnemy')){
@@ -112,6 +112,17 @@ function THRadarBattleMessionStep0() {
     var worldMapEnemyComponent = cc.find('UICanvas/PopLayer/prefabWorldUIEnemy').getComponent('WorldMapEnemyComponent');
     // 好像所有任务都是单次攻击
     worldMapEnemyComponent.onBtnClickAtack(null,0);
+    return true;
+}
+// Destroy the Dark Legion Fort
+function THRadarDestoryMessionStep0() {
+    if(!cc.find('UICanvas/PopLayer/prefabWorldUIAssemblyEnemy')){
+        // TODO:界面没能打开，任务失败
+        return false;
+    }
+    var worldMapEnemyComponent = cc.find('UICanvas/PopLayer/prefabWorldUIAssemblyEnemy').getComponent('WorldMapAssemblyEnemyComponent');
+    // 好像所有任务都是单次攻击
+    worldMapEnemyComponent.onAttackNormalMonster(null,0);
     return true;
 }
 
@@ -171,6 +182,8 @@ function THRadarTaskStartButtonClicked() {
         retry:0,
         retryTimeMax:30,
         retryTimer:0,
+        // 整体日志
+        log:[],
         // TODO：优先级
     }
     window.THData.Tasks.push(newTask);
@@ -188,10 +201,16 @@ function THRadarTaskStopButtonClicked() {
     // TODO:页面变化
 }
 
+function THRadarTaskToString(task) {
+    ret = task.taskName;
+    ret += '; start' + task.starCount
+    return ret;
+}
 // 
 function THRadarTask(task) {
     switch (task.status) {
         case 'reward':
+            task.log.push('reward',THRadarTaskToString(task.currentTask));
             cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
             task.status = 'ready';
             break;
@@ -199,6 +218,7 @@ function THRadarTask(task) {
             if (task.count >= task.countMax) {
                 // 任务完成
                 task.status = 'done';
+                task.log.push('All done!');
                 return;
             }
             // 选取一个任务
@@ -240,6 +260,7 @@ function THRadarTask(task) {
                 // 终止任务，并给出原因就好
             }
             task.currentTask = mession;
+            task.log.push('selected:',THRadarTaskToString(task.currentTask));
             // 跳转到指定任务类型的step0
             task.status = 'step0';
             break;
@@ -252,6 +273,7 @@ function THRadarTask(task) {
                 task.count += 1;
                 task.status = 'ready';
             }
+            task.log.push('interval',task.interval,'s');
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
@@ -265,6 +287,7 @@ function THRadarTask(task) {
             var ret = THRadarMessionStep1(task.currentTask);
             if (!ret) {
                 task.status = 'failed';
+                task.log.push('open UI1 failed:',THRadarTaskToString(task.currentTask));
                 break;
             }
             // 进入 step2
@@ -275,6 +298,7 @@ function THRadarTask(task) {
             var ret = THRadarMessionStep2();
             if (!ret) {
                 task.status = 'failed';
+                task.log.push('open UI2 failed:',THRadarTaskToString(task.currentTask));
                 break;
             }
             // 根据taskName，判断进入哪个类型的任务下一步
@@ -282,8 +306,11 @@ function THRadarTask(task) {
                 task.status = 'battleStep0';
             }else if (task.currentTask['taskName'] == 'Rescue Mission'){
                 task.status = 'resueStep0';
+            }else if (task.currentTask['taskName'] == 'Destroy the Dark Legion Fort'){
+                task.status = 'destoryStep0';
             }else{
                 // 未知类型，直接推出
+                task.log.push('unsupport mession type failed:',THRadarTaskToString(task.currentTask));
                 task.status = 'failed';
                 break;
             }
@@ -291,16 +318,30 @@ function THRadarTask(task) {
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
             if (!ret) {
+                task.log.push('open resue UI0 failed:',THRadarTaskToString(task.currentTask));
                 task.status = 'failed';
                 break;
             }
             // 进入 interval
             task.status = 'interval';
             break;
+        case 'destoryStep0':
+            // 点击攻击按钮
+            var ret = THRadarDestoryMessionStep0();
+            if (!ret) {
+                task.log.push('open destory UI0 failed:',THRadarTaskToString(task.currentTask));
+                task.status = 'failed';
+                break;
+            }
+            // TODO：10体力那个好像按钮不一样
+            task.status = 'battleStep1';
+            // 进入 battleStep1
+            break;
         case 'battleStep0':
             // 点击攻击按钮
             var ret = THRadarBattleMessionStep0();
             if (!ret) {
+                task.log.push('open battle UI0 failed:',THRadarTaskToString(task.currentTask));
                 task.status = 'failed';
                 break;
             }
@@ -322,6 +363,7 @@ function THRadarTask(task) {
             break;
         case 'retry':
             // 重试
+            task.log.push('retry',task.retry);
             task.retry += 1;
             if (task.retry > task.retryMax){
                 task.status = 'failed';
@@ -338,6 +380,7 @@ function THRadarTask(task) {
             // 没有找到状态，直接退出吧
             // TODO：任务终止
             THRadarTaskStopButtonClicked();
+            task.log.push('mession failed,stop it');
             break;
     }
     console.log(task.status);
