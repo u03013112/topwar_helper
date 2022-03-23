@@ -22,7 +22,7 @@ function THGetRadarMessionPriorityByName(taskName) {
     var priorityMap = {
         'Eliminate the Dark Legion remnant':1,
         'Destroy the Dark Legion Fort':2,
-        'Rescue Mission':3,
+        'Rescue Mission':0,
         'Kill Dark Forces':99
     };
     // 默认999
@@ -78,25 +78,28 @@ function THRadarMessionStep1(task) {
 
     if (!cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab')) {
         // TODO:界面没能打开，任务失败
+        return false;
     }
     var messions = THGetAllMessions();
     for (var i = 0; i < messions.length; ++i){
         var mession = messions[i];
         if (mession['taskName'] == taskName && mession['starCount'] == starCount) {
             mession['mession'].itemClick();
-            return;
+            return true;
         }
     }
     // TODO:没有找到任务，任务失败
+    return false;
 }
 
 // 点击界面上的Go
 function THRadarMessionStep2() {
     if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/RadarTaskPrefab')) {
         // TODO:界面没能打开，任务失败
+        return false;
     }
     cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/RadarTaskPrefab').getComponent("RadarTaskPrefab").taskClick();
-    return;
+    return true;
 }
 
 // 雷达战斗任务，暂时包括Eliminate the Dark Legion remnant、Destroy the Dark Legion Fort
@@ -104,11 +107,12 @@ function THRadarMessionStep2() {
 function THRadarBattleMessionStep0() {
     if(!cc.find('UICanvas/PopLayer/prefabWorldUIEnemy')){
         // TODO:界面没能打开，任务失败
+        return false;
     }
     var worldMapEnemyComponent = cc.find('UICanvas/PopLayer/prefabWorldUIEnemy').getComponent('WorldMapEnemyComponent');
     // 好像所有任务都是单次攻击
     worldMapEnemyComponent.onBtnClickAtack(null,0);
-    return;
+    return true;
 }
 
 // 上阵
@@ -125,12 +129,13 @@ function THRadarBattleMessionStep2() {
 function THRadarRescueMessionStep0() {
     if(!cc.find('UICanvas/PopLayer/UIFrameNone/CONTENT/prefabWorldUIRadarEnemy')){
         // TODO:界面没能打开，任务失败
+        return false;
     }
     var prefabWorldUIRadarEnemy = cc.find('UICanvas/PopLayer/UIFrameNone/CONTENT/prefabWorldUIRadarEnemy').getComponent("prefabWorldUIRadarEnemy")
     var e = new cc.Event.EventTouch([],false)
     prefabWorldUIRadarEnemy.attackClick(e);
     // TODO:任务完成
-    return;
+    return true;
 }
 
 // 以下的任务指的不是游戏中的任务，而是助手的任务
@@ -220,6 +225,8 @@ function THRadarTask(task) {
             if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort') {
                 // 如果没有队列怎么办？
                 // 终止任务，并给出原因就好
+                task.status = 'failed';
+                task.reason = '';
             }
             
             // 判断是否有体力
@@ -250,21 +257,48 @@ function THRadarTask(task) {
             break;
         case 'step1':
             // 点开任务
-            THRadarMessionStep1(task.currentTask);
+            var ret = THRadarMessionStep1(task.currentTask);
+            if (!ret) {
+                task.status = 'failed';
+                break;
+            }
             // 进入 step2
             task.status = 'step2';
             break;
         case 'step2':
             // 点击界面上的Go
-            THRadarMessionStep2();
+            var ret = THRadarMessionStep2();
+            if (!ret) {
+                task.status = 'failed';
+                break;
+            }
             // 根据taskName，判断进入哪个类型的任务下一步
             if (task.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
                 task.status = 'battleStep0';
+            }else if (task.currentTask['taskName'] == 'Rescue Mission'){
+                task.status = 'resueStep0';
+            }else{
+                // 未知类型，直接推出
+                task.status = 'failed';
+                break;
             }
+            break;
+        case 'resueStep0':
+            var ret = THRadarRescueMessionStep0();
+            if (!ret) {
+                task.status = 'failed';
+                break;
+            }
+            // 进入 interval
+            task.status = 'interval';
             break;
         case 'battleStep0':
             // 点击攻击按钮
-            THRadarBattleMessionStep0();
+            var ret = THRadarBattleMessionStep0();
+            if (!ret) {
+                task.status = 'failed';
+                break;
+            }
             // TODO：10体力那个好像按钮不一样
             task.status = 'battleStep1';
             // 进入 battleStep1
