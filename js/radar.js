@@ -166,6 +166,11 @@ function THRadarTaskStartButtonClicked() {
         interval:0,
         // 正在做的任务，和status一起组成FSM
         currentTask:{},
+        // 重试，为了解决部分时候网络不好不能弹出界面
+        retryMax:3,
+        retry:0,
+        retryTimeMax:30,
+        retryTimer:0,
         // TODO：优先级
     }
     window.THData.Tasks.push(newTask);
@@ -191,7 +196,7 @@ function THRadarTask(task) {
             task.status = 'ready';
             break;
         case 'ready':
-            if (task.count >= task.maxCount) {
+            if (task.count >= task.countMax) {
                 // 任务完成
                 task.status = 'done';
                 return;
@@ -314,6 +319,20 @@ function THRadarTask(task) {
             THRadarBattleMessionStep2();
             // 进入 interval
             task.status = 'interval';
+            break;
+        case 'retry':
+            // 重试
+            task.retry += 1;
+            if (task.retry > task.retryMax){
+                task.status = 'failed';
+                break;
+            }
+            task.retryTimer += 1;
+            if (task.retryTimer > task.retryTimeMax){
+                // 重试直接从ready开始
+                task.status = 'ready';
+                break;
+            }
             break;
         default:
             // 没有找到状态，直接退出吧
