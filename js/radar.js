@@ -183,7 +183,7 @@ function THRadarTaskStartButtonClicked() {
         retryTimeMax:30,
         retryTimer:0,
         // 整体日志
-        log:[],
+        log:'',
         // TODO：优先级
     }
     window.THData.Tasks.push(newTask);
@@ -203,14 +203,14 @@ function THRadarTaskStopButtonClicked() {
 
 function THRadarTaskToString(task) {
     ret = task.taskName;
-    ret += '; start' + task.starCount
+    ret += '; star:' + task.starCount + '  ';
     return ret;
 }
 // 
 function THRadarTask(task) {
     switch (task.status) {
         case 'reward':
-            task.log.push('reward',THRadarTaskToString(task.currentTask));
+            task.log += 'reward'+THRadarTaskToString(task.currentTask)+'\n';
             cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
             task.status = 'ready';
             break;
@@ -218,7 +218,8 @@ function THRadarTask(task) {
             if (task.count >= task.countMax) {
                 // 任务完成
                 task.status = 'done';
-                task.log.push('All done!');
+                task.log += 'All done!\n';
+                THRadarTaskStopButtonClicked();
                 return;
             }
             // 选取一个任务
@@ -250,8 +251,8 @@ function THRadarTask(task) {
             if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort') {
                 // 如果没有队列怎么办？
                 // 终止任务，并给出原因就好
-                task.status = 'failed';
-                task.reason = '';
+                // task.status = 'failed';
+                // break;
             }
             
             // 判断是否有体力
@@ -260,7 +261,7 @@ function THRadarTask(task) {
                 // 终止任务，并给出原因就好
             }
             task.currentTask = mession;
-            task.log.push('selected:',THRadarTaskToString(task.currentTask));
+            task.log += 'selected:'+THRadarTaskToString(task.currentTask)+'\n';
             // 跳转到指定任务类型的step0
             task.status = 'step0';
             break;
@@ -273,7 +274,7 @@ function THRadarTask(task) {
                 task.count += 1;
                 task.status = 'ready';
             }
-            task.log.push('interval',task.interval,'s');
+            task.log += 'interval '+task.interval+'s\n';
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
@@ -286,8 +287,8 @@ function THRadarTask(task) {
             // 点开任务
             var ret = THRadarMessionStep1(task.currentTask);
             if (!ret) {
-                task.status = 'failed';
-                task.log.push('open UI1 failed:',THRadarTaskToString(task.currentTask));
+                task.status = 'retry';
+                task.log += 'open UI1 failed:'+THRadarTaskToString(task.currentTask)+'\n';
                 break;
             }
             // 进入 step2
@@ -297,8 +298,8 @@ function THRadarTask(task) {
             // 点击界面上的Go
             var ret = THRadarMessionStep2();
             if (!ret) {
-                task.status = 'failed';
-                task.log.push('open UI2 failed:',THRadarTaskToString(task.currentTask));
+                task.status = 'retry';
+                task.log += 'open UI2 failed:'+THRadarTaskToString(task.currentTask)+'\n';
                 break;
             }
             // 根据taskName，判断进入哪个类型的任务下一步
@@ -310,7 +311,7 @@ function THRadarTask(task) {
                 task.status = 'destoryStep0';
             }else{
                 // 未知类型，直接推出
-                task.log.push('unsupport mession type failed:',THRadarTaskToString(task.currentTask));
+                task.log += 'unsupport mession type failed:'+THRadarTaskToString(task.currentTask)+'\n';
                 task.status = 'failed';
                 break;
             }
@@ -318,8 +319,8 @@ function THRadarTask(task) {
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
             if (!ret) {
-                task.log.push('open resue UI0 failed:',THRadarTaskToString(task.currentTask));
-                task.status = 'failed';
+                task.log += 'open resue UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.status = 'retry';
                 break;
             }
             // 进入 interval
@@ -329,8 +330,8 @@ function THRadarTask(task) {
             // 点击攻击按钮
             var ret = THRadarDestoryMessionStep0();
             if (!ret) {
-                task.log.push('open destory UI0 failed:',THRadarTaskToString(task.currentTask));
-                task.status = 'failed';
+                task.log += 'open destory UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.status = 'retry';
                 break;
             }
             // TODO：10体力那个好像按钮不一样
@@ -341,8 +342,8 @@ function THRadarTask(task) {
             // 点击攻击按钮
             var ret = THRadarBattleMessionStep0();
             if (!ret) {
-                task.log.push('open battle UI0 failed:',THRadarTaskToString(task.currentTask));
-                task.status = 'failed';
+                task.log += 'open battle UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.status = 'retry';
                 break;
             }
             // TODO：10体力那个好像按钮不一样
@@ -362,16 +363,17 @@ function THRadarTask(task) {
             task.status = 'interval';
             break;
         case 'retry':
-            // 重试
-            task.log.push('retry',task.retry);
-            task.retry += 1;
             if (task.retry > task.retryMax){
                 task.status = 'failed';
                 break;
             }
+            // 重试，先计时，时间到了再重试
             task.retryTimer += 1;
             if (task.retryTimer > task.retryTimeMax){
                 // 重试直接从ready开始
+                task.retry += 1;    
+                task.log += 'retry ' + task.retry + '\n';
+                
                 task.status = 'ready';
                 break;
             }
@@ -380,9 +382,9 @@ function THRadarTask(task) {
             // 没有找到状态，直接退出吧
             // TODO：任务终止
             THRadarTaskStopButtonClicked();
-            task.log.push('mession failed,stop it');
+            task.log += 'mession failed,stop it\n';
             break;
     }
-    console.log(task.status);
+    window.THVueApp.radar.logStrs = task.log;
     return task.status;
 }
