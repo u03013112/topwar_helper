@@ -274,7 +274,7 @@ function THRadarTask(task) {
                 task.count += 1;
                 task.status = 'ready';
             }
-            task.log += 'interval '+task.interval+'s\n';
+            // task.log += 'interval '+task.interval+'s\n';
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
@@ -386,5 +386,6 @@ function THRadarTask(task) {
             break;
     }
     window.THVueApp.radar.logStrs = task.log;
+    console.log(task.status);
     return task.status;
 }

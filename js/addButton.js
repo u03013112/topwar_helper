@@ -24,5 +24,5 @@ function addTestButton() {
 }
 
 addTestButton();
-addTSButton();
-addTEButton();
+// addTSButton();
+// addTEButton();
