@@ -170,17 +170,17 @@ function THRadarTaskStartButtonClicked() {
         // 自动大药
         largeVITCapsules:false,
         // 次数限制
-        countMax:1,
+        countMax:window.THVueApp.radar.countMax,
         count:0,
         // 任务间隔时间（秒）
-        intervalMax:30,
+        intervalMax:window.THVueApp.radar.interval,
         interval:0,
         // 正在做的任务，和status一起组成FSM
         currentTask:{},
         // 重试，为了解决部分时候网络不好不能弹出界面
-        retryMax:3,
+        retryMax:window.THVueApp.radar.retryCountMax,
         retry:0,
-        retryTimeMax:30,
+        retryTimeMax:window.THVueApp.radar.retryInterval,
         retryTimer:0,
         // 整体日志
         log:'',
