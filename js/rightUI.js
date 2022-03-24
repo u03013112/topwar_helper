@@ -195,7 +195,9 @@ function THGetRightUIInner() {
                             <br>
                             <label style="font-size:15px;margin:10px;">log here:<br></label>
                             <div style="height: 240px; background: white;overflow:scroll">
-                                <p>{{ radar.logStrs }}</p>
+                            <p v-for="logStr in radar.logStrs" style="font-size:3px;margin:0px;">
+                                {{ logStr }}<br>
+                            </p>
                             </div>
                         </div>
                     </div>
@@ -245,7 +247,7 @@ function THVueJsInit(){
                 interval:30,
                 retryInterval:10,
                 retryCountMax:3,
-                logStrs:'',
+                logStrs:[],
             }
         }
     })

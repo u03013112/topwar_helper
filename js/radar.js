@@ -52,7 +52,8 @@ function THGetRadarMession(mession) {
     if (taskId in taskIdMap) {
         taskName = taskIdMap[taskId];
     }else{
-        console.log(taskId);
+        // 10033、10034、10035
+        // console.log(taskId);
     }
 
     var starCount = 0;
@@ -203,16 +204,16 @@ function THRadarTaskStopButtonClicked() {
 
 function THRadarTaskToString(task) {
     ret = task.taskName;
-    ret += '; star:' + task.starCount + '  ';
+    ret += ' ' + task.starCount + 'star(s)';
     return ret;
 }
 // 
 function THRadarTask(task) {
     switch (task.status) {
         case 'reward':
-            task.log += 'reward'+THRadarTaskToString(task.currentTask)+'\n';
-            cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
             task.status = 'ready';
+            // task.log += 'reward: '+THRadarTaskToString(task.currentTask)+'\n';
+            cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
             break;
         case 'ready':
             if (task.count >= task.countMax) {
@@ -220,7 +221,7 @@ function THRadarTask(task) {
                 task.status = 'done';
                 task.log += 'All done!\n';
                 THRadarTaskStopButtonClicked();
-                return;
+                break;
             }
             // 选取一个任务
             THRadarMessionStep0();
@@ -232,7 +233,7 @@ function THRadarTask(task) {
                 if (mession['state'] == 4) {
                     mession['mession'].itemClick();
                     task.status = 'reward';
-                    return;
+                    break;
                 }
             }
             
@@ -246,7 +247,18 @@ function THRadarTask(task) {
                 // 这个不太可能出现
                 return;
             }
-            var mession = messions[0];
+
+            var mession = {};
+            for (var i = 0; i < messions.length; i++) {
+                // 要判断状态，0是未开始，1是怪物出现，暂时不明白
+                // 2行军中、3进行中、4可领奖
+                if (messions[i]['state'] == 0 || messions[i]['state'] == 1) {
+                    mession = messions[i];
+                    break;
+                }
+            }
+            // TODO:应该不存在找不到任务的情况，暂时没有处理异常
+
             // 如果有必要，判断是否有队列
             if (task.taskName == 'Eliminate the Dark Legion remnant' || task.taskName == 'Destroy the Dark Legion Fort') {
                 // 如果没有队列怎么办？
@@ -261,7 +273,7 @@ function THRadarTask(task) {
                 // 终止任务，并给出原因就好
             }
             task.currentTask = mession;
-            task.log += 'selected:'+THRadarTaskToString(task.currentTask)+'\n';
+            task.log += 'start: '+THRadarTaskToString(task.currentTask)+'\n';
             // 跳转到指定任务类型的step0
             task.status = 'step0';
             break;
@@ -273,8 +285,9 @@ function THRadarTask(task) {
                 task.interval = 0;
                 task.count += 1;
                 task.status = 'ready';
+                task.log += 'finish '+task.count+ '/' + task.countMax +'\n';
             }
-            // task.log += 'interval '+task.interval+'s\n';
+            
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
@@ -363,13 +376,14 @@ function THRadarTask(task) {
             task.status = 'interval';
             break;
         case 'retry':
-            if (task.retry > task.retryMax){
+            if (task.retry >= task.retryMax){
                 task.status = 'failed';
                 break;
             }
             // 重试，先计时，时间到了再重试
             task.retryTimer += 1;
             if (task.retryTimer > task.retryTimeMax){
+                task.retryTimer = 0;
                 // 重试直接从ready开始
                 task.retry += 1;    
                 task.log += 'retry ' + task.retry + '\n';
@@ -385,7 +399,7 @@ function THRadarTask(task) {
             task.log += 'mession failed,stop it\n';
             break;
     }
-    window.THVueApp.radar.logStrs = task.log;
+    window.THVueApp.radar.logStrs = task.log.split('\n');
     console.log(task.status);
     return task.status;
 }
