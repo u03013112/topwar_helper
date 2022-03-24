@@ -182,7 +182,7 @@ function THGetRightUIInner() {
                         <div class="menu">
                             <label>helper text here</label>
                             <h6 style="margin: 0px;">repeat count:{{ radar.countMax }}</h6>
-                            <input type="range" min="1" max="10" v-model="radar.countMax">
+                            <input type="range" min="1" max="50" v-model="radar.countMax">
                             <h6 style="margin: 0px;">interval(s):{{ radar.interval }}</h6>
                             <input type="range" min="0" max="60" v-model="radar.interval">
                             <h6 style="margin: 0px;">retry interval(s):{{ radar.retryInterval }}</h6>

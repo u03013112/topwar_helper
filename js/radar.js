@@ -5,6 +5,64 @@ function THOpenRadarUI() {
     cc.find('UICanvas/MainUIWrapper/NMainUI').getComponent('NMainUI').clickRadar();
 }
 
+// 获取体力
+function THGetEnergy() {
+    var dataCenter = window.__require('DataCenter');
+    var energyData = dataCenter.DATA.UserData.getEnergy(1);
+    return energyData.Point;
+}
+
+// 判断是否有体力补充界面，这个是由于体力不够自动弹出的
+function THIsAddEnergyUIExist() {
+    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+        return false;
+    }
+    return true;
+}
+
+// 购买体力，由于使用雷达购买体力，要求雷达界面中
+function THAddEnergyStep0() {
+    // 打开药剂界面
+    var radarMainPrefab = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab').getComponent('RadarMainPrefab');
+    radarMainPrefab.addClick();
+}
+
+function THAddEnergyStep1() {
+    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+        return false;
+    }
+    var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
+    // 600001 600002
+    // 选择药品类型
+    // for (let i = 0; i < buyEnergyPanel.ItemList.length; i++) {
+    //     buyEnergyPanel.ItemList[i].ItemId;
+    // }
+    // 目前写死只用小体力药剂吧
+    buyEnergyPanel.OnUserItemClick(600001);
+    return true;
+}
+
+function THAddEnergyStep2() {
+    // 点击使用按钮
+    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+        return false;
+    }
+    var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
+    buyEnergyPanel.UseItem();
+    return true;
+}
+
+function THAddEnergyStep3() {
+    // 关闭界面
+    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+        return false;
+    }
+    var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
+    buyEnergyPanel.OnCloseClick();
+    return true;
+}
+
+
 function THGetAllMessions() {
     var radarMainPrefab = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab').getComponent('RadarMainPrefab');
     var messions0 = radarMainPrefab.taskContentNode.getChildren();
@@ -244,8 +302,9 @@ function THRadarTask(task) {
             })
             if (messions.length <= 0){
                 // 任务完成
-                // 这个不太可能出现
-                return;
+                task.status = 'done';
+                task.log += 'there is no mession here!\n';
+                break;
             }
 
             var mession = {};
@@ -267,11 +326,6 @@ function THRadarTask(task) {
                 // break;
             }
             
-            // 判断是否有体力
-            if ( true ) {
-                // 判断是否吃药，这个可能还是需要添加状态
-                // 终止任务，并给出原因就好
-            }
             task.currentTask = mession;
             task.log += 'start: '+THRadarTaskToString(task.currentTask)+'\n';
             // 跳转到指定任务类型的step0
@@ -315,6 +369,15 @@ function THRadarTask(task) {
                 task.log += 'open UI2 failed:'+THRadarTaskToString(task.currentTask)+'\n';
                 break;
             }
+            // 有可能体力不足
+            task.status = 'addEnergy0';
+            break;
+        case 'addEnergy0':
+            if (THIsAddEnergyUIExist()) {
+                // 体力不足
+                task.status = 'addEnergy1';
+                break;
+            }
             // 根据taskName，判断进入哪个类型的任务下一步
             if (task.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
                 task.status = 'battleStep0';
@@ -328,6 +391,21 @@ function THRadarTask(task) {
                 task.status = 'failed';
                 break;
             }
+            break;
+        case 'addEnergy1':
+            // 选用小体力药剂
+            // TODO：选择药剂在此
+            THAddEnergyStep1();
+            task.status = 'addEnergy2';
+            break;
+        case 'addEnergy2':
+            THAddEnergyStep2();
+            task.status = 'addEnergy3';
+            break;
+        case 'addEnergy3':
+            THAddEnergyStep3();
+            // 关闭界面之后重新回到0状态，以免那段根据taskName判断进入哪个类型的任务下一步的代码复用。
+            task.status = 'addEnergy0';
             break;
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
