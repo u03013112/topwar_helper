@@ -332,6 +332,11 @@ function THRadarTask(task) {
             task.status = 'step0';
             break;
         case 'interval':
+            // 这段家在这，是因为有一些任务点击开始后就开始等待了，这里需要判断是否有体力
+            if (THIsAddEnergyUIExist()) {
+                task.status = 'addEnergy1';
+                break;
+            }
             // 正在间隔，间隔计时器累计
             task.interval += 1;
             // 如果间隔时间足够（可以少1秒提前完成），进入ready状态
@@ -369,15 +374,6 @@ function THRadarTask(task) {
                 task.log += 'open UI2 failed:'+THRadarTaskToString(task.currentTask)+'\n';
                 break;
             }
-            // 有可能体力不足
-            task.status = 'addEnergy0';
-            break;
-        case 'addEnergy0':
-            if (THIsAddEnergyUIExist()) {
-                // 体力不足
-                task.status = 'addEnergy1';
-                break;
-            }
             // 根据taskName，判断进入哪个类型的任务下一步
             if (task.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
                 task.status = 'battleStep0';
@@ -392,6 +388,13 @@ function THRadarTask(task) {
                 break;
             }
             break;
+        case 'addEnergy0':
+            if (THIsAddEnergyUIExist()) {
+                // 体力不足
+                task.status = 'addEnergy1';
+                break;
+            }
+            break;
         case 'addEnergy1':
             // 选用小体力药剂
             // TODO：选择药剂在此
@@ -400,12 +403,13 @@ function THRadarTask(task) {
             break;
         case 'addEnergy2':
             THAddEnergyStep2();
+            task.log += 'add energy!\n'
             task.status = 'addEnergy3';
             break;
         case 'addEnergy3':
             THAddEnergyStep3();
-            // 关闭界面之后重新回到0状态，以免那段根据taskName判断进入哪个类型的任务下一步的代码复用。
-            task.status = 'addEnergy0';
+            // 直接回到ready重来
+            task.status = 'ready';
             break;
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
@@ -442,6 +446,11 @@ function THRadarTask(task) {
             // 进入 battleStep1
             break;
         case 'battleStep1':
+            // 有可能在这体力不足
+            if (THIsAddEnergyUIExist()) {
+                task.status = 'addEnergy0';
+                break;
+            }
             // 上阵
             THRadarBattleMessionStep1();
             // 进入 battleStep2
