@@ -87,7 +87,7 @@ function THGetRightUIInner() {
                                     <div style="height: 130px; background: white;">
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ goldMine.mergeLevel }} to the following quantity</h6>
-                                        <h6 style="margin: 0px;"> {{ goldMine.buildingLevel}} </h6>
+                                        <h6 style="margin: 0px;"> {{ goldMine.buildCount}} </h6>
                                         <input type="range" min="1" max="10"
                                             name="topwar_helper_JKTaskInput" v-model="goldMine.buildingLevel">
                                         <button onclick="JKTaskButtonClicked()">Dispatch a
@@ -223,10 +223,10 @@ function THVueJsInit(){
                 statusStrs: []
             },
             radar: {
-                countMax:1,
-                interval:30,
-                retryInterval:10,
-                retryCountMax:3,
+                countMax:50,
+                interval:5,
+                retryInterval:5,
+                retryCountMax:10,
                 logStrs:[],
             }
         }
