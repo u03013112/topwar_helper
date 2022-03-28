@@ -23,7 +23,12 @@ function THIsAddEnergyUIExist() {
 // 购买体力，由于使用雷达购买体力，要求雷达界面中
 function THAddEnergyStep0() {
     // 打开药剂界面
-    var radarMainPrefab = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab').getComponent('RadarMainPrefab');
+    var node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab');
+    if ( !node ) {
+        node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2');
+    }
+    var radarMainPrefab = node.getComponent('RadarMainPrefab');
+    
     radarMainPrefab.addClick();
 }
 
@@ -64,7 +69,12 @@ function THAddEnergyStep3() {
 
 
 function THGetAllMessions() {
-    var radarMainPrefab = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab').getComponent('RadarMainPrefab');
+    var node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab');
+    if ( !node ) {
+        node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2');
+    }
+    var radarMainPrefab = node.getComponent('RadarMainPrefab');
+    
     var messions0 = radarMainPrefab.taskContentNode.getChildren();
 
     messions = [];
@@ -81,6 +91,7 @@ function THGetRadarMessionPriorityByName(taskName) {
         'Eliminate the Dark Legion remnant':1,
         'Destroy the Dark Legion Fort':2,
         'Rescue Mission':0,
+        'Discover Dark Legion`s Treasure':3,
         'Kill Dark Forces':99
     };
     // 默认999
@@ -104,6 +115,12 @@ function THGetRadarMession(mession) {
         10023:'Rescue Mission',
         10024:'Rescue Mission',
         10025:'Rescue Mission',
+        10031:'Kill Dark Forces',
+        10032:'Kill Dark Forces',
+        10033:'Kill Dark Forces',
+        10034:'Kill Dark Forces',
+        10035:'Kill Dark Forces',
+        4132:'Discover Dark Legion`s Treasure',
     };
 
     var taskName = 'unknown';
@@ -111,7 +128,7 @@ function THGetRadarMession(mession) {
         taskName = taskIdMap[taskId];
     }else{
         // 10033、10034、10035
-        // console.log(taskId);
+        console.log('taskId:',taskId);
     }
 
     var starCount = 0;
@@ -135,7 +152,7 @@ function THRadarMessionStep1(task) {
     var taskName = task['taskName'];
     var starCount = task['starCount'];
 
-    if (!cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab')) {
+    if (! (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab') || cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2'))) {
         // TODO:界面没能打开，任务失败
         return false;
     }
@@ -381,6 +398,8 @@ function THRadarTask(task) {
                 task.status = 'resueStep0';
             }else if (task.currentTask['taskName'] == 'Destroy the Dark Legion Fort'){
                 task.status = 'destoryStep0';
+            }else if (task.currentTask['taskName'] == 'Discover Dark Legion`s Treasure'){
+                task.status = 'resueStep0';
             }else{
                 // 未知类型，直接推出
                 task.log += 'unsupport mession type failed:'+THRadarTaskToString(task.currentTask)+'\n';

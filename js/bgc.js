@@ -337,9 +337,8 @@ function THBGCBuildTask(task) {
 }
 
 function BGCTaskButtonClicked() {
-    var BGCTaskInput = document.getElementById('topwar_helper_BGCTaskInput');
-    console.log(BGCTaskInput);
-    var count = parseInt(BGCTaskInput.value);
+
+    var count = window.THVueApp.barrack.buildCount;
     if (count == NaN) {
         // 输入的不是数字
         return;

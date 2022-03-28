@@ -87,16 +87,9 @@ function THGetRightUIInner() {
                                     <div style="height: 130px; background: white;">
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ goldMine.mergeLevel }} to the following quantity</h6>
-                                        <h6 style="margin: 0px;" id="topwar_helper_JKTaskInputResult">{{ goldMine.buildMax }}</h6>
-                                        <input id="topwar_helper_JKTaskInput" type="range" min="1" max="10"
-                                            name="topwar_helper_JKTaskInput">
-                                        <script type='text/javascript'>
-                                            $(function () {
-                                                $('#topwar_helper_JKTaskInput').bind('input propertychange', function () {
-                                                    $('#topwar_helper_JKTaskInputResult').html($(this).val());
-                                                });
-                                            })
-                                        </script>
+                                        <h6 style="margin: 0px;"> {{ goldMine.buildingLevel}} </h6>
+                                        <input type="range" min="1" max="10"
+                                            name="topwar_helper_JKTaskInput" v-model="goldMine.buildingLevel">
                                         <button onclick="JKTaskButtonClicked()">Dispatch a
                                             task</button>
                                     </div>
@@ -120,16 +113,10 @@ function THGetRightUIInner() {
                                     <div style="height: 130px; background: white;">
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ barrack.mergeLevel }} to the following quantity</h6>
-                                        <h6 style="margin: 0px;" id="topwar_helper_BGCTaskInputResult">{{ barrack.buildMax }}</h6>
-                                        <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="10"
-                                            name="topwar_helper_BGCTaskInput">
-                                        <script type='text/javascript'>
-                                            $(function () {
-                                                $('#topwar_helper_BGCTaskInput').bind('input propertychange', function () {
-                                                    $('#topwar_helper_BGCTaskInputResult').html($(this).val());
-                                                });
-                                            })
-                                        </script>
+                                        <h6 style="margin: 0px;" id="topwar_helper_BGCTaskInputResult"> {{ barrack.buildCount}} </h6>
+                                        <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="32"
+                                            name="topwar_helper_BGCTaskInput" v-model="barrack.buildCount">
+                                        
                                         <button onclick="BGCTaskButtonClicked()">Dispatch a
                                             task</button>
                                     </div>
@@ -153,16 +140,9 @@ function THGetRightUIInner() {
                                     <div style="height: 130px; background: white;">
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ shipyard.mergeLevel }} to the following quantity</h6>
-                                        <h6 style="margin: 0px;" id="topwar_helper_ZCCTaskInputResult">{{ shipyard.buildMax }}</h6>
+                                        <h6 style="margin: 0px;"> {{ shipyard.buildCount}} </h6>
                                         <input id="topwar_helper_ZCCTaskInput" type="range" min="1" max="16"
-                                            name="topwar_helper_ZCCTaskInput">
-                                        <script type='text/javascript'>
-                                            $(function () {
-                                                $('#topwar_helper_ZCCTaskInput').bind('input propertychange', function () {
-                                                    $('#topwar_helper_ZCCTaskInputResult').html($(this).val());
-                                                });
-                                            })
-                                        </script>
+                                            name="topwar_helper_ZCCTaskInput" v-model="shipyard.buildCount">
                                         <button onclick="ZCCTaskButtonClicked()">Dispatch a
                                             task</button>
                                     </div>
@@ -268,24 +248,4 @@ function THRightUIInit() {
     parentNode.insertBefore(rightUI, xsLoginDiv);
 
     THVueJsInit();
-
-    THScript();
-}
-
-// 更新界面所需脚本
-function THScript () {
-    var JKTaskInput = document.getElementById("topwar_helper_JKTaskInput");
-    JKTaskInput.oninput = function () {
-        window.THVueApp.goldMine.buildCount = this.value;
-    }
-
-    var BGCTaskInput = document.getElementById("topwar_helper_BGCTaskInput");
-    BGCTaskInput.oninput = function () {
-        window.THVueApp.barrack.buildCount = this.value;
-    }
-
-    var ZCCTaskInput = document.getElementById("topwar_helper_ZCCTaskInput");
-    ZCCTaskInput.oninput = function () {
-        window.THVueApp.shipyard.buildCount = this.value;
-    }
 }

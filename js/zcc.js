@@ -27,9 +27,11 @@ function THGetZCCinfos() {
 // 获得Shipyard科技等级，返回( Merge level, Building level)
 function THGetZCCKJ() {
     var dataCenter = window.__require('DataCenter');
-    if (!dataCenter.DATA.UserData.getScienceByGroupId(310000)) {
+    if (!dataCenter.DATA.UserData.getScienceByGroupId(310000) ||
+        !dataCenter.DATA.UserData.getScienceByGroupId(312000) ||
+        !dataCenter.DATA.UserData.getScienceByGroupId(302000)) {
         // 不能获得用户科技，大概率是没有登录成功
-        return;
+        return [0,0];
     }
     var maxLevel = dataCenter.DATA.UserData.getScienceByGroupId(312000)._Data.level;
     var buildLevel = dataCenter.DATA.UserData.getScienceByGroupId(302000)._Data.level;
@@ -333,8 +335,7 @@ function THZCCBuildTask(task) {
 }
 
 function ZCCTaskButtonClicked() {
-    var ZCCTaskInput = document.getElementById('topwar_helper_ZCCTaskInput'); ("input");
-    var count = parseInt(ZCCTaskInput.value);
+    var count = window.THVueApp.shipyard.buildCount;
     if (count == NaN) {
         // 输入的不是数字
         return;

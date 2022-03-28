@@ -321,8 +321,7 @@ function THJKBuildTask(task) {
 }
 
 function JKTaskButtonClicked() {
-    var JKTaskInput = document.getElementById('topwar_helper_JKTaskInput'); ("input");
-    var count = parseInt(JKTaskInput.value);
+    var count = window.THVueApp.goldMine.buildCount;
     if (count == NaN) {
         // 输入的不是数字
         return;
