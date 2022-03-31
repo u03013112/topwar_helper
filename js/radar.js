@@ -82,6 +82,12 @@ function THGetAllMessions() {
         mession = THGetRadarMession(messions0[i]);
         messions.push(mession);
     }
+
+    var messions1 = radarMainPrefab.ringTaskContentNode.getChildren();
+    for (var i = 0; i < messions1.length; i++){
+        mession = THGetRadarMession(messions1[i]);
+        messions.push(mession);
+    }
     return messions;
 }
 
@@ -92,6 +98,7 @@ function THGetRadarMessionPriorityByName(taskName) {
         'Destroy the Dark Legion Fort':2,
         'Rescue Mission':0,
         'Discover Dark Legion`s Treasure':3,
+        'The Lost Treasure':-1,
         'Kill Dark Forces':99
     };
     // 默认999
@@ -121,6 +128,7 @@ function THGetRadarMession(mession) {
         10034:'Kill Dark Forces',
         10035:'Kill Dark Forces',
         4132:'Discover Dark Legion`s Treasure',
+        10005:'The Lost Treasure',
     };
 
     var taskName = 'unknown';
@@ -399,6 +407,8 @@ function THRadarTask(task) {
             }else if (task.currentTask['taskName'] == 'Destroy the Dark Legion Fort'){
                 task.status = 'destoryStep0';
             }else if (task.currentTask['taskName'] == 'Discover Dark Legion`s Treasure'){
+                task.status = 'resueStep0';
+            }else if (task.currentTask['taskName'] == 'The Lost Treasure'){
                 task.status = 'resueStep0';
             }else{
                 // 未知类型，直接推出
