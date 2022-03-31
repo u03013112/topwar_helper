@@ -68,6 +68,9 @@ function THTaskUpdate() {
             }else if(task.type == 'ZCCBuild'){
                 var status = THZCCBuildTask(task);
                 window.THData.Status.ZCCStatus = status;
+            }else if(task.type == 'FJCBuild'){
+                var status = THFJCBuildTask(task);
+                window.THData.Status.FJCStatus = status;
             }else if(task.type == 'RadarTask'){
                 var status = THRadarTask(task);
             }
@@ -76,6 +79,7 @@ function THTaskUpdate() {
     THJKVueUpdate();
     THBGCVueUpdate();
     THZCCVueUpdate();
+    THFJCVueUpdate();
 }
 
 function taskMainBtnClicked() {
@@ -89,33 +93,6 @@ function taskMainBtnClicked() {
         taskMainButton.innerHTML = 'Task in progress...';
     }
 }
-
-// 任务相关初始化
-// function taskSystemInit() {
-//     // 任务列表
-//     if (window.THData.Tasks == null) {
-//         window.THData.Tasks = [];
-//     }
-
-//     var rootDiv = document.getElementById("topwar_helper_rootDiv");
-//     var taskRootDiv = document.createElement("div");
-//     taskRootDiv.id = 'topwar_helper_taskRootDiv';
-//     taskMainButton = document.createElement("button");
-//     taskMainButton.id = 'topwar_helper_taskMainButton';
-//     taskMainButton.innerHTML = 'Task in progress...';
-//     if (window.THData.timer == null){
-//         taskMainButton.innerHTML = 'Task is suspended';
-//     }
-//     taskMainButton.setAttribute("onclick", "taskMainBtnClicked()");
-//     taskRootDiv.append(taskMainButton);
-//     rootDiv.append(taskRootDiv);
-// }
-// function statusSystemInit() {
-//     // 暂时只是一个记录状态的map
-//     if (window.THData.Status == null){
-//         window.THData.Status = {};
-//     }
-// }
 
 // 这里应该不用区分建筑还是兵营
 function THMerge(itemList) {

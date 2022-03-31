@@ -154,6 +154,30 @@ function THGetRightUIInner() {
                                     </div>
                                 </div>
                             </div>
+                            <div>
+                                <input type="radio" id="AirBase" value="AirBase" name="radio1">
+                                <label for="AirBase">AirBase</label>
+                                <div class="buildingMenu">
+                                    <div style="height: 80px; background: white;">
+                                        <h4 style="margin: 8px;">Technology</h4>
+                                        <h5 style="margin: 0px;">Building level:{{ airBase.buildingLevel }}</h5>
+                                        <h5 style="margin: 0px;">Merge level:{{ airBase.mergeLevel }}</h5>
+                                    </div>
+                                    <div style="height: 130px; background: white;">
+                                        <h4 style="margin: 8px;">Build task</h4>
+                                        <h6 style="margin: 0px;">Build level {{ airBase.mergeLevel }} to the following quantity</h6>
+                                        <h6 style="margin: 0px;"> {{ airBase.buildCount}} </h6>
+                                        <input type="range" min="1" max="16" v-model="airBase.buildCount">
+                                        <button onclick="FJCTaskButtonClicked()">Dispatch a task</button>
+                                    </div>
+                                    <div style="height: 210px; background: white;">
+                                        <h4 style="margin: 8px;">Status</h4>
+                                        <li v-for="statusStr in airBase.statusStrs">
+                                            {{ statusStr.text }}
+                                        </li>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -217,6 +241,11 @@ function THVueJsInit(){
                 statusStrs: []
             },
             shipyard: {
+                buildingLevel: 0,
+                mergeLevel: 0,
+                buildCount:16,
+                statusStrs: []
+            },airBase: {
                 buildingLevel: 0,
                 mergeLevel: 0,
                 buildCount:16,

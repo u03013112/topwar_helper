@@ -30,6 +30,7 @@ injectCustomJs('js/inject.js');
 injectCustomJs('js/bgc.js');
 injectCustomJs('js/jk.js');
 injectCustomJs('js/zcc.js');
+injectCustomJs('js/fjc.js');
 injectCustomJs('js/hotkey.js');
 injectCustomJs('js/rightUI.js');
 injectCustomJs('js/radar.js');
