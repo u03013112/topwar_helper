@@ -25,7 +25,6 @@ function THGetRightUIInner() {
                 height: 0px;
                 overflow: hidden;
                 float:left;
-                align-text:left;
             }
             .navigation input:checked ~ .buildingMenu
             {
