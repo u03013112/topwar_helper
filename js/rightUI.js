@@ -6,7 +6,8 @@ function THGetRightUIInner() {
                 position: relative;
                 display: flex;
                 justify-content: flex-start;
-                align-items: left;
+                align-content: flex-start;
+                align-items: flex-start;
                 /* background: rgb(236, 192, 192); */
                 padding: 20px;
                 border-radius: 4px;
@@ -23,6 +24,7 @@ function THGetRightUIInner() {
                 transition: 0.5s;
                 height: 0px;
                 overflow: hidden;
+                float:left;
             }
             .navigation input:checked ~ .buildingMenu
             {
@@ -33,8 +35,12 @@ function THGetRightUIInner() {
                 transition: 0.5s;
                 height: 0px;
                 overflow: hidden;
+                float:left;
             }
-            
+            input
+            {
+                float:left;
+            }
             input+label
             {
                 text-decoration: none;
@@ -42,6 +48,7 @@ function THGetRightUIInner() {
                 text-transform: uppercase;
                 font-weight: 600;
                 display: inline-block;
+                float:left;
             }
             .menu>div
             {

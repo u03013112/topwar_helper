@@ -128,6 +128,9 @@ function THGetRadarMession(mession) {
         10034:'Kill Dark Forces',
         10035:'Kill Dark Forces',
         4132:'Discover Dark Legion`s Treasure',
+        10002:'Gold Harvest Ops',
+        10003:'The Lost Treasure',
+        10004:'Treasure Ops',
         10005:'The Lost Treasure',
     };
 
@@ -410,6 +413,10 @@ function THRadarTask(task) {
                 task.status = 'resueStep0';
             }else if (task.currentTask['taskName'] == 'The Lost Treasure'){
                 task.status = 'resueStep0';
+            }else if (task.currentTask['taskName'] == 'Treasure Ops'){
+                task.status = 'battleStep0';
+            }else if (task.currentTask['taskName'] == 'Gold Harvest Ops'){
+                task.status = 'destoryStep0';
             }else{
                 // 未知类型，直接推出
                 task.log += 'unsupport mession type failed:'+THRadarTaskToString(task.currentTask)+'\n';
