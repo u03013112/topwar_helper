@@ -25,6 +25,7 @@ function THGetRightUIInner() {
                 height: 0px;
                 overflow: hidden;
                 float:left;
+                align-text:left;
             }
             .navigation input:checked ~ .buildingMenu
             {
@@ -54,6 +55,11 @@ function THGetRightUIInner() {
             {
                 padding-left: 10px;
                 background-color: rgb(245, 206, 171);
+            }
+            .menu>li
+            {
+                align-text:left;
+                float:left;
             }
             .menu label
             {
