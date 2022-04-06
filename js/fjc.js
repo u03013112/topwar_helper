@@ -147,7 +147,7 @@ function FJCTaskButtonClicked() {
 function THFJCTaskStop() {
     for (var i = 0; i < window.THData.Tasks.length; ++i) {
         var task = window.THData.Tasks[i];
-        if (task.type == 'ZCCBuild') {
+        if (task.type == 'FJCBuild') {
             window.THData.Tasks.splice(i, 1);
             break;
         }
