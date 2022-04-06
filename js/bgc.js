@@ -288,7 +288,7 @@ function THBGCBuildTask(task) {
     if (bgcInfos[task.level - 1] >= task.count) {
         // console.log("mission completed");
         status = 'mission completed';
-        THZCCTaskStop();
+        THBGCTaskStop();
         return status;
     }
 
@@ -314,7 +314,7 @@ function THBGCBuildTask(task) {
                     if (c._curProNum > 0) {
                         status = 'Is building troops, suspended work';
                         // 正在造兵，那就暂停目前任务
-                        THZCCTaskStop();
+                        THBGCTaskStop();
                         return status;
                     }
                     itemList.push(c);
@@ -342,7 +342,7 @@ function BGCTaskButtonClicked() {
         // 输入的不是数字
         return;
     }
-    THZCCTaskStop();
+    THBGCTaskStop();
 
     newTask = {
         type: 'BGCBuild',
@@ -352,7 +352,7 @@ function BGCTaskButtonClicked() {
     window.THData.Tasks.push(newTask);
 }
 
-function THZCCTaskStop() {
+function THBGCTaskStop() {
     for (var i = 0; i < window.THData.Tasks.length; ++i) {
         var task = window.THData.Tasks[i];
         if (task.type == 'ZCCBuild') {

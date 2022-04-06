@@ -346,7 +346,7 @@ function ZCCTaskButtonClicked() {
     }
 
     // 找到旧的同类任务，删掉然后添加新的
-    ZCCTaskStop();
+    THZCCTaskStop();
 
     newTask = {
         type: 'ZCCBuild',
