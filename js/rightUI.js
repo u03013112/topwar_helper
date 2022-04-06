@@ -25,6 +25,13 @@ function THGetRightUIInner() {
                 height: 0px;
                 overflow: hidden;
                 float:left;
+                width:100%;
+                display:flex;
+                flex-direction: column;
+                align-content: space-around;
+                align-items: stretch;
+                justify-content: flex-start;
+                flex-wrap: wrap;
             }
             .navigation input:checked ~ .buildingMenu
             {
@@ -77,7 +84,7 @@ function THGetRightUIInner() {
                     <div>
                         <input type="radio" id="Hotkey" value="Hotkey" name="radio0">
                         <label for="Hotkey">Hotkey</label>
-                        <div class="menu">
+                        <div class="menu" style="align-items: flex-start;">
                             <li v-for="hotkey in hotkeys">
                                 {{ hotkey.text }}
                             </li>
@@ -210,7 +217,7 @@ function THGetRightUIInner() {
                             <button onclick="THRadarTaskStopButtonClicked()">stop</button>
                             <br>
                             <label style="font-size:15px;margin:10px;">log here:<br></label>
-                            <div style="height: 240px; background: white;overflow:scroll">
+                            <div style="width:80%;height: 240px; background: white;overflow:scroll;">
                             <p v-for="logStr in radar.logStrs" style="font-size:3px;margin:0px;">
                                 {{ logStr }}<br>
                             </p>
