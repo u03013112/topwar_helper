@@ -37,3 +37,4 @@ injectCustomJs('js/radar.js');
 
 injectCustomJs2('https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
 injectCustomJs2('https://cdn.jsdelivr.net/npm/vue@2');
+injectCustomJs2('https://www.googletagmanager.com/gtag/js?id=G-EGJ78MKRZC');

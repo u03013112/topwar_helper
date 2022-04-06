@@ -325,6 +325,7 @@ function THJKBuildTask(task) {
 }
 
 function JKTaskButtonClicked() {
+    gtag && gtag('event', 'JKTaskButtonClicked', { 'send_to': 'G-EGJ78MKRZC' });
     var count = window.THVueApp.goldMine.buildCount;
     if (count == NaN) {
         // 输入的不是数字

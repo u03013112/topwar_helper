@@ -33,6 +33,10 @@ function THTaskUpdate() {
             window.THRightUIInitStart = true;
             THRightUIInit();
         }
+        if ( !window.THGAInitStart ) {
+            window.THGAInitStart = true;
+            THGAInit();
+        }
     }catch(e){
         console.log(e.message);
         return;

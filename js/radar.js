@@ -238,6 +238,7 @@ function THRadarRescueMessionStep0() {
 
 // 以下的任务指的不是游戏中的任务，而是助手的任务
 function THRadarTaskStartButtonClicked() {
+    gtag && gtag('event', 'THRadarTaskStartButtonClicked', { 'send_to': 'G-EGJ78MKRZC' });
     // 防止反复添加，添加之前先把旧的去掉
     THRadarTaskStopButtonClicked();
     // 最好直接进入正确的地图

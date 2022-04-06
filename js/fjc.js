@@ -127,7 +127,7 @@ function THFJCBuildTask(task) {
 }
 
 function FJCTaskButtonClicked() {
-
+    gtag && gtag('event', 'FJCTaskButtonClicked', { 'send_to': 'G-EGJ78MKRZC' });
     var count = window.THVueApp.airBase.buildCount;
     if (count == NaN) {
         // 输入的不是数字

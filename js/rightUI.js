@@ -322,3 +322,12 @@ function THRightUIInit() {
 
     THVueJsInit();
 }
+
+function THGAInit() {
+    // 单独接入一个ga，和原有ga应该无冲突，原有ga还有可能帮助加载js
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EGJ78MKRZC');
+}

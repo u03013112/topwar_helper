@@ -339,6 +339,7 @@ function THZCCBuildTask(task) {
 }
 
 function ZCCTaskButtonClicked() {
+    gtag && gtag('event', 'ZCCTaskButtonClicked', { 'send_to': 'G-EGJ78MKRZC' });
     var count = window.THVueApp.shipyard.buildCount;
     if (count == NaN) {
         // 输入的不是数字

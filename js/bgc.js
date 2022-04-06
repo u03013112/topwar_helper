@@ -336,7 +336,7 @@ function THBGCBuildTask(task) {
 }
 
 function BGCTaskButtonClicked() {
-
+    gtag && gtag('event', 'BGCTaskButtonClicked', { 'send_to': 'G-EGJ78MKRZC' });
     var count = window.THVueApp.barrack.buildCount;
     if (count == NaN) {
         // 输入的不是数字
