@@ -24,8 +24,18 @@ function THRegHotkey() {
 // 弹出串口的退出
 function THPopWindowBack() {
     // 如果有打开窗口，关闭打开窗口
-    if (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT') && cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildrenCount() > 0) {
-        cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT').getChildren()[0].getComponent('DialogContentComponent').close()
+    var pop = cc.find('UICanvas/PopLayer');
+    if (pop) {
+        for (var i = 0; i < pop.getChildrenCount(); i++) {
+            var popChild = pop.getChildren()[i];
+            var content = popChild.getChildByName('CONTENT');
+            if (content && content.getChildrenCount() > 0) {
+                var dialog = content.getChildren()[0].getComponent('DialogContentComponent');
+                if (dialog) {
+                    dialog.close();
+                }
+            }
+        }
     }
 }
 
