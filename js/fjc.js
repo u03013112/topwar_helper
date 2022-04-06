@@ -79,13 +79,7 @@ function THFJCBuildTask(task) {
     if (fjcInfos[task.level - 1] >= task.count) {
         // console.log("mission completed");
         status = 'mission completed';
-        for (var i = 0; i < window.THData.Tasks.length; ++i) {
-            task = window.THData.Tasks[i];
-            if (task.type == 'FJCBuild') {
-                window.THData.Tasks.splice(i, 1);
-                break;
-            }
-        }
+        THZCCTaskStop();
         return status;
     }
 
@@ -111,6 +105,7 @@ function THFJCBuildTask(task) {
                     if (c._curProNum > 0) {
                         status = 'Is building troops, suspended work';
                         // 正在造兵，那就暂停目前任务
+                        THZCCTaskStop();
                         return status;
                     }
                     itemList.push(c);
@@ -139,13 +134,7 @@ function FJCTaskButtonClicked() {
         return;
     }
     // 找到旧的同类任务，删掉然后添加新的
-    for (var i = 0; i < window.THData.Tasks.length; ++i) {
-        task = window.THData.Tasks[i];
-        if (task.type == 'FJCBuild') {
-            window.THData.Tasks.splice(i, 1);
-            break;
-        }
-    }
+    THZCCTaskStop();
 
     newTask = {
         type: 'FJCBuild',
@@ -153,4 +142,14 @@ function FJCTaskButtonClicked() {
         count: count
     }
     window.THData.Tasks.push(newTask);
+}
+
+function THZCCTaskStop() {
+    for (var i = 0; i < window.THData.Tasks.length; ++i) {
+        var task = window.THData.Tasks[i];
+        if (task.type == 'ZCCBuild') {
+            window.THData.Tasks.splice(i, 1);
+            break;
+        }
+    }
 }

@@ -288,13 +288,7 @@ function THBGCBuildTask(task) {
     if (bgcInfos[task.level - 1] >= task.count) {
         // console.log("mission completed");
         status = 'mission completed';
-        for (var i = 0; i < window.THData.Tasks.length; ++i) {
-            task = window.THData.Tasks[i];
-            if (task.type == 'BGCBuild') {
-                window.THData.Tasks.splice(i, 1);
-                break;
-            }
-        }
+        THZCCTaskStop();
         return status;
     }
 
@@ -320,6 +314,7 @@ function THBGCBuildTask(task) {
                     if (c._curProNum > 0) {
                         status = 'Is building troops, suspended work';
                         // 正在造兵，那就暂停目前任务
+                        THZCCTaskStop();
                         return status;
                     }
                     itemList.push(c);
@@ -347,14 +342,7 @@ function BGCTaskButtonClicked() {
         // 输入的不是数字
         return;
     }
-    // 找到旧的同类任务，删掉然后添加新的
-    for (var i = 0; i < window.THData.Tasks.length; ++i) {
-        task = window.THData.Tasks[i];
-        if (task.type == 'BGCBuild') {
-            window.THData.Tasks.splice(i, 1);
-            break;
-        }
-    }
+    THZCCTaskStop();
 
     newTask = {
         type: 'BGCBuild',
@@ -362,6 +350,16 @@ function BGCTaskButtonClicked() {
         count: count
     }
     window.THData.Tasks.push(newTask);
+}
+
+function THZCCTaskStop() {
+    for (var i = 0; i < window.THData.Tasks.length; ++i) {
+        var task = window.THData.Tasks[i];
+        if (task.type == 'ZCCBuild') {
+            window.THData.Tasks.splice(i, 1);
+            break;
+        }
+    }
 }
 
 // 造兵，每一个Barracks都尝试造一个兵，会受到各种限制，可能导致部分失败，这个不好改
