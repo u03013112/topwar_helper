@@ -28,7 +28,7 @@ function THGetRightUIInner() {
                 align-content: space-around;
                 align-items: stretch;
                 justify-content: flex-start;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
             }
             .navigation input:checked ~ .buildingMenu {
                 height: 480px;
@@ -94,6 +94,8 @@ function THGetRightUIInner() {
                         <input type="radio" id="Hotkey" value="Hotkey" name="radio0">
                         <label for="Hotkey">Hotkey</label>
                         <div class="menu" style="align-items: flex-start;">
+                            <p>Instructions for use<br>
+                            If the hotkey does not work, click anywhere within the game screen to activate the game's response to the hotkey.</p>
                             <li v-for="hotkey in hotkeys">
                                 {{ hotkey.text }}
                             </li>
@@ -119,7 +121,7 @@ function THGetRightUIInner() {
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ goldMine.mergeLevel }} to the following quantity</h6>
                                         <h6 style="margin: 0px;"> {{ goldMine.buildCount}} </h6>
-                                        <input type="range" min="1" max="10"
+                                        <input type="range" min="1" max="10" style="float:none;"
                                             name="topwar_helper_JKTaskInput" v-model="goldMine.buildingLevel">
                                         <button onclick="JKTaskButtonClicked()">Dispatch a
                                             task</button>
@@ -148,7 +150,7 @@ function THGetRightUIInner() {
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ barrack.mergeLevel }} to the following quantity</h6>
                                         <h6 style="margin: 0px;" id="topwar_helper_BGCTaskInputResult"> {{ barrack.buildCount}} </h6>
-                                        <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="32"
+                                        <input id="topwar_helper_BGCTaskInput" type="range" min="1" max="32" style="float:none;"
                                             name="topwar_helper_BGCTaskInput" v-model="barrack.buildCount">
                                         
                                         <button onclick="BGCTaskButtonClicked()">Dispatch a
@@ -178,7 +180,7 @@ function THGetRightUIInner() {
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ shipyard.mergeLevel }} to the following quantity</h6>
                                         <h6 style="margin: 0px;"> {{ shipyard.buildCount}} </h6>
-                                        <input id="topwar_helper_ZCCTaskInput" type="range" min="1" max="16"
+                                        <input id="topwar_helper_ZCCTaskInput" type="range" min="1" max="16" style="float:none;"
                                             name="topwar_helper_ZCCTaskInput" v-model="shipyard.buildCount">
                                         <button onclick="ZCCTaskButtonClicked()">Dispatch a
                                             task</button>
@@ -207,7 +209,7 @@ function THGetRightUIInner() {
                                         <h4 style="margin: 8px;">Build task</h4>
                                         <h6 style="margin: 0px;">Build level {{ airBase.mergeLevel }} to the following quantity</h6>
                                         <h6 style="margin: 0px;"> {{ airBase.buildCount}} </h6>
-                                        <input type="range" min="1" max="16" v-model="airBase.buildCount">
+                                        <input type="range" min="1" max="16" v-model="airBase.buildCount" style="float:none;">
                                         <button onclick="FJCTaskButtonClicked()">Dispatch a task</button>
                                     </div>
                                     <div style="height: 210px; background: white;">
@@ -218,6 +220,15 @@ function THGetRightUIInner() {
                                     </div>
                                 </div>
                             </div>
+                            <div>
+                                <input type="radio" id="Help" value="Help" name="radio1">
+                                <label for="Help">Help</label>
+                                <div class="buildingMenu">
+                                    <p>Instructions for use<br>
+                                        This part helps players build and merge buildings in batches up to the current highest tech level. Please do not switch to the world map interface after clicking "Dispatch task", and do not manually merge units until the task is completed. <br>Also, make sure you have enough open space and gold coins.</p>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                     <div>
