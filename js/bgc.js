@@ -225,6 +225,10 @@ function THBGCVueUpdate() {
     for (var i = 0; i < bgcInfos.length; ++i) {
         if (bgcInfos[i] > 0) {
             var level = i + 1;
+            if (window.THVueApp.barrack.nowMaxLevel < level) {
+                // 给目前最大等级赋值，为了可以提示红点
+                window.THVueApp.barrack.nowMaxLevel = level;
+            }
             statusStr = {text:'Level:' + level + ' count:' + bgcInfos[i]};
             window.THVueApp.barrack.statusStrs.push(statusStr);
         }

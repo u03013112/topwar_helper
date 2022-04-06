@@ -214,6 +214,10 @@ function THJKVueUpdate() {
     for (var i = 0; i < jkInfos.length; ++i) {
         if (jkInfos[i] > 0) {
             var level = i + 1;
+            if (window.THVueApp.goldMine.nowMaxLevel < level) {
+                // 给目前最大等级赋值，为了可以提示红点
+                window.THVueApp.goldMine.nowMaxLevel = level;
+            }
             statusStr = {text:'Level:' + level + ' count:' + jkInfos[i]};
             window.THVueApp.goldMine.statusStrs.push(statusStr);
         }

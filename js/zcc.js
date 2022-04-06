@@ -227,6 +227,10 @@ function THZCCVueUpdate() {
     for (var i = 0; i < zccInfos.length; ++i) {
         if (zccInfos[i] > 0) {
             var level = i + 1;
+            if (window.THVueApp.shipyard.nowMaxLevel < level) {
+                // 给目前最大等级赋值，为了可以提示红点
+                window.THVueApp.shipyard.nowMaxLevel = level;
+            }
             statusStr = {text:'Level:' + level + ' count:' + zccInfos[i]};
             window.THVueApp.shipyard.statusStrs.push(statusStr);
         }

@@ -71,6 +71,25 @@ function THGetRightUIInner() {
             {
                 font-size:10px;
             }
+            .redpointPrefix {
+                text-decoration: none;
+                color: #666;
+                text-transform: uppercase;
+                font-weight: 600;
+                display: inline-block;
+                position:relative;
+                padding-right:10px;
+            }
+            .redpoint {
+                display:block;
+                background:#f00;
+                border-radius:50%;
+                width:8px;
+                height:8px;
+                top:0px;
+                right:0px;
+                position:absolute;
+            }
         </style>
 
         <div id="topwar_helper_rightUI" style="position: absolute; width: 100%; height: 100%; right: 0px; background: pink;">
@@ -96,7 +115,10 @@ function THGetRightUIInner() {
                         <div class="menu">
                             <div>
                                 <input type="radio" id="Gold Mine" value="Gold Mine" name="radio1">
-                                <label for="Gold Mine">Gold Mine</label>
+                                <label for="Gold Mine" class="redpointPrefix">
+                                    Gold Mine
+                                    <i class="redpoint" v-if="goldMine.mergeLevel > goldMine.nowMaxLevel"></i>
+                                </label>
                                 <div class="buildingMenu">
                                     <div style="height: 80px; background: white;">
                                         <h4 style="margin: 8px;">Technology</h4>
@@ -122,7 +144,10 @@ function THGetRightUIInner() {
                             </div>
                             <div>
                                 <input type="radio" id="Barrack" value="Barrack" name="radio1">
-                                <label for="Barrack">Barrack</label>
+                                <label for="Barrack" class="redpointPrefix">
+                                    Barrack
+                                    <i class="redpoint" v-if="barrack.mergeLevel > barrack.nowMaxLevel"></i>
+                                </label>
                                 <div class="buildingMenu">
                                     <div style="height: 80px; background: white;">
                                         <h4 style="margin: 8px;">Technology</h4>
@@ -149,7 +174,10 @@ function THGetRightUIInner() {
                             </div>
                             <div>
                                 <input type="radio" id="Shipyaird" value="Shipyaird" name="radio1">
-                                <label for="Shipyaird">Shipyaird</label>
+                                <label for="Shipyaird" class="redpointPrefix">
+                                    Shipyaird
+                                    <i class="redpoint" v-if="shipyard.mergeLevel > shipyard.nowMaxLevel"></i>
+                                </label>
                                 <div class="buildingMenu">
                                     <div style="height: 80px; background: white;">
                                         <h4 style="margin: 8px;">Technology</h4>
@@ -175,7 +203,10 @@ function THGetRightUIInner() {
                             </div>
                             <div>
                                 <input type="radio" id="AirBase" value="AirBase" name="radio1">
-                                <label for="AirBase">AirBase</label>
+                                <label for="AirBase" class="redpointPrefix">
+                                    AirBase
+                                    <i class="redpoint" v-if="airBase.mergeLevel > airBase.nowMaxLevel"></i>
+                                </label>
                                 <div class="buildingMenu">
                                     <div style="height: 80px; background: white;">
                                         <h4 style="margin: 8px;">Technology</h4>
@@ -250,23 +281,27 @@ function THVueJsInit(){
             goldMine: {
                 buildingLevel: 0,
                 mergeLevel: 0,
+                nowMaxLevel:0,
                 buildCount:10,
                 statusStrs: []
             },
             barrack: {
                 buildingLevel: 0,
                 mergeLevel: 0,
+                nowMaxLevel:0,
                 buildCount:32,
                 statusStrs: []
             },
             shipyard: {
                 buildingLevel: 0,
                 mergeLevel: 0,
+                nowMaxLevel:0,
                 buildCount:16,
                 statusStrs: []
             },airBase: {
                 buildingLevel: 0,
                 mergeLevel: 0,
+                nowMaxLevel:0,
                 buildCount:16,
                 statusStrs: []
             },
