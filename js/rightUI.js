@@ -1,8 +1,7 @@
 function THGetRightUIInner() {
     var innerHTML = `
         <style>
-            .navigation
-            {
+            .navigation {
                 position: relative;
                 display: flex;
                 justify-content: flex-start;
@@ -15,12 +14,10 @@ function THGetRightUIInner() {
                 box-shadow: 0 8px 15px rgba(0,0,0,.2);
                 flex-direction: column;
             }
-            .navigation input:checked ~ .menu
-            {
+            .navigation input:checked ~ .menu {
                 height: 580px;
             }
-            .menu
-            {
+            .menu {
                 transition: 0.5s;
                 height: 0px;
                 overflow: hidden;
@@ -33,23 +30,19 @@ function THGetRightUIInner() {
                 justify-content: flex-start;
                 flex-wrap: wrap;
             }
-            .navigation input:checked ~ .buildingMenu
-            {
+            .navigation input:checked ~ .buildingMenu {
                 height: 480px;
             }
-            .buildingMenu
-            {
+            .buildingMenu {
                 transition: 0.5s;
                 height: 0px;
                 overflow: hidden;
                 float:left;
             }
-            input
-            {
+            input {
                 float:left;
             }
-            input+label
-            {
+            input+label {
                 text-decoration: none;
                 color: #666;
                 text-transform: uppercase;
@@ -57,18 +50,15 @@ function THGetRightUIInner() {
                 display: inline-block;
                 float:left;
             }
-            .menu>div
-            {
+            .menu>div {
                 padding-left: 10px;
                 background-color: rgb(245, 206, 171);
             }
-            .menu>li
-            {
+            .menu>li {
                 align-text:left;
                 float:left;
             }
-            .menu label
-            {
+            .menu label {
                 font-size:10px;
             }
             .redpointPrefix {
@@ -84,8 +74,8 @@ function THGetRightUIInner() {
                 display:block;
                 background:#f00;
                 border-radius:50%;
-                width:8px;
-                height:8px;
+                width:10px;
+                height:10px;
                 top:0px;
                 right:0px;
                 position:absolute;
