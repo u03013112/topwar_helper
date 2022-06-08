@@ -150,6 +150,12 @@ function THGetRadarMession(mession) {
     return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority,'state':state};
 }
 
+function THGetMessionIcon(mession) {
+    var effect = mession.getChildByName('effectNode').getChildren()[0];
+    effect.getChildren()[0].getChildren()[2].getChildren()[0]._components[0]._spriteFrame;
+    // TODO:代码没有写完，拿到整张贴图之后需要裁减，或旋转
+}
+
 // 所有雷达任务的第0步，打开雷达界面
 // TODO：出兵的任务应该先判断是否有空余队列
 function THRadarMessionStep0() {

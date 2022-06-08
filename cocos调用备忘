@@ -1,0 +1,5 @@
+// 弹出面板
+var UIDataInfo = window.__require('UIDataInfo')
+var a = UIDataInfo.UIDataInfo.UnLockFastMergePanel
+var UIManager = window.__require('UIManager');
+UIManager.default._Instance.OpenUI(a);

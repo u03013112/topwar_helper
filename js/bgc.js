@@ -12,7 +12,8 @@ function THGetBGCinfos() {
     }
     bList = cc.find('Canvas/HomeMap/BuildingNode').getChildren();
     for (var i = 0; i < bList.length; ++i) {
-        b = bList[i]; if (b.name == 'BuildingItem') {
+        b = bList[i];
+        if (b.name == 'BuildingItem') {
             c = b.getComponent('BuildingItem');
             index = THBGCIdList.indexOf(c.ItemData.id);
             if (index < 0) {
@@ -229,12 +230,12 @@ function THBGCVueUpdate() {
                 // 给目前最大等级赋值，为了可以提示红点
                 window.THVueApp.barrack.nowMaxLevel = level;
             }
-            statusStr = {text:'Level:' + level + ' count:' + bgcInfos[i]};
+            statusStr = { text: 'Level:' + level + ' count:' + bgcInfos[i] };
             window.THVueApp.barrack.statusStrs.push(statusStr);
         }
     }
     if (window.THData.Status.BGCStatus) {
-        window.THVueApp.barrack.statusStrs.push({text:window.THData.Status.BGCStatus});
+        window.THVueApp.barrack.statusStrs.push({ text: window.THData.Status.BGCStatus });
     }
 }
 
@@ -375,3 +376,8 @@ function THBGCTaskStop() {
 //         }
 //     }
 // };
+
+document.addEventListener('enableFeature', function(e) {
+    // add your code here
+    console.log('enableFeature');
+});

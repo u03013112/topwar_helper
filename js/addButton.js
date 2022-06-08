@@ -6,6 +6,7 @@ function addTSButton() {
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
+
 function addTEButton() {
     var button = document.createElement("button");
     button.innerHTML = "task stop";
@@ -26,3 +27,11 @@ function addTestButton() {
 addTestButton();
 // addTSButton();
 // addTEButton();
+
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent(request.method, true, true);
+        document.dispatchEvent(evt);
+    });
