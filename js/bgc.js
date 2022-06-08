@@ -378,6 +378,12 @@ function THBGCTaskStop() {
 // };
 
 document.addEventListener('enableFeature', function(e) {
-    // add your code here
     console.log('enableFeature');
+    var btn = document.getElementById('THHelperButton');
+    if (btn.style.display == 'block') {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
+
 });

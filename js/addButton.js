@@ -18,8 +18,7 @@ function addTEButton() {
 
 function addTestButton() {
     var button = document.createElement('div');
-    button.innerHTML = `<button id="THButtonTest" type="button" onclick="showRightUI()">Test</button>`;
-
+    button.innerHTML = `<button id="THHelperButton" type="button" style="display: none;" onclick="showRightUI()">Helper</button>`;
     var parentElement = document.getElementById("header")
     parentElement.insertBefore(button, parentElement.children[1]);
 }
