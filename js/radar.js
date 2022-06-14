@@ -9,12 +9,12 @@ function THOpenRadarUI() {
 function THGetEnergy() {
     var dataCenter = window.__require('DataCenter');
     var energyData = dataCenter.DATA.UserData.getEnergy(1);
-    return energyData.Point;
+    return energyData;
 }
 
 // 判断是否有体力补充界面，这个是由于体力不够自动弹出的
 function THIsAddEnergyUIExist() {
-    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+    if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel')) {
         return false;
     }
     return true;
@@ -24,16 +24,16 @@ function THIsAddEnergyUIExist() {
 function THAddEnergyStep0() {
     // 打开药剂界面
     var node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab');
-    if ( !node ) {
+    if (!node) {
         node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2');
     }
     var radarMainPrefab = node.getComponent('RadarMainPrefab');
-    
+
     radarMainPrefab.addClick();
 }
 
 function THAddEnergyStep1() {
-    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+    if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel')) {
         return false;
     }
     var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
@@ -49,7 +49,7 @@ function THAddEnergyStep1() {
 
 function THAddEnergyStep2() {
     // 点击使用按钮
-    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+    if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel')) {
         return false;
     }
     var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
@@ -59,7 +59,7 @@ function THAddEnergyStep2() {
 
 function THAddEnergyStep3() {
     // 关闭界面
-    if ( !cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel') ) {
+    if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel')) {
         return false;
     }
     var buyEnergyPanel = cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel').getComponent('BuyEnergyPanel');
@@ -70,21 +70,21 @@ function THAddEnergyStep3() {
 
 function THGetAllMessions() {
     var node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab');
-    if ( !node ) {
+    if (!node) {
         node = cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2');
     }
     var radarMainPrefab = node.getComponent('RadarMainPrefab');
-    
+
     var messions0 = radarMainPrefab.taskContentNode.getChildren();
 
     messions = [];
-    for (var i = 0; i < messions0.length; i++){
+    for (var i = 0; i < messions0.length; i++) {
         mession = THGetRadarMession(messions0[i]);
         messions.push(mession);
     }
 
     var messions1 = radarMainPrefab.ringTaskContentNode.getChildren();
-    for (var i = 0; i < messions1.length; i++){
+    for (var i = 0; i < messions1.length; i++) {
         mession = THGetRadarMession(messions1[i]);
         messions.push(mession);
     }
@@ -94,12 +94,12 @@ function THGetAllMessions() {
 // 获取优先级，优先级越低，约优先
 function THGetRadarMessionPriorityByName(taskName) {
     var priorityMap = {
-        'Eliminate the Dark Legion remnant':1,
-        'Destroy the Dark Legion Fort':2,
-        'Rescue Mission':0,
-        'Discover Dark Legion`s Treasure':3,
-        'The Lost Treasure':-1,
-        'Kill Dark Forces':99
+        'Eliminate the Dark Legion remnant': 1,
+        'Destroy the Dark Legion Fort': 2,
+        'Rescue Mission': 0,
+        'Discover Dark Legion`s Treasure': 3,
+        'The Lost Treasure': -1,
+        'Kill Dark Forces': 99
     };
     // 默认999
     priority = 999;
@@ -114,40 +114,40 @@ function THGetRadarMession(mession) {
     var taskId = mession.getComponent('RadarMainPrefabItemCell')._data.taskId;
     var state = mession.getComponent('RadarMainPrefabItemCell')._data.state;
     var taskIdMap = {
-        10000:'Eliminate the Dark Legion remnant',
-        10001:'Destroy the Dark Legion Fort',
-        10031:'Kill Dark Forces',
-        10021:'Rescue Mission',
-        10022:'Rescue Mission',
-        10023:'Rescue Mission',
-        10024:'Rescue Mission',
-        10025:'Rescue Mission',
-        10031:'Kill Dark Forces',
-        10032:'Kill Dark Forces',
-        10033:'Kill Dark Forces',
-        10034:'Kill Dark Forces',
-        10035:'Kill Dark Forces',
-        4132:'Discover Dark Legion`s Treasure',
-        10002:'Gold Harvest Ops',
-        10003:'The Lost Treasure',
-        10004:'Treasure Ops',
-        10005:'The Lost Treasure',
+        10000: 'Eliminate the Dark Legion remnant',
+        10001: 'Destroy the Dark Legion Fort',
+        10031: 'Kill Dark Forces',
+        10021: 'Rescue Mission',
+        10022: 'Rescue Mission',
+        10023: 'Rescue Mission',
+        10024: 'Rescue Mission',
+        10025: 'Rescue Mission',
+        10031: 'Kill Dark Forces',
+        10032: 'Kill Dark Forces',
+        10033: 'Kill Dark Forces',
+        10034: 'Kill Dark Forces',
+        10035: 'Kill Dark Forces',
+        4132: 'Discover Dark Legion`s Treasure',
+        10002: 'Gold Harvest Ops',
+        10003: 'The Lost Treasure',
+        10004: 'Treasure Ops',
+        10005: 'The Lost Treasure',
     };
 
     var taskName = 'unknown';
     if (taskId in taskIdMap) {
         taskName = taskIdMap[taskId];
-    }else{
+    } else {
         // 10033、10034、10035
-        console.log('taskId:',taskId);
+        console.log('taskId:', taskId);
     }
 
     var starCount = 0;
     var name = mession.getChildByName('effectNode').getChildren()[0].name;
     // js 是否支持
-    starCount = name[name.length-1] - '0';
+    starCount = name[name.length - 1] - '0';
     priority = THGetRadarMessionPriorityByName(taskName);
-    return {'taskName':taskName, 'starCount':starCount,'mession':mession.getComponent('RadarMainPrefabItemCell'),'priority':priority,'state':state};
+    return { 'taskName': taskName, 'starCount': starCount, 'mession': mession.getComponent('RadarMainPrefabItemCell'), 'priority': priority, 'state': state };
 }
 
 function THGetMessionIcon(mession) {
@@ -169,12 +169,12 @@ function THRadarMessionStep1(task) {
     var taskName = task['taskName'];
     var starCount = task['starCount'];
 
-    if (! (cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab') || cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2'))) {
+    if (!(cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab') || cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2'))) {
         // TODO:界面没能打开，任务失败
         return false;
     }
     var messions = THGetAllMessions();
-    for (var i = 0; i < messions.length; ++i){
+    for (var i = 0; i < messions.length; ++i) {
         var mession = messions[i];
         if (mession['taskName'] == taskName && mession['starCount'] == starCount) {
             mession['mession'].itemClick();
@@ -198,24 +198,24 @@ function THRadarMessionStep2() {
 // Eliminate the Dark Legion remnant
 // 敌人界面
 function THRadarBattleMessionStep0() {
-    if(!cc.find('UICanvas/PopLayer/prefabWorldUIEnemy')){
+    if (!cc.find('UICanvas/PopLayer/prefabWorldUIEnemy')) {
         // TODO:界面没能打开，任务失败
         return false;
     }
     var worldMapEnemyComponent = cc.find('UICanvas/PopLayer/prefabWorldUIEnemy').getComponent('WorldMapEnemyComponent');
     // 好像所有任务都是单次攻击
-    worldMapEnemyComponent.onBtnClickAtack(null,0);
+    worldMapEnemyComponent.onBtnClickAtack(null, 0);
     return true;
 }
 // Destroy the Dark Legion Fort
 function THRadarDestoryMessionStep0() {
-    if(!cc.find('UICanvas/PopLayer/prefabWorldUIAssemblyEnemy')){
+    if (!cc.find('UICanvas/PopLayer/prefabWorldUIAssemblyEnemy')) {
         // TODO:界面没能打开，任务失败
         return false;
     }
     var worldMapEnemyComponent = cc.find('UICanvas/PopLayer/prefabWorldUIAssemblyEnemy').getComponent('WorldMapAssemblyEnemyComponent');
     // 好像所有任务都是单次攻击
-    worldMapEnemyComponent.onAttackNormalMonster(null,0);
+    worldMapEnemyComponent.onAttackNormalMonster(null, 0);
     return true;
 }
 
@@ -231,12 +231,12 @@ function THRadarBattleMessionStep2() {
 }
 
 function THRadarRescueMessionStep0() {
-    if(!cc.find('UICanvas/PopLayer/UIFrameNone/CONTENT/prefabWorldUIRadarEnemy')){
+    if (!cc.find('UICanvas/PopLayer/UIFrameNone/CONTENT/prefabWorldUIRadarEnemy')) {
         // TODO:界面没能打开，任务失败
         return false;
     }
     var prefabWorldUIRadarEnemy = cc.find('UICanvas/PopLayer/UIFrameNone/CONTENT/prefabWorldUIRadarEnemy').getComponent("prefabWorldUIRadarEnemy")
-    var e = new cc.Event.EventTouch([],false)
+    var e = new cc.Event.EventTouch([], false)
     prefabWorldUIRadarEnemy.attackClick(e);
     // TODO:任务完成
     return true;
@@ -254,30 +254,30 @@ function THRadarTaskStartButtonClicked() {
         type: 'RadarTask',
         // 目前状态，数据都放到数据层来，减少与界面耦合度
         // ready -> XXstepX -> interval -> done
-        status:'ready',
+        status: 'ready',
         // 会做的任务名字列表
-        allowTaskNames:[],
+        allowTaskNames: [],
         // 保留体力（体力最小值）
-        VIYMin:0,
+        VIYMin: 0,
         // 自动小药
-        smallVITCapsules:false,
+        smallVITCapsules: false,
         // 自动大药
-        largeVITCapsules:false,
+        largeVITCapsules: false,
         // 次数限制
-        countMax:window.THVueApp.radar.countMax,
-        count:0,
+        countMax: window.THVueApp.radar.countMax,
+        count: 0,
         // 任务间隔时间（秒）
-        intervalMax:window.THVueApp.radar.interval,
-        interval:0,
+        intervalMax: window.THVueApp.radar.interval,
+        interval: 0,
         // 正在做的任务，和status一起组成FSM
-        currentTask:{},
+        currentTask: {},
         // 重试，为了解决部分时候网络不好不能弹出界面
-        retryMax:window.THVueApp.radar.retryCountMax,
-        retry:0,
-        retryTimeMax:window.THVueApp.radar.retryInterval,
-        retryTimer:0,
+        retryMax: window.THVueApp.radar.retryCountMax,
+        retry: 0,
+        retryTimeMax: window.THVueApp.radar.retryInterval,
+        retryTimer: 0,
         // 整体日志
-        log:'',
+        log: '',
         // TODO：优先级
     }
     window.THData.Tasks.push(newTask);
@@ -329,13 +329,13 @@ function THRadarTask(task) {
                     break;
                 }
             }
-            
+
             // 暂时没有优先级，固定写死优先级
             // TODO：先做星高的
-            messions.sort(function(a,b){
-                return a['priority']-b['priority'];
+            messions.sort(function(a, b) {
+                return a['priority'] - b['priority'];
             })
-            if (messions.length <= 0){
+            if (messions.length <= 0) {
                 // 任务完成
                 task.status = 'done';
                 task.log += 'there is no mession here!\n';
@@ -360,9 +360,9 @@ function THRadarTask(task) {
                 // task.status = 'failed';
                 // break;
             }
-            
+
             task.currentTask = mession;
-            task.log += 'start: '+THRadarTaskToString(task.currentTask)+'\n';
+            task.log += 'start: ' + THRadarTaskToString(task.currentTask) + '\n';
             // 跳转到指定任务类型的step0
             task.status = 'step0';
             break;
@@ -379,9 +379,9 @@ function THRadarTask(task) {
                 task.interval = 0;
                 task.count += 1;
                 task.status = 'ready';
-                task.log += 'finish '+task.count+ '/' + task.countMax +'\n';
+                task.log += 'finish ' + task.count + '/' + task.countMax + '\n';
             }
-            
+
             break;
         case 'step0':
             // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
@@ -395,7 +395,7 @@ function THRadarTask(task) {
             var ret = THRadarMessionStep1(task.currentTask);
             if (!ret) {
                 task.status = 'retry';
-                task.log += 'open UI1 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'open UI1 failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 break;
             }
             // 进入 step2
@@ -406,27 +406,27 @@ function THRadarTask(task) {
             var ret = THRadarMessionStep2();
             if (!ret) {
                 task.status = 'retry';
-                task.log += 'open UI2 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'open UI2 failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 break;
             }
             // 根据taskName，判断进入哪个类型的任务下一步
             if (task.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
                 task.status = 'battleStep0';
-            }else if (task.currentTask['taskName'] == 'Rescue Mission'){
+            } else if (task.currentTask['taskName'] == 'Rescue Mission') {
                 task.status = 'resueStep0';
-            }else if (task.currentTask['taskName'] == 'Destroy the Dark Legion Fort'){
+            } else if (task.currentTask['taskName'] == 'Destroy the Dark Legion Fort') {
                 task.status = 'destoryStep0';
-            }else if (task.currentTask['taskName'] == 'Discover Dark Legion`s Treasure'){
+            } else if (task.currentTask['taskName'] == 'Discover Dark Legion`s Treasure') {
                 task.status = 'resueStep0';
-            }else if (task.currentTask['taskName'] == 'The Lost Treasure'){
+            } else if (task.currentTask['taskName'] == 'The Lost Treasure') {
                 task.status = 'resueStep0';
-            }else if (task.currentTask['taskName'] == 'Treasure Ops'){
+            } else if (task.currentTask['taskName'] == 'Treasure Ops') {
                 task.status = 'battleStep0';
-            }else if (task.currentTask['taskName'] == 'Gold Harvest Ops'){
+            } else if (task.currentTask['taskName'] == 'Gold Harvest Ops') {
                 task.status = 'destoryStep0';
-            }else{
+            } else {
                 // 未知类型，直接推出
-                task.log += 'unsupport mession type failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'unsupport mession type failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 task.status = 'failed';
                 break;
             }
@@ -457,7 +457,7 @@ function THRadarTask(task) {
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
             if (!ret) {
-                task.log += 'open resue UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'open resue UI0 failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 task.status = 'retry';
                 break;
             }
@@ -468,7 +468,7 @@ function THRadarTask(task) {
             // 点击攻击按钮
             var ret = THRadarDestoryMessionStep0();
             if (!ret) {
-                task.log += 'open destory UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'open destory UI0 failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 task.status = 'retry';
                 break;
             }
@@ -480,7 +480,7 @@ function THRadarTask(task) {
             // 点击攻击按钮
             var ret = THRadarBattleMessionStep0();
             if (!ret) {
-                task.log += 'open battle UI0 failed:'+THRadarTaskToString(task.currentTask)+'\n';
+                task.log += 'open battle UI0 failed:' + THRadarTaskToString(task.currentTask) + '\n';
                 task.status = 'retry';
                 break;
             }
@@ -506,18 +506,18 @@ function THRadarTask(task) {
             task.status = 'interval';
             break;
         case 'retry':
-            if (task.retry >= task.retryMax){
+            if (task.retry >= task.retryMax) {
                 task.status = 'failed';
                 break;
             }
             // 重试，先计时，时间到了再重试
             task.retryTimer += 1;
-            if (task.retryTimer > task.retryTimeMax){
+            if (task.retryTimer > task.retryTimeMax) {
                 task.retryTimer = 0;
                 // 重试直接从ready开始
-                task.retry += 1;    
+                task.retry += 1;
                 task.log += 'retry ' + task.retry + '\n';
-                
+
                 task.status = 'ready';
                 break;
             }
@@ -532,4 +532,14 @@ function THRadarTask(task) {
     window.THVueApp.radar.logStrs = task.log.split('\n');
     console.log(task.status);
     return task.status;
+}
+
+// update per sec
+function THRadarUpdate() {
+    var radar = window.THVueApp2;
+    if (radar) {
+        var energy = THGetEnergy();
+        radar.energy = energy.Point;
+        radar.energyMax = energy.PointMax;
+    }
 }

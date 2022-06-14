@@ -86,6 +86,7 @@ function THTaskUpdate() {
     THBGCVueUpdate();
     THZCCVueUpdate();
     THFJCVueUpdate();
+    THRadarUpdate();
 }
 
 function taskMainBtnClicked() {
