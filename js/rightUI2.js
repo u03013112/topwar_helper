@@ -74,12 +74,12 @@ function THVueJsInit2() {
             messionStorage: 40,
             messionStorageMax: 45,
             newMessionTime: '00:03:20',
-            energy: 70,
-            energyMax: 75,
+            energy: 0,
+            energyMax: 0,
             marchingQueue: 0,
             marchingQueueMax: 3,
-            smallVITCapsules: 4,
-            largeVITCapsules: 3,
+            smallVITCapsules: 0,
+            largeVITCapsules: 0,
 
             repeat: 1,
             // retry

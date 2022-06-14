@@ -5,13 +5,6 @@ function THOpenRadarUI() {
     cc.find('UICanvas/MainUIWrapper/NMainUI').getComponent('NMainUI').clickRadar();
 }
 
-// 获取体力
-function THGetEnergy() {
-    var dataCenter = window.__require('DataCenter');
-    var energyData = dataCenter.DATA.UserData.getEnergy(1);
-    return energyData;
-}
-
 // 判断是否有体力补充界面，这个是由于体力不够自动弹出的
 function THIsAddEnergyUIExist() {
     if (!cc.find('UICanvas/PopLayer/UIFrameDialog/BG/CONTENT/BuyEnergyPanel')) {
@@ -538,8 +531,20 @@ function THRadarTask(task) {
 function THRadarUpdate() {
     var radar = window.THVueApp2;
     if (radar) {
-        var energy = THGetEnergy();
+        var dataCenter = window.__require('DataCenter');
+        // energy
+        var energy = dataCenter.DATA.UserData.getEnergy(1);
         radar.energy = energy.Point;
         radar.energyMax = energy.PointMax;
+        // VIT
+        radar.smallVITCapsules = dataCenter.DATA.UserData.getItemAmount(600001);
+        radar.largeVITCapsules = dataCenter.DATA.UserData.getItemAmount(600002);
+        // mession storage
+
+        // 刷新时间
+        var RadarController = window.__require('RadarController');
+        let radarData = RadarController.RadarController.Instance.getData();
+        let delta = radarData.endTime - dataCenter.DATA.ServerTime;
+        radar.newMessionTime = Math.floor(delta / 360) + ':' + Math.floor(delta / 60) + ':' + delta % 60
     }
 }
