@@ -23,9 +23,15 @@ function addTestButton() {
     parentElement.insertBefore(button, parentElement.children[1]);
 }
 
+function addTestButton2() {
+    var button = document.createElement('div');
+    button.innerHTML = `<button id="THHelperButton2" type="button" style="display: none;" onclick="showRightUI2()">AutoRadar</button>`;
+    var parentElement = document.getElementById("header")
+    parentElement.insertBefore(button, parentElement.children[1]);
+}
+
 addTestButton();
-// addTSButton();
-// addTEButton();
+addTestButton2();
 
 
 chrome.runtime.onMessage.addListener(

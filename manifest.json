@@ -13,21 +13,19 @@
         "default_title": "for topwar",
         "default_popup": "popup.html"
     },
-    "background":{
+    "background": {
         "scripts": ["js/background.js"]
     },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://h5.topwargame.com/h5game/index.html*"
-            ],
-            "js": [
-                "js/injectCustomJs.js",
-                "js/addButton.js"
-            ],
-            "run_at": "document_end"
-        }
-    ],
+    "content_scripts": [{
+        "matches": [
+            "https://h5.topwargame.com/h5game/index.html*"
+        ],
+        "js": [
+            "js/injectCustomJs.js",
+            "js/addButton.js"
+        ],
+        "run_at": "document_end"
+    }],
     "permissions": [
         "activeTab",
         "tabs"
@@ -40,6 +38,7 @@
         "js/fjc.js",
         "js/hotkey.js",
         "js/rightUI.js",
+        "js/rightUI2.js",
         "js/radar.js"
     ],
     "default_locale": "en"

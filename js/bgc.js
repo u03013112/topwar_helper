@@ -385,5 +385,14 @@ document.addEventListener('enableFeature', function(e) {
     } else {
         btn.style.display = 'block';
     }
+});
 
+document.addEventListener('autoRadarBtnClicked', function(e) {
+    console.log('autoRadarBtnClicked');
+    var btn = document.getElementById('THHelperButton2');
+    if (btn.style.display == 'block') {
+        btn.style.display = 'none';
+    } else {
+        btn.style.display = 'block';
+    }
 });

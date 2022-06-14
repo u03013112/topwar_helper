@@ -122,7 +122,7 @@ function THGetRightUIInner() {
                                         <h6 style="margin: 0px;">Build level {{ goldMine.mergeLevel }} to the following quantity</h6>
                                         <h6 style="margin: 0px;"> {{ goldMine.buildCount}} </h6>
                                         <input type="range" min="1" max="10" style="float:none;"
-                                            name="topwar_helper_JKTaskInput" v-model="goldMine.buildingLevel">
+                                            name="topwar_helper_JKTaskInput" v-model="goldMine.buildCount">
                                         <button onclick="JKTaskButtonClicked()">Dispatch a
                                             task</button>
                                     </div>
@@ -265,8 +265,8 @@ function THGetRightUIInner() {
 }
 
 // vue部分代码初始化
-function THVueJsInit(){
-    if ( window.THVueApp != undefined ){
+function THVueJsInit() {
+    if (window.THVueApp != undefined) {
         return;
     }
     window.THVueApp = new Vue({
@@ -282,36 +282,37 @@ function THVueJsInit(){
             goldMine: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                nowMaxLevel:0,
-                buildCount:10,
+                nowMaxLevel: 0,
+                buildCount: 10,
                 statusStrs: []
             },
             barrack: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                nowMaxLevel:0,
-                buildCount:32,
+                nowMaxLevel: 0,
+                buildCount: 32,
                 statusStrs: []
             },
             shipyard: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                nowMaxLevel:0,
-                buildCount:16,
+                nowMaxLevel: 0,
+                buildCount: 16,
                 statusStrs: []
-            },airBase: {
+            },
+            airBase: {
                 buildingLevel: 0,
                 mergeLevel: 0,
-                nowMaxLevel:0,
-                buildCount:16,
+                nowMaxLevel: 0,
+                buildCount: 16,
                 statusStrs: []
             },
             radar: {
-                countMax:50,
-                interval:5,
-                retryInterval:5,
-                retryCountMax:10,
-                logStrs:[],
+                countMax: 50,
+                interval: 5,
+                retryInterval: 5,
+                retryCountMax: 10,
+                logStrs: [],
             }
         }
     })
@@ -324,10 +325,10 @@ function THRightUIInit() {
     rightUI = document.createElement("div");
     rightUI.id = "topwar_helper_rightUI";
     rightUI.style.position = "absolute";
-    rightUI.style.width="0%";
-    rightUI.style.height="100%";
+    rightUI.style.width = "0%";
+    rightUI.style.height = "100%";
     rightUI.style.right = "0";
-    rightUI.style.background="pink";
+    rightUI.style.background = "pink";
     rightUI.innerHTML = THGetRightUIInner();
     parentNode.insertBefore(rightUI, xsLoginDiv);
 
@@ -337,7 +338,8 @@ function THRightUIInit() {
 function THGAInit() {
     // 单独接入一个ga，和原有ga应该无冲突，原有ga还有可能帮助加载js
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-EGJ78MKRZC');

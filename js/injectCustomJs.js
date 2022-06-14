@@ -6,9 +6,9 @@ function injectCustomJs(jsPath) {
     document.head.appendChild(tempScript); // 将指定 js 注入（添加）指定页面中
 
     // 当注入的脚本加载完毕后移除它
-    tempScript.onload = function () {
+    tempScript.onload = function() {
         // this.parentNode.removeChild(this);
-        console.log('injectCustomJs',jsPath);
+        console.log('injectCustomJs', jsPath);
     };
 }
 
@@ -20,9 +20,9 @@ function injectCustomJs2(jsPath) {
     document.head.appendChild(tempScript); // 将指定 js 注入（添加）指定页面中
 
     // 当注入的脚本加载完毕后移除它
-    tempScript.onload = function () {
+    tempScript.onload = function() {
         // this.parentNode.removeChild(this);
-        console.log('injectCustomJs2',jsPath);
+        console.log('injectCustomJs2', jsPath);
     };
 }
 
@@ -33,6 +33,7 @@ injectCustomJs('js/zcc.js');
 injectCustomJs('js/fjc.js');
 injectCustomJs('js/hotkey.js');
 injectCustomJs('js/rightUI.js');
+injectCustomJs('js/rightUI2.js');
 injectCustomJs('js/radar.js');
 
 injectCustomJs2('https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
