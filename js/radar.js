@@ -46,11 +46,12 @@ function THAddEnergyStep1() {
     let radar = window.THVueApp2;
     if (radar.smallVITCapsules > 0 && radar.autoSmallVIT) {
         buyEnergyPanel.OnUserItemClick(600001);
+        return true;
     } else if (radar.largeVITCapsules > 0 && radar.autoLargeVIT) {
         buyEnergyPanel.OnUserItemClick(600002);
+        return true;
     }
-
-    return true;
+    return false;
 }
 
 function THAddEnergyStep2() {
@@ -724,10 +725,12 @@ function autoMessionUpdate() {
             }
             break;
         case 'addEnergy1':
-            // 选用小体力药剂
-            // TODO：选择药剂在此
-            THAddEnergyStep1();
-            radar.status = 'addEnergy2';
+            // 没有体力默认就结束
+            radar.status = 'done';
+            if (THAddEnergyStep1()) {
+                // 返回true代表吃药
+                radar.status = 'addEnergy2';
+            }
             break;
         case 'addEnergy2':
             THAddEnergyStep2();
