@@ -546,5 +546,8 @@ function THRadarUpdate() {
         let radarData = RadarController.RadarController.Instance.getData();
         let delta = radarData.endTime - dataCenter.DATA.ServerTime;
         radar.newMessionTime = Math.floor(delta / 3600) + ':' + Math.floor(delta / 60) + ':' + delta % 60
+
+        radar.messionStorage = radarData.taskPoolSurplusNum;
+        radar.messionStorageMax = RadarController.RadarController.Instance.getTotalPool();
     }
 }
