@@ -86,15 +86,12 @@ function THGetAllMessions() {
 
 // 获取优先级，优先级越低，约优先
 function THGetRadarMessionPriorityByName(taskName) {
-    var priorityMap = {
-        'Eliminate the Dark Legion remnant': 1,
-        'Destroy the Dark Legion Fort': 2,
-        'Rescue Mission': 0,
-        'Discover Dark Legion`s Treasure': 3,
-        'The Lost Treasure': -1,
-        'Kill Dark Forces': 99
-    };
-    // 默认999
+    // 按照界面上的顺序做优先级
+    let radar = window.THVueApp2;
+    var priorityMap = {}
+    for (var i = 0; i < radar.messionsType.length; i++) {
+        priorityMap[radar.messionsType[i]['name']] = i;
+    }
     priority = 999;
     if (taskName in priorityMap) {
         priority = priorityMap[taskName];
@@ -159,23 +156,14 @@ function THRadarMessionStep0() {
 }
 // 点开任务
 function THRadarMessionStep1(task) {
-    var taskName = task['taskName'];
-    var starCount = task['starCount'];
 
     if (!(cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefab') || cc.find('UICanvas/PopLayer/UIFrameScreen/CONTENT/RadarMainPrefabNew2'))) {
         // TODO:界面没能打开，任务失败
         return false;
     }
-    var messions = THGetAllMessions();
-    for (var i = 0; i < messions.length; ++i) {
-        var mession = messions[i];
-        if (mession['taskName'] == taskName && mession['starCount'] == starCount) {
-            mession['mession'].itemClick();
-            return true;
-        }
-    }
-    // TODO:没有找到任务，任务失败
-    return false;
+
+    task['mession'].itemClick();
+    return true;
 }
 
 // 点击界面上的Go
@@ -559,5 +547,258 @@ function THRadarUpdate() {
             radar.marchingQueue = WorldMapController.getInstance().myMarchNum;
             radar.marchingQueueMax = WorldMapController.getInstance().myMarchNumMAX;
         }
+
+        autoMessionUpdate();
     }
+}
+
+// 执行自动雷达，之前的THRadarTask作废，这个测试通过后就把之前的THRadarTask删掉
+function autoMessionUpdate() {
+    let radar = window.THVueApp2;
+    switch (radar.status) {
+        case 'reward':
+            radar.status = 'ready';
+            // 关闭已经点开的奖励
+            cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
+            break;
+        case 'ready':
+            if (radar.messionStorage <= 0) {
+                // 任务完成
+                radar.status = 'done';
+                // radar.messions = [{ 'name': 'All done!' }];
+                break;
+            }
+            // 打开雷达界面，这步是必须的
+            THRadarMessionStep0();
+            radar.status = 'selectMession';
+            // radar.messions = [{ 'name': 'Open radar' }];
+            break;
+        case 'selectMession':
+            var messions = THGetAllMessions();
+            // radar.messions = [];
+            // 可以领奖就先领奖
+            for (var i = 0; i < messions.length; i++) {
+                mession = messions[i];
+                if (mession['state'] == 4) {
+                    mession['mession'].itemClick();
+                    radar.status = 'reward';
+                    break;
+                }
+            }
+            // radar.messions.push({ 'name': 'Select mession' });
+            // TODO：界面优先级应用
+            messions.sort(function(a, b) {
+                return a['priority'] - b['priority'];
+            })
+            if (messions.length <= 0) {
+                // 这应该是不会出现，ready的时候就应该排除掉这种情况
+                radar.status = 'done';
+                // task.log += 'there is no mession here!\n';
+                break;
+            }
+
+            var mession = {};
+            for (var i = 0; i < messions.length; i++) {
+                // 要判断状态，0是未开始，1是怪物出现，暂时不明白
+                // 2行军中、3进行中、4可领奖
+                if (messions[i]['state'] == 0 || messions[i]['state'] == 1) {
+                    mession = messions[i];
+                    break;
+                }
+            }
+            // TODO:应该不存在找不到任务的情况，暂时没有处理异常
+
+            // 如果有必要，判断是否有队列
+            if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort') {
+                if (radar.marchingQueue >= radar.marchingQueueMax) {
+                    // 进入interval状态，这个状态新界面是不可配置的，暂时就比直接进入ready稍微多1秒
+                    radar.status = 'interval';
+                    // if (radar.messions[radar.messions.length - 1]['name'] != 'Waiting for marching queue') {
+                    //     radar.messions.push({ 'name': 'Waiting for marching queue' });
+                    // }
+                    break;
+                }
+            }
+            window.currentTask = mession;
+            // radar.messions.push({ 'name': 'start: ' + THRadarTaskToString(window.currentTask) });
+            // 跳转到指定任务类型的step0
+            radar.status = 'step0';
+            break;
+        case 'interval':
+            // 这段家在这，是因为有一些任务点击开始后就开始等待了，这里需要判断是否有体力
+            if (THIsAddEnergyUIExist()) {
+                // TODO:根据用户选项决定是否添加体力或者直接结束
+                radar.status = 'addEnergy1';
+                break;
+            }
+            // 正在间隔，间隔计时器累计
+            // radar.interval += 1;
+            // 如果间隔时间足够（可以少1秒提前完成），进入ready状态
+            // if (radar.interval >= radar.intervalMax) {
+            // radar.interval = 0;
+            // task.count += 1;
+            // radar.status = 'ready';
+            // task.log += 'finish ' + task.count + '/' + task.countMax + '\n';
+            // }
+            radar.status = 'ready';
+            break;
+        case 'step0':
+            // 打开雷达界面，如果有必要，其实在选取任务的时候就应该已经打开了
+            // 这步也许可以跳过
+            THRadarMessionStep0();
+            // 进入 step1
+            radar.status = 'step1';
+            break;
+        case 'step1':
+            // 点开任务
+            var ret = THRadarMessionStep1(window.currentTask);
+            if (!ret) {
+                radar.status = 'retry';
+                // radar.messions.push({ 'name': 'open UI1 failed:' + THRadarTaskToString(window.currentTask) });
+                break;
+            }
+            // 进入 step2
+            radar.status = 'step2';
+            break;
+        case 'step2':
+            // 点击界面上的Go
+            var ret = THRadarMessionStep2();
+            if (!ret) {
+                radar.status = 'retry';
+                // radar.messions.push({ 'name': 'open UI2 failed:' + THRadarTaskToString(window.currentTask) });
+                break;
+            }
+            // 根据taskName，判断进入哪个类型的任务下一步
+            if (window.currentTask['taskName'] == 'Eliminate the Dark Legion remnant') {
+                radar.status = 'battleStep0';
+            } else if (window.currentTask['taskName'] == 'Rescue Mission') {
+                radar.status = 'resueStep0';
+            } else if (window.currentTask['taskName'] == 'Destroy the Dark Legion Fort') {
+                radar.status = 'destoryStep0';
+            } else if (window.currentTask['taskName'] == 'Discover Dark Legion`s Treasure') {
+                radar.status = 'resueStep0';
+            } else if (window.currentTask['taskName'] == 'The Lost Treasure') {
+                radar.status = 'resueStep0';
+            } else if (window.currentTask['taskName'] == 'Treasure Ops') {
+                radar.status = 'battleStep0';
+            } else if (window.currentTask['taskName'] == 'Gold Harvest Ops') {
+                radar.status = 'destoryStep0';
+            } else {
+                // 未知类型，直接推出
+                // radar.messions.push({ 'name': 'unsupport mession type failed:' + THRadarTaskToString(window.currentTask) });
+                radar.status = 'failed';
+                break;
+            }
+            break;
+        case 'addEnergy0':
+            if (THIsAddEnergyUIExist()) {
+                // 体力不足
+                radar.status = 'addEnergy1';
+                break;
+            }
+            break;
+        case 'addEnergy1':
+            // 选用小体力药剂
+            // TODO：选择药剂在此
+            THAddEnergyStep1();
+            radar.status = 'addEnergy2';
+            break;
+        case 'addEnergy2':
+            THAddEnergyStep2();
+            // radar.messions.push({ 'name': 'add energy!' });
+            radar.status = 'addEnergy3';
+            break;
+        case 'addEnergy3':
+            THAddEnergyStep3();
+            // 直接回到ready重来
+            radar.status = 'ready';
+            break;
+        case 'resueStep0':
+            var ret = THRadarRescueMessionStep0();
+            if (!ret) {
+                // radar.messions.push({ 'name': 'open resue UI0 failed:' + THRadarTaskToString(window.currentTask) });
+                radar.status = 'retry';
+                break;
+            }
+            // 进入 interval
+            radar.status = 'interval';
+            break;
+        case 'destoryStep0':
+            // 点击攻击按钮
+            var ret = THRadarDestoryMessionStep0();
+            if (!ret) {
+                // radar.messions.push({ 'name': 'open destory UI0 failed:' + THRadarTaskToString(window.currentTask) });
+                radar.status = 'retry';
+                break;
+            }
+            // TODO：10体力那个好像按钮不一样
+            radar.status = 'battleStep1';
+            // 进入 battleStep1
+            break;
+        case 'battleStep0':
+            // 点击攻击按钮
+            var ret = THRadarBattleMessionStep0();
+            if (!ret) {
+                // radar.messions.push({ 'name': 'open battle UI0 failed:' + THRadarTaskToString(window.currentTask) });
+                radar.status = 'retry';
+                break;
+            }
+            // TODO：10体力那个好像按钮不一样
+            radar.status = 'battleStep1';
+            // 进入 battleStep1
+            break;
+        case 'battleStep1':
+            // 有可能在这体力不足
+            if (THIsAddEnergyUIExist()) {
+                radar.status = 'addEnergy0';
+                break;
+            }
+            // 上阵
+            THRadarBattleMessionStep1();
+            // 进入 battleStep2
+            radar.status = 'battleStep2';
+            break;
+        case 'battleStep2':
+            // 出战
+            THRadarBattleMessionStep2();
+            // 进入 interval
+            radar.status = 'interval';
+            break;
+        case 'retry':
+            if (radar.retry >= radar.retryMax) {
+                radar.status = 'failed';
+                break;
+            }
+            // 重试，先计时，时间到了再重试
+            radar.retryTimer += 1;
+            if (radar.retryTimer > radar.retryTimeMax) {
+                radar.retryTimer = 0;
+                // 重试直接从ready开始
+                radar.retry += 1;
+                // radar.messions.push({ 'name': 'retry ' + radar.retry });
+
+                radar.status = 'ready';
+                break;
+            }
+            break;
+        default:
+            // 没有找到状态，直接退出吧
+            // TODO：任务终止
+            // radar.status = 'done';
+            // radar.messions.push({ 'name': 'mession failed,stop it' });
+            break;
+    }
+    console.log(radar.status);
+    return radar.status;
+}
+
+function THRadarTaskStartButtonClicked2() {
+    gtag && gtag('event', 'THRadarTaskStartButtonClicked2', { 'send_to': 'G-EGJ78MKRZC' });
+    let radar = window.THVueApp2;
+    radar.status = 'ready';
+}
+
+function THRadarTaskStopButtonClicked2() {
+    let radar = window.THVueApp2;
+    radar.status = 'done';
 }

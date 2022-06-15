@@ -22,8 +22,8 @@ function THGetRightUIInner2() {
                 <h6 style="margin: 0px;">Marching Queue: {{ marchingQueue }}/{{ marchingQueueMax }}</h6>
                 <input type="range" min="1" max="20" style="float:none;" v-model="repeat">
                 <h6 style="margin: 0px;">Auto messions count:{{repeat}}</h6>
-                <button>start</button>
-                <button>stop</button>
+                <button onclick="THRadarTaskStartButtonClicked2()">start</button>
+                <button onclick="THRadarTaskStopButtonClicked2()">stop</button>
                 <button v-on:click="optionsBtnClicked()">options</button>
                 <div class="options" v-show="optionActive">
                     <div class="one-line">
@@ -85,14 +85,21 @@ function THVueJsInit2() {
             // retry
             retry: 0,
             retryMax: 10,
+            retryTimer: 0,
+            retryTimeMax: 10,
+            interval: 0,
+            intervalMax: 3,
 
             optionActive: false,
             // priorty
             isPriorityActive: false,
             messionsType: [
-                { 'name': 'aaa' },
-                { 'name': 'bbb' },
-                { 'name': 'ccc' },
+                { 'name': 'The Lost Treasure' },
+                { 'name': 'Rescue Mission' },
+                { 'name': 'Eliminate the Dark Legion remnant' },
+                { 'name': 'Destroy the Dark Legion Fort' },
+                { 'name': 'Discover Dark Legion`s Treasure' },
+                { 'name': 'Kill Dark Forces' },
             ],
             dragging: null,
             // fill energy
@@ -103,8 +110,10 @@ function THVueJsInit2() {
             autoGetReward: false,
 
             messions: [
-                { 'name': 'name', 'star': 5, 'status': 'waiting for reward' },
-            ]
+                // { 'name': 'name', 'star': 5, 'status': 'waiting for reward' },
+            ],
+
+            status: 'done',
         },
         methods: {
             optionsBtnClicked: function() {
