@@ -165,6 +165,15 @@ function hideRightUI() {
     triggerResize();
 }
 
+function hideRightUI2() {
+    var rightUI = document.getElementById("topwar_helper_rightUI2");
+    rightUI.style.width = "0%";
+    var headerDiv = document.getElementById("header");
+    headerDiv.style.width = "100%";
+    canvas.style.width = "100%";
+    triggerResize();
+}
+
 function triggerResize() {
     // 为了触发一下，让canvas适应一下
     var e = new Event("resize", { "bubbles": true, "cancelable": true });
