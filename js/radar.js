@@ -616,6 +616,9 @@ function autoMessionUpdate() {
                     break;
                 }
             }
+            if (radar.status == 'reward') {
+                break;
+            }
             // radar.messions.push({ 'name': 'Select mession' });
             // TODO：界面优先级应用
             messions.sort(function(a, b) {
