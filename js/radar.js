@@ -20,6 +20,7 @@ function THIsLevelUpTip() {
             cc.find('UICanvas/TipsLayer/ConfirmPanel').getComponent('ConfirmPanel').OnSureClick();
         } else {
             cc.find('UICanvas/TipsLayer/ConfirmPanel').getComponent('ConfirmPanel').OnCancelClick();
+            window.THRadarSkipReward = true;
         }
     }
 }
@@ -570,9 +571,12 @@ function autoMessionUpdate() {
     switch (radar.status) {
         case 'reward':
             radar.status = 'ready';
-            // 关闭已经点开的奖励
-            cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
             THIsLevelUpTip();
+            // 关闭已经点开的奖励
+            if (cc.find('UICanvas/PopLayer/UIFrameNone')) {
+                cc.find('UICanvas/PopLayer/UIFrameNone').removeFromParent();
+            }
+
             break;
         case 'interval':
             // 这段家在这，是因为有一些任务点击开始后就开始等待了，这里需要判断是否有体力
@@ -606,19 +610,25 @@ function autoMessionUpdate() {
             break;
         case 'selectMession':
             var messions = THGetAllMessions();
-            // radar.messions = [];
-            // 可以领奖就先领奖
-            for (var i = 0; i < messions.length; i++) {
-                mession = messions[i];
-                if (mession['state'] == 4) {
-                    mession['mession'].itemClick();
-                    radar.status = 'reward';
+
+            if (window.THRadarSkipReward) {
+                // 这里逻辑比较慢，每次这里都要重复一次才可以正常进行
+                window.THRadarSkipReward = false;
+            } else {
+                // 可以领奖就先领奖
+                for (var i = 0; i < messions.length; i++) {
+                    mession = messions[i];
+                    if (mession['state'] == 4) {
+                        mession['mession'].itemClick();
+                        radar.status = 'reward';
+                        break;
+                    }
+                }
+                if (radar.status == 'reward') {
                     break;
                 }
             }
-            if (radar.status == 'reward') {
-                break;
-            }
+
             // radar.messions.push({ 'name': 'Select mession' });
             // TODO：界面优先级应用
             messions.sort(function(a, b) {
