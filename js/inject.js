@@ -144,7 +144,7 @@ function showRightUI() {
 function showRightUI2() {
     var rightUI = document.getElementById("topwar_helper_rightUI2");
     if (rightUI.style.width != "0%") {
-        hideRightUI();
+        hideRightUI2();
         return;
     }
 
