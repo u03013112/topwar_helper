@@ -529,11 +529,11 @@ function THRadarTask(task) {
 
 // update per sec
 function THRadarUpdate() {
-    var radar = window.THVueApp2;
+    let radar = window.THVueApp2;
     if (radar) {
-        var dataCenter = window.__require('DataCenter');
+        let dataCenter = window.__require('DataCenter');
         // energy
-        var energy = dataCenter.DATA.UserData.getEnergy(1);
+        let energy = dataCenter.DATA.UserData.getEnergy(1);
         radar.energy = energy.Point;
         radar.energyMax = energy.PointMax;
         // VIT
@@ -542,12 +542,22 @@ function THRadarUpdate() {
         // mession storage
 
         // 刷新时间
-        var RadarController = window.__require('RadarController');
+        let RadarController = window.__require('RadarController');
         let radarData = RadarController.RadarController.Instance.getData();
         let delta = radarData.endTime - dataCenter.DATA.ServerTime;
         radar.newMessionTime = Math.floor(delta / 3600) + ':' + Math.floor(delta / 60) + ':' + delta % 60
 
         radar.messionStorage = radarData.taskPoolSurplusNum;
         radar.messionStorageMax = RadarController.RadarController.Instance.getTotalPool();
+
+        let NWorldMapCoreBiz = window.__require('NWorldMapCoreBiz');
+        if (NWorldMapCoreBiz.default.enabledNewMapSystem) {
+            radar.marchingQueue = dataCenter.DATA.UserData.myMarchNum;
+            radar.marchingQueueMax = dataCenter.DATA.UserData.myMarchNumMAX;
+        } else {
+            let WorldMapController = window.__require('WorldMapController');
+            radar.marchingQueue = WorldMapController.getInstance().myMarchNum;
+            radar.marchingQueueMax = WorldMapController.getInstance().myMarchNumMAX;
+        }
     }
 }
