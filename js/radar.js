@@ -587,7 +587,7 @@ function autoMessionUpdate() {
         case 'interval':
             // 这段家在这，是因为有一些任务点击开始后就开始等待了，这里需要判断是否有体力
             if (THIsAddEnergyUIExist()) {
-                TODO: 根据用户选项决定是否添加体力或者直接结束
+                // TODO: 根据用户选项决定是否添加体力或者直接结束
                 radar.status = 'addEnergy1';
                 break;
             }
@@ -603,6 +603,7 @@ function autoMessionUpdate() {
             // radar.status = 'ready';
             // break;
         case 'ready':
+            radar.logs = [];
             if (radar.messionStorage <= 0) {
                 // 任务完成
                 radar.status = 'done';
@@ -615,6 +616,7 @@ function autoMessionUpdate() {
             // radar.messions = [{ 'name': 'Open radar' }];
             break;
         case 'selectMession':
+            radar.logs.push({ 'log': 'select mession' });
             var messions = THGetAllMessions();
 
             if (window.THRadarSkipReward) {
@@ -631,6 +633,7 @@ function autoMessionUpdate() {
                     }
                 }
                 if (radar.status == 'reward') {
+                    radar.logs.push({ 'log': 'reward' });
                     break;
                 }
             }
@@ -662,6 +665,7 @@ function autoMessionUpdate() {
             if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort' || mession.taskName == 'Treasure Ops') {
                 if (radar.marchingQueue >= radar.marchingQueueMax) {
                     // 进入interval状态，这个状态新界面是不可配置的，暂时就比直接进入ready稍微多1秒
+                    radar.logs.push({ 'log': 'wait for march queue' });
                     radar.status = 'interval';
                     // if (radar.messions[radar.messions.length - 1]['name'] != 'Waiting for marching queue') {
                     //     radar.messions.push({ 'name': 'Waiting for marching queue' });
@@ -725,6 +729,7 @@ function autoMessionUpdate() {
         case 'addEnergy0':
             if (THIsAddEnergyUIExist()) {
                 // 体力不足
+                radar.logs.push({ 'log': 'not enough energy' });
                 radar.status = 'addEnergy1';
                 break;
             }
@@ -734,6 +739,7 @@ function autoMessionUpdate() {
             radar.status = 'done';
             if (THAddEnergyStep1()) {
                 // 返回true代表吃药
+                radar.logs.push({ 'log': 'add energy' });
                 radar.status = 'addEnergy2';
             }
             break;
@@ -750,7 +756,7 @@ function autoMessionUpdate() {
         case 'resueStep0':
             var ret = THRadarRescueMessionStep0();
             if (!ret) {
-                // radar.messions.push({ 'name': 'open resue UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
+                radar.logs.push({ 'log': 'open resue UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
                 radar.status = 'retry';
                 break;
             }
@@ -761,7 +767,7 @@ function autoMessionUpdate() {
             // 点击攻击按钮
             var ret = THRadarDestoryMessionStep0();
             if (!ret) {
-                // radar.messions.push({ 'name': 'open destory UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
+                radar.logs.push({ 'log': 'open destory UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
                 radar.status = 'retry';
                 break;
             }
@@ -773,7 +779,7 @@ function autoMessionUpdate() {
             // 点击攻击按钮
             var ret = THRadarBattleMessionStep0();
             if (!ret) {
-                // radar.messions.push({ 'name': 'open battle UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
+                radar.logs.push({ 'log': 'open battle UI0 failed:' + THRadarTaskToString(window.THRadarCurrentTask) });
                 radar.status = 'retry';
                 break;
             }
@@ -809,7 +815,7 @@ function autoMessionUpdate() {
                 radar.retryTimer = 0;
                 // 重试直接从ready开始
                 radar.retry += 1;
-                // radar.messions.push({ 'name': 'retry ' + radar.retry });
+                radar.logs.push({ 'log': 'retry ' + radar.retry });
 
                 radar.status = 'ready';
                 break;

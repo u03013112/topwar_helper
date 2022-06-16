@@ -53,8 +53,8 @@ function THGetRightUIInner2() {
                 </div>
                 <div id="log">
                     <!-- TODO:change to icon -->
-                    <div v-for="mession in messions">
-                        {{mession.name}}[{{mession.star}}] {{mession.status}}
+                    <div v-for="log in logs">
+                        {{log.log}}
                     </div>
                 </div>
             </div>
@@ -109,8 +109,8 @@ function THVueJsInit2() {
             // 不管是否升级，领取奖励
             autoGetReward: false,
 
-            messions: [
-                // { 'name': 'name', 'star': 5, 'status': 'waiting for reward' },
+            logs: [
+                // {'log':'XXX'}
             ],
 
             status: 'done',
