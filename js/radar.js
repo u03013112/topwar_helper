@@ -175,8 +175,13 @@ function THRadarMessionStep1(task) {
         // TODO:界面没能打开，任务失败
         return false;
     }
+    try {
+        task['mession'].itemClick();
+    } catch (e) {
+        console.log('THRadarMessionStep1 item cant click');
+        return false;
+    }
 
-    task['mession'].itemClick();
     return true;
 }
 
@@ -654,7 +659,7 @@ function autoMessionUpdate() {
             // TODO:应该不存在找不到任务的情况，暂时没有处理异常
 
             // 如果有必要，判断是否有队列
-            if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort') {
+            if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort' || mession.taskName == 'Treasure Ops') {
                 if (radar.marchingQueue >= radar.marchingQueueMax) {
                     // 进入interval状态，这个状态新界面是不可配置的，暂时就比直接进入ready稍微多1秒
                     radar.status = 'interval';

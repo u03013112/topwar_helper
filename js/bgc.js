@@ -389,10 +389,12 @@ document.addEventListener('enableFeature', function(e) {
 
 document.addEventListener('autoRadarBtnClicked', function(e) {
     console.log('autoRadarBtnClicked');
-    var btn = document.getElementById('THHelperButton2');
-    if (btn.style.display == 'block') {
-        btn.style.display = 'none';
-    } else {
-        btn.style.display = 'block';
-    }
+    // var btn = document.getElementById('THHelperButton2');
+    // if (btn.style.display == 'block') {
+    //     btn.style.display = 'none';
+    // } else {
+    //     btn.style.display = 'block';
+    // }
+    // 少点一下
+    showRightUI2();
 });
