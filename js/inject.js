@@ -125,10 +125,41 @@ function THCloseUI() {
     obj.style.setProperty("display", "none");
 }
 
-// 打开关闭界面都放在这里
-function showRightUI() {
+function isRightUIShown() {
+    var rightUI = document.getElementById("topwar_helper_rightUI");
+    var rightUI2 = document.getElementById("topwar_helper_rightUI2");
+
+    if (rightUI.style.width != "0%" || rightUI2.style.width != "0%") {
+        return true;
+    }
+    return false;
+}
+
+function hideRightUI() {
     var rightUI = document.getElementById("topwar_helper_rightUI");
     if (rightUI.style.width != "0%") {
+        rightUI.style.width = "0%";
+        var headerDiv = document.getElementById("header");
+        headerDiv.style.width = "100%";
+        canvas.style.width = "100%";
+        triggerResize();
+        // return;
+    }
+
+    rightUI = document.getElementById("topwar_helper_rightUI2");
+    if (rightUI.style.width != "0%") {
+        rightUI.style.width = "0%";
+        var headerDiv = document.getElementById("header");
+        headerDiv.style.width = "100%";
+        canvas.style.width = "100%";
+        triggerResize();
+        // return;
+    }
+}
+
+// 打开关闭界面都放在这里
+function showRightUI() {
+    if (isRightUIShown()) {
         hideRightUI();
         return;
     }
@@ -142,9 +173,8 @@ function showRightUI() {
 }
 
 function showRightUI2() {
-    var rightUI = document.getElementById("topwar_helper_rightUI2");
-    if (rightUI.style.width != "0%") {
-        hideRightUI2();
+    if (isRightUIShown()) {
+        hideRightUI();
         return;
     }
 
@@ -156,23 +186,23 @@ function showRightUI2() {
     triggerResize();
 }
 
-function hideRightUI() {
-    var rightUI = document.getElementById("topwar_helper_rightUI");
-    rightUI.style.width = "0%";
-    var headerDiv = document.getElementById("header");
-    headerDiv.style.width = "100%";
-    canvas.style.width = "100%";
-    triggerResize();
-}
+// function hideRightUI() {
+//     var rightUI = document.getElementById("topwar_helper_rightUI");
+//     rightUI.style.width = "0%";
+//     var headerDiv = document.getElementById("header");
+//     headerDiv.style.width = "100%";
+//     canvas.style.width = "100%";
+//     triggerResize();
+// }
 
-function hideRightUI2() {
-    var rightUI = document.getElementById("topwar_helper_rightUI2");
-    rightUI.style.width = "0%";
-    var headerDiv = document.getElementById("header");
-    headerDiv.style.width = "100%";
-    canvas.style.width = "100%";
-    triggerResize();
-}
+// function hideRightUI2() {
+//     var rightUI = document.getElementById("topwar_helper_rightUI2");
+//     rightUI.style.width = "0%";
+//     var headerDiv = document.getElementById("header");
+//     headerDiv.style.width = "100%";
+//     canvas.style.width = "100%";
+//     triggerResize();
+// }
 
 function triggerResize() {
     // 为了触发一下，让canvas适应一下
