@@ -586,11 +586,11 @@ function autoMessionUpdate() {
             break;
         case 'interval':
             // 这段家在这，是因为有一些任务点击开始后就开始等待了，这里需要判断是否有体力
-            // if (THIsAddEnergyUIExist()) {
-            // TODO:根据用户选项决定是否添加体力或者直接结束
-            //     radar.status = 'addEnergy1';
-            //     break;
-            // }
+            if (THIsAddEnergyUIExist()) {
+                TODO: 根据用户选项决定是否添加体力或者直接结束
+                radar.status = 'addEnergy1';
+                break;
+            }
             // 正在间隔，间隔计时器累计
             // radar.interval += 1;
             // 如果间隔时间足够（可以少1秒提前完成），进入ready状态
