@@ -607,7 +607,7 @@ function autoMessionUpdate() {
             if (radar.messionStorage <= 0) {
                 // radar.status = 'done';
                 // radar.messions = [{ 'name': 'All done!' }];
-                break;
+                // break;
             }
             // 打开雷达界面，这步是必须的
             THRadarMessionStep0();

@@ -82,11 +82,16 @@ function THTaskUpdate() {
             }
         }
     }
-    THJKVueUpdate();
-    THBGCVueUpdate();
-    THZCCVueUpdate();
-    THFJCVueUpdate();
     THRadarUpdate();
+    try {
+        THJKVueUpdate();
+        THBGCVueUpdate();
+        THZCCVueUpdate();
+        THFJCVueUpdate();
+    } catch (e) {
+        // 这里有可能由于等级太低，导致无法获得科技等级
+    }
+
 }
 
 function taskMainBtnClicked() {
