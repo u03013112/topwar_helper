@@ -605,8 +605,7 @@ function autoMessionUpdate() {
         case 'ready':
             radar.logs = [];
             if (radar.messionStorage <= 0) {
-                // 任务完成
-                radar.status = 'done';
+                // radar.status = 'done';
                 // radar.messions = [{ 'name': 'All done!' }];
                 break;
             }
@@ -644,7 +643,6 @@ function autoMessionUpdate() {
                 return a['priority'] - b['priority'];
             })
             if (messions.length <= 0) {
-                // 这应该是不会出现，ready的时候就应该排除掉这种情况
                 radar.status = 'done';
                 // task.log += 'there is no mession here!\n';
                 break;
