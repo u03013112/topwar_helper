@@ -166,7 +166,7 @@ function hideRightUI() {
 function showRightUI() {
     if (isRightUIShown()) {
         hideRightUI();
-        return;
+        // return;
     }
 
     var rightUI = document.getElementById("topwar_helper_rightUI");
@@ -180,7 +180,7 @@ function showRightUI() {
 function showRightUI2() {
     if (isRightUIShown()) {
         hideRightUI();
-        return;
+        // return;
     }
 
     var rightUI = document.getElementById("topwar_helper_rightUI2");

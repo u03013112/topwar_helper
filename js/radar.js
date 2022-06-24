@@ -660,7 +660,8 @@ function autoMessionUpdate() {
             // TODO:应该不存在找不到任务的情况，暂时没有处理异常
 
             // 如果有必要，判断是否有队列
-            if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort' || mession.taskName == 'Treasure Ops') {
+            if (mession.taskName == 'Eliminate the Dark Legion remnant' || mession.taskName == 'Destroy the Dark Legion Fort' ||
+                mession.taskName == 'Treasure Ops' || mession.taskName == 'Gold Harvest Ops') {
                 if (radar.marchingQueue >= radar.marchingQueueMax) {
                     // 进入interval状态，这个状态新界面是不可配置的，暂时就比直接进入ready稍微多1秒
                     radar.logs.push({ 'log': 'wait for march queue' });

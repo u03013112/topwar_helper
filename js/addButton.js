@@ -31,8 +31,8 @@ function addTestButton2() {
     parentElement.insertBefore(button, parentElement.children[1]);
 }
 
-addTestButton();
-addTestButton2();
+// addTestButton();
+// addTestButton2();
 
 
 chrome.runtime.onMessage.addListener(

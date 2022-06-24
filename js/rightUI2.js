@@ -12,6 +12,9 @@ function THGetRightUIInner2() {
         </style>
 
         <div id="topwar_helper_rightUI2" style="position: absolute; width: 100%; height: 100%; right: 0px; background: pink;">
+            <div style="align-self:flex-end">
+                <button onclick="hideRightUI()">Hide></button>
+            </div>
             <div id="radar">
                 <h4 style="margin: 0px;">Auto Radar Messions</h4>
                 <h6 style="margin: 0px;">Energy: {{ energy }}/{{ energyMax }}</h6>
@@ -86,7 +89,7 @@ function THVueJsInit2() {
             retry: 0,
             retryMax: 10,
             retryTimer: 0,
-            retryTimeMax: 10,
+            retryTimeMax: 3,
             interval: 0,
             intervalMax: 3,
 

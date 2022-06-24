@@ -90,6 +90,9 @@ function THGetRightUIInner() {
             </div>
             <div v-show="!notReady">
                 <div class="navigation">
+                    <div style="align-self:flex-end">
+                        <button onclick="hideRightUI()">Hide></button>
+                    </div>
                     <div>
                         <input type="radio" id="Hotkey" value="Hotkey" name="radio0">
                         <label for="Hotkey">Hotkey</label>
