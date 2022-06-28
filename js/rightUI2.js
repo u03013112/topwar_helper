@@ -23,8 +23,7 @@ function THGetRightUIInner2() {
                 <h6 style="margin: 0px;">Mession Storage: {{ messionStorage }}/{{ messionStorageMax }}</h6>
                 <h6 style="margin: 0px;">New messions avalible in:{{ newMessionTime }}</h6>
                 <h6 style="margin: 0px;">Marching Queue: {{ marchingQueue }}/{{ marchingQueueMax }}</h6>
-                <input type="range" min="1" max="20" style="float:none;" v-model="repeat">
-                <h6 style="margin: 0px;">Auto messions count:{{repeat}}</h6>
+                
                 <button onclick="THRadarTaskStartButtonClicked2()">start</button>
                 <button onclick="THRadarTaskStopButtonClicked2()">stop</button>
                 <button v-on:click="optionsBtnClicked()">options</button>
@@ -89,7 +88,7 @@ function THVueJsInit2() {
             retry: 0,
             retryMax: 10,
             retryTimer: 0,
-            retryTimeMax: 3,
+            retryTimeMax: 2,
             interval: 0,
             intervalMax: 3,
 

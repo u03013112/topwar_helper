@@ -507,6 +507,7 @@ function THRadarTask(task) {
             break;
         case 'retry':
             if (task.retry >= task.retryMax) {
+                console.log('task.retry >= task.retryMax')
                 task.status = 'failed';
                 break;
             }
@@ -835,6 +836,7 @@ function THRadarTaskStartButtonClicked2() {
     gtag && gtag('event', 'THRadarTaskStartButtonClicked2', { 'send_to': 'G-EGJ78MKRZC' });
     let radar = window.THVueApp2;
     radar.status = 'ready';
+    radar.retry = 0;
 }
 
 function THRadarTaskStopButtonClicked2() {
